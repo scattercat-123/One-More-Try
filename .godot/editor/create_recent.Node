@@ -1,0 +1,4 @@
+CollisionShape3D
+CharacterBody3D
+BoneAttachment3D
+MeshInstance3D
