@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://dymbn4mm8vrov"]
+
+[ext_resource type="Texture2D" uid="uid://c2t2vcthkw3kn" path="res://Assets/World/lightning.png" id="1_oj5a7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lv2k"]
+atlas = ExtResource("1_oj5a7")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs31k"]
+atlas = ExtResource("1_oj5a7")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4alk"]
+atlas = ExtResource("1_oj5a7")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d68u6"]
+atlas = ExtResource("1_oj5a7")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6gea"]
+atlas = ExtResource("1_oj5a7")
+region = Rect2(512, 0, 128, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_evwc4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lv2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs31k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4alk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d68u6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6gea")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 14.0
+}]
+
+[node name="Lightning" type="Node3D"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_evwc4")
+autoplay = "default"
+frame = 5
+frame_progress = 1.0

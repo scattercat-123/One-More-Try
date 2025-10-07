@@ -1,21 +1,399 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqjljjvowjk07"]
+[gd_scene load_steps=27 format=3 uid="uid://bqjljjvowjk07"]
+
+[ext_resource type="Script" uid="uid://5nxmqdooll3y" path="res://Assets/Scripts/world.gd" id="1_dv8ie"]
+[ext_resource type="PackedScene" uid="uid://cwvlty82rb7ta" path="res://Assets/Scenes/player.tscn" id="1_jaky0"]
+[ext_resource type="Texture2D" uid="uid://drxotnpuvxbjc" path="res://Assets/World/Ground.png" id="1_vost8"]
+[ext_resource type="ArrayMesh" uid="uid://dsa25sllj7283" path="res://Assets/World/sand v1.obj" id="2_uc036"]
+[ext_resource type="Script" uid="uid://drjuagjrnbs6r" path="res://Assets/Scripts/objects.gd" id="3_iacna"]
+[ext_resource type="PackedScene" uid="uid://bkjwsp7qyjjcw" path="res://Assets/Scenes/enemy.tscn" id="6_31mi3"]
+[ext_resource type="AudioStream" uid="uid://ddwjv22pf2ke0" path="res://Assets/Sound/damaged.mp3" id="6_pfv4s"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iacna"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_uc036"]
+sky_material = SubResource("ProceduralSkyMaterial_iacna")
+
+[sub_resource type="Environment" id="Environment_dv8ie"]
+background_mode = 2
+sky = SubResource("Sky_uc036")
+tonemap_mode = 2
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_44f6d"]
+vertices = PackedVector3Array(-21.5, 2.055, -21.5, -21.5, 2.055, 21.5, 21.5, 2.055, 21.5, 21.5, 2.055, -21.5, -19.0097, 2.805, -19.0064, -1.00073, 2.805, 20.0241, 20.0007, 2.805, -19.0207, 20.0091, 2.805, 18.5203, -19.0209, 2.805, 19.9922, 18.5044, 2.805, 20.0169)
+polygons = [PackedInt32Array(2, 7, 3), PackedInt32Array(3, 4, 0), PackedInt32Array(0, 4, 1), PackedInt32Array(1, 5, 2), PackedInt32Array(7, 6, 3), PackedInt32Array(2, 9, 7), PackedInt32Array(3, 6, 4), PackedInt32Array(4, 8, 1), PackedInt32Array(5, 9, 2), PackedInt32Array(1, 8, 5), PackedInt32Array(7, 5, 6), PackedInt32Array(9, 5, 7), PackedInt32Array(6, 5, 4), PackedInt32Array(4, 5, 8)]
 
 [sub_resource type="BoxMesh" id="BoxMesh_3chkc"]
-size = Vector3(50, 1, 50)
+size = Vector3(40, 1, 40)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaky0"]
-albedo_color = Color(0.304592, 0.72799, 0.324131, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iacna"]
+albedo_color = Color(0.356863, 0.686275, 0.521569, 1)
+albedo_texture = ExtResource("1_vost8")
+uv1_scale = Vector3(1.5, 1.5, 1.5)
+uv1_triplanar = true
+texture_filter = 0
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vost8"]
-data = PackedVector3Array(-25, 0.5, 25, 25, 0.5, 25, -25, -0.5, 25, 25, 0.5, 25, 25, -0.5, 25, -25, -0.5, 25, 25, 0.5, -25, -25, 0.5, -25, 25, -0.5, -25, -25, 0.5, -25, -25, -0.5, -25, 25, -0.5, -25, 25, 0.5, 25, 25, 0.5, -25, 25, -0.5, 25, 25, 0.5, -25, 25, -0.5, -25, 25, -0.5, 25, -25, 0.5, -25, -25, 0.5, 25, -25, -0.5, -25, -25, 0.5, 25, -25, -0.5, 25, -25, -0.5, -25, 25, 0.5, 25, -25, 0.5, 25, 25, 0.5, -25, -25, 0.5, 25, -25, 0.5, -25, 25, 0.5, -25, -25, -0.5, 25, 25, -0.5, 25, -25, -0.5, -25, 25, -0.5, 25, 25, -0.5, -25, -25, -0.5, -25)
+data = PackedVector3Array(-20, 0.5, 20, 20, 0.5, 20, -20, -0.5, 20, 20, 0.5, 20, 20, -0.5, 20, -20, -0.5, 20, 20, 0.5, -20, -20, 0.5, -20, 20, -0.5, -20, -20, 0.5, -20, -20, -0.5, -20, 20, -0.5, -20, 20, 0.5, 20, 20, 0.5, -20, 20, -0.5, 20, 20, 0.5, -20, 20, -0.5, -20, 20, -0.5, 20, -20, 0.5, -20, -20, 0.5, 20, -20, -0.5, -20, -20, 0.5, 20, -20, -0.5, 20, -20, -0.5, -20, 20, 0.5, 20, -20, 0.5, 20, 20, 0.5, -20, -20, 0.5, 20, -20, 0.5, -20, 20, 0.5, -20, -20, -0.5, 20, 20, -0.5, 20, -20, -0.5, -20, 20, -0.5, 20, 20, -0.5, -20, -20, -0.5, -20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dv8ie"]
+data = PackedVector3Array(-40.0006, -0.0006, 0, -40.0006, -0.0006, 1, -40.0006, 9.9999, 1, -40.0006, -0.0006, 0, -40.0006, 9.9999, 1, -40.0006, 9.9999, 0, -40.0006, 9.9999, 0, -40.0006, 9.9999, 1, -40.0006, 19.9997, 1, -40.0006, 9.9999, 0, -40.0006, 19.9997, 1, -40.0006, 19.9997, 0, -40.0006, 19.9997, 0, -40.0006, 19.9997, 1, -40.0006, 29.9995, 1, -40.0006, 19.9997, 0, -40.0006, 29.9995, 1, -40.0006, 29.9995, 0, -40.0006, 29.9995, 0, -40.0006, 29.9995, 1, -40.0006, 39.9999, 1, -40.0006, 29.9995, 0, -40.0006, 39.9999, 1, -40.0006, 39.9999, 0, -40.0006, -0.0006, 1, -42, -2, 0, -42, 8.9995, 0, -40.0006, -0.0006, 1, -42, 8.9995, 0, -40.0006, 9.9999, 1, -40.0006, 9.9999, 1, -42, 8.9995, 0, -42, 19.9997, 0, -40.0006, 9.9999, 1, -42, 19.9997, 0, -40.0006, 19.9997, 1, -40.0006, 19.9997, 1, -42, 19.9997, 0, -40.0006, 29.9995, 1, -40.0006, 29.9995, 1, -42, 19.9997, 0, -42, 30.9998, 0, -40.0006, 29.9995, 1, -42, 30.9998, 0, -40.0006, 39.9999, 1, -40.0006, 39.9999, 1, -42, 30.9998, 0, -42, 42, 0, -9.0002, 42, 0, 2, 42, 0, -0.0001, 39.9999, 1, -9.0002, 42, 0, -0.0001, 39.9999, 1, -10.0005, 39.9999, 1, -9.0002, 42, 0, -10.0005, 39.9999, 1, -20.0003, 42, 0, -20.0003, 42, 0, -10.0005, 39.9999, 1, -20.0003, 39.9999, 1, -20.0003, 42, 0, -20.0003, 39.9999, 1, -30.0001, 39.9999, 1, -20.0003, 42, 0, -30.0001, 39.9999, 1, -31.0005, 42, 0, -31.0005, 42, 0, -30.0001, 39.9999, 1, -40.0006, 39.9999, 1, -31.0005, 42, 0, -40.0006, 39.9999, 1, -42, 42, 0, -40.0006, 39.9999, 0, -40.0006, 39.9999, 1, -30.0001, 39.9999, 1, -40.0006, 39.9999, 0, -30.0001, 39.9999, 1, -30.0001, 39.9999, 0, -30.0001, 39.9999, 0, -30.0001, 39.9999, 1, -20.0003, 39.9999, 1, -30.0001, 39.9999, 0, -20.0003, 39.9999, 1, -20.0003, 39.9999, 0, -20.0003, 39.9999, 0, -20.0003, 39.9999, 1, -10.0005, 39.9999, 1, -20.0003, 39.9999, 0, -10.0005, 39.9999, 1, -10.0005, 39.9999, 0, -10.0005, 39.9999, 0, -10.0005, 39.9999, 1, -0.0001, 39.9999, 1, -10.0005, 39.9999, 0, -0.0001, 39.9999, 1, -0.0001, 39.9999, 0, -42, -2, 0, -31.0005, -2, 0, -40.0006, -0.0006, 0, -42, -2, 0, -40.0006, -0.0006, 0, -42, 8.9995, 0, -31.0005, -2, 0, -30.0001, -0.0006, 0, -40.0006, -0.0006, 0, -42, 8.9995, 0, -40.0006, -0.0006, 0, -40.0006, 9.9999, 0, -20.0003, -2, 0, -30.0001, -0.0006, 0, -31.0005, -2, 0, -42, 8.9995, 0, -40.0006, 9.9999, 0, -42, 19.9997, 0, -20.0003, -2, 0, -20.0003, -0.0006, 0, -30.0001, -0.0006, 0, -42, 19.9997, 0, -40.0006, 9.9999, 0, -40.0006, 19.9997, 0, -20.0003, -2, 0, -10.0005, -0.0006, 0, -20.0003, -0.0006, 0, -42, 19.9997, 0, -40.0006, 19.9997, 0, -40.0006, 29.9995, 0, -9.0002, -2, 0, -10.0005, -0.0006, 0, -20.0003, -2, 0, -42, 19.9997, 0, -40.0006, 29.9995, 0, -42, 30.9998, 0, -9.0002, -2, 0, -0.0001, -0.0006, 0, -10.0005, -0.0006, 0, -42, 30.9998, 0, -40.0006, 29.9995, 0, -40.0006, 39.9999, 0, 2, -2, 0, -0.0001, -0.0006, 0, -9.0002, -2, 0, -42, 30.9998, 0, -40.0006, 39.9999, 0, -42, 42, 0, 2, 8.9995, 0, -0.0001, -0.0006, 0, 2, -2, 0, -42, 42, 0, -40.0006, 39.9999, 0, -31.0005, 42, 0, 2, 8.9995, 0, -0.0001, 9.9999, 0, -0.0001, -0.0006, 0, -31.0005, 42, 0, -40.0006, 39.9999, 0, -30.0001, 39.9999, 0, 2, 19.9997, 0, -0.0001, 9.9999, 0, 2, 8.9995, 0, -31.0005, 42, 0, -30.0001, 39.9999, 0, -20.0003, 42, 0, 2, 19.9997, 0, -0.0001, 19.9997, 0, -0.0001, 9.9999, 0, -20.0003, 42, 0, -30.0001, 39.9999, 0, -20.0003, 39.9999, 0, 2, 19.9997, 0, -0.0001, 29.9995, 0, -0.0001, 19.9997, 0, -20.0003, 42, 0, -20.0003, 39.9999, 0, -10.0005, 39.9999, 0, 2, 30.9998, 0, -0.0001, 29.9995, 0, 2, 19.9997, 0, -20.0003, 42, 0, -10.0005, 39.9999, 0, -9.0002, 42, 0, 2, 30.9998, 0, -0.0001, 39.9999, 0, -0.0001, 29.9995, 0, -9.0002, 42, 0, -10.0005, 39.9999, 0, -0.0001, 39.9999, 0, 2, 42, 0, -0.0001, 39.9999, 0, 2, 30.9998, 0, -9.0002, 42, 0, -0.0001, 39.9999, 0, 2, 42, 0, -40.0006, -0.0006, 1, -40.0006, -0.0006, 0, -30.0001, -0.0006, 0, -40.0006, -0.0006, 1, -30.0001, -0.0006, 0, -30.0001, -0.0006, 1, -30.0001, -0.0006, 1, -30.0001, -0.0006, 0, -20.0003, -0.0006, 0, -30.0001, -0.0006, 1, -20.0003, -0.0006, 0, -20.0003, -0.0006, 1, -20.0003, -0.0006, 1, -20.0003, -0.0006, 0, -10.0005, -0.0006, 0, -20.0003, -0.0006, 1, -10.0005, -0.0006, 0, -10.0005, -0.0006, 1, -10.0005, -0.0006, 1, -10.0005, -0.0006, 0, -0.0001, -0.0006, 0, -10.0005, -0.0006, 1, -0.0001, -0.0006, 0, -0.0001, -0.0006, 1, -0.0001, -0.0006, 1, 2, -2, 0, -9.0002, -2, 0, -0.0001, -0.0006, 1, -9.0002, -2, 0, -10.0005, -0.0006, 1, -10.0005, -0.0006, 1, -9.0002, -2, 0, -20.0003, -2, 0, -10.0005, -0.0006, 1, -20.0003, -2, 0, -20.0003, -0.0006, 1, -20.0003, -0.0006, 1, -20.0003, -2, 0, -30.0001, -0.0006, 1, -30.0001, -0.0006, 1, -20.0003, -2, 0, -31.0005, -2, 0, -30.0001, -0.0006, 1, -31.0005, -2, 0, -40.0006, -0.0006, 1, -40.0006, -0.0006, 1, -31.0005, -2, 0, -42, -2, 0, -0.0001, 39.9999, 0, -0.0001, 39.9999, 1, -0.0001, 29.9995, 1, -0.0001, 39.9999, 0, -0.0001, 29.9995, 1, -0.0001, 29.9995, 0, -0.0001, 29.9995, 0, -0.0001, 29.9995, 1, -0.0001, 19.9997, 1, -0.0001, 29.9995, 0, -0.0001, 19.9997, 1, -0.0001, 19.9997, 0, -0.0001, 19.9997, 0, -0.0001, 19.9997, 1, -0.0001, 9.9999, 1, -0.0001, 19.9997, 0, -0.0001, 9.9999, 1, -0.0001, 9.9999, 0, -0.0001, 9.9999, 0, -0.0001, 9.9999, 1, -0.0001, -0.0006, 1, -0.0001, 9.9999, 0, -0.0001, -0.0006, 1, -0.0001, -0.0006, 0, -0.0001, 39.9999, 1, 2, 42, 0, 2, 30.9998, 0, -0.0001, 39.9999, 1, 2, 30.9998, 0, -0.0001, 29.9995, 1, -0.0001, 29.9995, 1, 2, 30.9998, 0, 2, 19.9997, 0, -0.0001, 29.9995, 1, 2, 19.9997, 0, -0.0001, 19.9997, 1, -0.0001, 19.9997, 1, 2, 19.9997, 0, -0.0001, 9.9999, 1, -0.0001, 9.9999, 1, 2, 19.9997, 0, 2, 8.9995, 0, -0.0001, 9.9999, 1, 2, 8.9995, 0, -0.0001, -0.0006, 1, -0.0001, -0.0006, 1, 2, 8.9995, 0, 2, -2, 0)
+
+[sub_resource type="Shader" id="Shader_iacna"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_always, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D texture_refraction : filter_linear_mipmap, repeat_enable;
+uniform float refraction : hint_range(-1.0, 1.0, 0.001);
+uniform vec4 refraction_texture_channel;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
+uniform float wave_speed = 1.0;
+uniform float wave_height = 0.2;
+uniform float wave_frequency = 2.0;
+uniform sampler2D texture_normal : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
+uniform float normal_scale : hint_range(-16.0, 16.0);
+varying vec3 uv1_triplanar_pos;
+
+uniform float uv1_blend_sharpness : hint_range(0.0, 150.0, 0.001);
+varying vec3 uv1_power_normal;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	vec3 normal = MODEL_NORMAL_MATRIX * NORMAL;
+	float wave = sin(VERTEX.x * wave_frequency + TIME * wave_speed)
+	           + cos(VERTEX.z * wave_frequency + TIME * wave_speed);
+	VERTEX.y += wave * wave_height;
+	TANGENT = vec3(0.0, 0.0, -1.0) * abs(normal.x);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.y);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.z);
+	TANGENT = inverse(MODEL_NORMAL_MATRIX) * normalize(TANGENT);
+
+	BINORMAL = vec3(0.0, 1.0, 0.0) * abs(normal.x);
+	BINORMAL += vec3(0.0, 0.0, -1.0) * abs(normal.y);
+	BINORMAL += vec3(0.0, 1.0, 0.0) * abs(normal.z);
+	BINORMAL = inverse(MODEL_NORMAL_MATRIX) * normalize(BINORMAL);
+
+	// UV1 Triplanar: Enabled (with World Triplanar)
+	uv1_power_normal = pow(abs(normal), vec3(uv1_blend_sharpness));
+	uv1_triplanar_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * uv1_scale + uv1_offset + TIME*0.1;
+	uv1_power_normal /= dot(uv1_power_normal, vec3(1.0));
+	uv1_triplanar_pos *= vec3(1.0, -1.0, 1.0);
+}
+
+vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+	vec4 samp = vec4(0.0);
+	samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+	samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+	samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+	return samp;
+}
+
+void fragment() {
+	vec4 albedo_tex = triplanar_texture(texture_albedo, uv1_power_normal, uv1_triplanar_pos);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(triplanar_texture(texture_metallic, uv1_power_normal, uv1_triplanar_pos), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(triplanar_texture(texture_roughness, uv1_power_normal, uv1_triplanar_pos), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Normal Map: Enabled
+	NORMAL_MAP = triplanar_texture(texture_normal, uv1_power_normal, uv1_triplanar_pos).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+
+	// Refraction: Enabled (with normal map texture)
+	vec3 unpacked_normal = NORMAL_MAP;
+	unpacked_normal.xy = unpacked_normal.xy * 2.0 - 1.0;
+	unpacked_normal.z = sqrt(max(0.0, 1.0 - dot(unpacked_normal.xy, unpacked_normal.xy)));
+	vec3 ref_normal = normalize(mix(
+			NORMAL,
+			TANGENT * unpacked_normal.x + BINORMAL * unpacked_normal.y + NORMAL * unpacked_normal.z,
+			NORMAL_MAP_DEPTH));
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(triplanar_texture(texture_refraction, uv1_power_normal, uv1_triplanar_pos), refraction_texture_channel) * refraction;
+
+	float ref_amount = 1.0 - albedo.a * albedo_tex.a;
+
+	float refraction_depth_tex = textureLod(depth_texture, ref_ofs, 0.0).r;
+	vec4 refraction_view_pos = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, refraction_depth_tex, 1.0);
+	refraction_view_pos.xyz /= refraction_view_pos.w;
+
+	// If the depth buffer is lower then the model's Z position, use the refracted UV, otherwise use the normal screen UV.
+	// At low depth differences, decrease refraction intensity to avoid sudden discontinuities.
+	EMISSION += textureLod(screen_texture, mix(SCREEN_UV, ref_ofs, smoothstep(0.0, 1.0, VERTEX.z - refraction_view_pos.z)), ROUGHNESS * 8.0).rgb * ref_amount * EXPOSURE;
+	ALBEDO *= 1.0 - ref_amount;
+	// Force transparency on the material (required for refraction).
+	ALPHA = 1.0;
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iacna"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uc036"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_iacna")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dv8ie"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_iacna")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uc036"]
+render_priority = 0
+shader = SubResource("Shader_iacna")
+shader_parameter/albedo = Color(0, 0.270588, 0.815686, 0.72549)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/texture_refraction = SubResource("NoiseTexture2D_dv8ie")
+shader_parameter/refraction = 0.05
+shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_height = 0.2
+shader_parameter/wave_frequency = 2.0
+shader_parameter/texture_normal = SubResource("NoiseTexture2D_uc036")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_31mi3"]
+material = SubResource("ShaderMaterial_uc036")
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="Animation" id="Animation_uc036"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Damager:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.407843, 0.337255, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("cutscene_camera:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-21.6341, 2.90221, 2.38802)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("cutscene_camera:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dv8ie"]
+resource_name = "cough"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Damager:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.3, 0.4, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.407843, 0.337255, 0), Color(1, 0.407843, 0.337255, 0.568627), Color(1, 0.407843, 0.337255, 0.294118), Color(1, 0.407843, 0.337255, 0.717647), Color(1, 0.407843, 0.337255, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pfv4s"]
+resource_name = "monster_saw"
+length = 4.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cutscene_camera:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.36667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-21.6341, 2.90221, 2.38802), Vector3(-16.7315, 3.96142, 2.38802)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cutscene_camera:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.36667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.289952, -1.5708, 1.30417e-08)]
+}
+
+[sub_resource type="Animation" id="Animation_iacna"]
+resource_name = "start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dv8ie"]
+_data = {
+&"RESET": SubResource("Animation_uc036"),
+&"cough": SubResource("Animation_dv8ie"),
+&"monster_saw": SubResource("Animation_pfv4s"),
+&"start": SubResource("Animation_iacna")
+}
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_dv8ie")
 
-[node name="Ground" type="MeshInstance3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 0.8
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dv8ie")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_44f6d")
+
+[node name="Ground" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80557, 0)
 mesh = SubResource("BoxMesh_3chkc")
-surface_material_override/0 = SubResource("StandardMaterial3D_jaky0")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_iacna")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ground"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_vost8")
+
+[node name="GROUND" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 20, -0.500567, 20)
+mesh = ExtResource("2_uc036")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_iacna")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ground/GROUND"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground/GROUND/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_dv8ie")
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00398922, 1.05273, -0.218903)
+mesh = SubResource("BoxMesh_31mi3")
+
+[node name="Objects" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.30557, 0)
+script = ExtResource("3_iacna")
+
+[node name="player" parent="." instance=ExtResource("1_jaky0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -21.6182, 1.92616, 0)
+
+[node name="Power_Ups" parent="player/GUI" index="1"]
+position = Vector2(0, -771)
+
+[node name="FireballMan" parent="." instance=ExtResource("6_31mi3")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -11.0269, 2.70519, 1.70615)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_dv8ie")
+}
+autoplay = "start"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 1973.0
+offset_bottom = 1145.0
+color = Color(0, 0, 0, 0)
+
+[node name="Damager" type="ColorRect" parent="."]
+offset_right = 1989.0
+offset_bottom = 1137.0
+color = Color(1, 0.407843, 0.337255, 0)
+
+[node name="Damager2" type="ColorRect" parent="."]
+offset_right = 1989.0
+offset_bottom = 1137.0
+color = Color(1, 0.407843, 0.337255, 0.592157)
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Damage_Audio" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_pfv4s")
+volume_db = -27.799
+pitch_scale = 0.66
+
+[node name="cutscene_camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6341, 2.90221, 2.38802)
+
+[editable path="player"]
+[editable path="player/GUI"]
+[editable path="FireballMan"]

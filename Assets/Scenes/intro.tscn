@@ -1,0 +1,662 @@
+[gd_scene load_steps=27 format=3 uid="uid://bncv4x203usd2"]
+
+[ext_resource type="Script" uid="uid://dg4n6c2on8uyk" path="res://Assets/Scripts/intro.gd" id="1_epv24"]
+[ext_resource type="Texture2D" uid="uid://k5iac6hp0jb" path="res://Assets/World/night-sky.png" id="2_677bp"]
+[ext_resource type="Texture2D" uid="uid://c0wan5yh3besq" path="res://Assets/Player/left_idle.png" id="3_sthsd"]
+[ext_resource type="Texture2D" uid="uid://bcmqyrwlgdo12" path="res://Assets/World/Start-Game.png" id="4_i60fp"]
+[ext_resource type="Script" uid="uid://ddsrtf45xirch" path="res://Assets/Scripts/start_game.gd" id="5_677bp"]
+[ext_resource type="Texture2D" uid="uid://daqiiqp8218dv" path="res://Assets/World/Control-Button.png" id="5_idqtc"]
+[ext_resource type="FontFile" uid="uid://c2ljam3m5dgfe" path="res://Assets/Fonts/Sddystopiandemo-GO7xa.otf" id="6_epv24"]
+[ext_resource type="Texture2D" uid="uid://d0p4d6knlmuws" path="res://Assets/World/pfpMeoth.png" id="6_ie13j"]
+[ext_resource type="Texture2D" uid="uid://co8qhmc1sncrf" path="res://icon.svg" id="7_677bp"]
+[ext_resource type="AudioStream" uid="uid://ctwfxnx5m7kl1" path="res://Assets/Sound/switch.mp3" id="7_sthsd"]
+[ext_resource type="AudioStream" uid="uid://bwsid2dt2v2iy" path="res://Assets/Sound/bg-music.mp3" id="9_0syiu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4r1w"]
+atlas = ExtResource("3_sthsd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qec2y"]
+atlas = ExtResource("3_sthsd")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0cln6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4r1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qec2y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epv24"]
+size = Vector2(129.985, 16.0738)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_idqtc"]
+size = Vector2(744.772, 98.6711)
+
+[sub_resource type="Animation" id="Animation_ie13j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Start-Button Area/Start-game:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.909)]
+}
+
+[sub_resource type="Animation" id="Animation_idqtc"]
+resource_name = "zooom_start_game"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Start-Button Area/Start-game:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.909), Vector2(30, 34.087)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0syiu"]
+_data = {
+&"RESET": SubResource("Animation_ie13j"),
+&"zooom_start_game": SubResource("Animation_idqtc")
+}
+
+[sub_resource type="Animation" id="Animation_i60fp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Made with godot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Icon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Credit:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Scat-Studios:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PfpMeoth:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("developers note:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Bg_intro:color")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Menu/ColorRect:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(255, 359)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Menu/ColorRect:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.4, 0.748572)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Menu:rotation")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Menu:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.7, 0.7)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Menu/Start-Button Area/Start-game:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(671.429, -287.143)]
+}
+
+[sub_resource type="Animation" id="Animation_sthsd"]
+resource_name = "intro"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Made with godot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Icon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Credit:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Scat-Studios:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PfpMeoth:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("developers note:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 3, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Bg_intro:color")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(3, 5, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Menu/ColorRect:position")
+tracks/9/interp = 2
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(5, 6.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(255, 359), Vector2(254.286, -367.143)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Menu/ColorRect:scale")
+tracks/10/interp = 2
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(5, 6.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.4, 0.748572), Vector2(0.4, 10.184)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Menu:rotation")
+tracks/11/interp = 2
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(5, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.20944]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Menu:scale")
+tracks/12/interp = 2
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(5, 6.75, 7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.7, 0.7), Vector2(0.7, 0.7), Vector2(1, 1)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Menu/Start-Button Area/Start-game:position")
+tracks/13/interp = 2
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(6.75),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(671.429, -287.143)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_idqtc"]
+_data = {
+&"RESET": SubResource("Animation_i60fp"),
+&"intro": SubResource("Animation_sthsd")
+}
+
+[sub_resource type="Animation" id="Animation_a4lpr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2412i"]
+resource_name = "change"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bf86l"]
+resource_name = "recieve"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i8ail"]
+_data = {
+&"RESET": SubResource("Animation_a4lpr"),
+&"change": SubResource("Animation_2412i"),
+&"recieve": SubResource("Animation_bf86l")
+}
+
+[node name="Intro" type="Node2D"]
+script = ExtResource("1_epv24")
+
+[node name="Night-sky" type="Sprite2D" parent="."]
+position = Vector2(938, 541)
+scale = Vector2(3.2, 3.2)
+texture = ExtResource("2_677bp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1436, 531)
+scale = Vector2(50, 50)
+sprite_frames = SubResource("SpriteFrames_0cln6")
+autoplay = "default"
+frame_progress = 0.54296
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -68.0
+offset_top = 883.0
+offset_right = -28.0
+offset_bottom = 923.0
+scale = Vector2(0.7, 0.7)
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+layout_mode = 0
+offset_left = 254.286
+offset_top = -367.143
+offset_right = 294.286
+offset_bottom = -327.143
+scale = Vector2(0.4, 0.748572)
+metadata/_edit_use_anchors_ = true
+
+[node name="Start-Button Area" type="Area2D" parent="Menu"]
+
+[node name="Start-game" type="Sprite2D" parent="Menu/Start-Button Area"]
+position = Vector2(671.429, -287.143)
+scale = Vector2(0.8, 0.909)
+texture = ExtResource("4_i60fp")
+script = ExtResource("5_677bp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Menu/Start-Button Area"]
+position = Vector2(657.436, -304.519)
+scale = Vector2(5.67693, -5.49576)
+shape = SubResource("RectangleShape2D_epv24")
+
+[node name="Controls-Button-Area" type="Area2D" parent="Menu"]
+
+[node name="Controls-button" type="Sprite2D" parent="Menu/Controls-Button-Area"]
+position = Vector2(560.312, -192.716)
+rotation = -0.00523599
+scale = Vector2(0.565, 0.698205)
+texture = ExtResource("5_idqtc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Menu/Controls-Button-Area"]
+position = Vector2(657.602, -202.127)
+shape = SubResource("RectangleShape2D_idqtc")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Menu"]
+stream = ExtResource("7_sthsd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Menu"]
+libraries = {
+&"": SubResource("AnimationLibrary_0syiu")
+}
+speed_scale = 2.0
+
+[node name="Bg_intro" type="ColorRect" parent="."]
+offset_left = -17.0
+offset_top = -12.0
+offset_right = 23.0
+offset_bottom = 28.0
+scale = Vector2(49.325, 27.7279)
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="PfpMeoth" type="Sprite2D" parent="."]
+position = Vector2(960, 429)
+scale = Vector2(2, 2)
+texture = ExtResource("6_ie13j")
+
+[node name="Scat-Studios" type="Label" parent="."]
+offset_left = 487.0
+offset_top = 726.0
+offset_right = 1522.0
+offset_bottom = 926.0
+theme_override_fonts/font = ExtResource("6_epv24")
+theme_override_font_sizes/font_size = 150
+text = "SCAT-STUDIOS"
+metadata/_edit_use_anchors_ = true
+
+[node name="Credit" type="Label" parent="."]
+offset_left = 1302.0
+offset_top = 22.0
+offset_right = 1909.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 30
+text = "Most of the Assets and Music Made by me"
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(83, 81)
+texture = ExtResource("7_677bp")
+
+[node name="Made with godot" type="Label" parent="."]
+offset_left = 156.0
+offset_top = 55.0
+offset_right = 406.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 30
+text = "Made with Godot"
+metadata/_edit_use_anchors_ = true
+
+[node name="Overlay" type="ColorRect" parent="."]
+offset_left = -11.0
+offset_top = -7.0
+offset_right = 29.0
+offset_bottom = 33.0
+scale = Vector2(48.72, 27.64)
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="developers note" type="Label" parent="."]
+visible = false
+offset_left = 166.0
+offset_top = 137.0
+offset_right = 1745.0
+offset_bottom = 834.0
+theme_override_font_sizes/font_size = 100
+text = "Developers Note:
+Please be in fullscreen mode by clicking on the top right and also unmute your volume for the best experience"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_idqtc")
+}
+autoplay = "intro"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0syiu")
+volume_db = -20.0
+
+[node name="Scene transition" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Scene transition"]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -6.0
+offset_right = 31.0
+offset_bottom = 34.0
+scale = Vector2(48.791, 28.3247)
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Scene transition"]
+libraries = {
+&"": SubResource("AnimationLibrary_i8ail")
+}
+speed_scale = 1.5
+
+[connection signal="mouse_entered" from="Menu/Start-Button Area" to="Menu/Start-Button Area/Start-game" method="_on_start_button_area_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/Start-Button Area" to="Menu/Start-Button Area/Start-game" method="_on_start_button_area_mouse_exited"]
+[connection signal="mouse_entered" from="Menu/Controls-Button-Area" to="Menu/Controls-Button-Area/Controls-button" method="_on_controls_button_area_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/Controls-Button-Area" to="Menu/Controls-Button-Area/Controls-button" method="_on_controls_button_area_mouse_exited"]

@@ -1,0 +1,7 @@
+Spirit: "Well done! You’ve got the hang of it. But don’t get too comfortable—more enemies are on their way. Stay sharp, and remember what I taught you!"
+Player_Character: "Wait wha-? What did I do? Why are more enimies coming? And I still dont know who you are..?"
+Spirit: "Even I'm not too sure, today at dawn this is the first time I woke up after 160 million years, I too was stranded on this island. I learned how to fight myself until I suddenly fell asleep. I should not overwhelm you with the details.."
+[signal arg="first_wave_powerups"]
+Spirit: "This wave is over.. You can choose a powerup now, there are 4 tiers\: Common, Uncommon, Rare, Legendary. Try your luck!..
+Spirit: *sigh* for now focus on the next wave, more reinforcements might be coming..
+[signal arg="wave_2_enemies_start"]

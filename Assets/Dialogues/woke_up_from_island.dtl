@@ -1,0 +1,23 @@
+Player_Character: “What… happened? The storm… it pulled me in…”
+[signal arg="cough"]
+Player_Character: **cough cough*-
+Player_Character: "Ah.. I'm not feeling to good... The storm has lowered my health"
+Player_Character: "Looks like we are stranded here for now...."
+Player_Character: "Wait.. what's THAT???"
+[signal arg="monster_saw"]
+Player_Character: "Oh no, this does not seem good..."
+[wait time="4.0" hide_text="false"]
+Spirit: “A shadow from the deep… face it, or perish.”
+[wait time="2.0" hide_text="false"]
+Spirit: “You survived... barely.”
+Player_Character: Huh, wait who are you???
+[signal arg="fight_first_enemy"]
+Spirit: “Listen. We don't have time.. That thing ahead — it’s dangerous. You’ll have to fight.”
+Spirit: "Uhh, I almost forgot .. umm yeah Try using WASD or Arrow Keys to move..."
+[wait time="1.0" hide_text="false"]
+Spirit: "Damn, now if I'm correct use the Left Mouse Button to slash your sword..."
+[wait time="1.0" hide_text="false"]
+Player_Character: "YOOo, It's Working!!"
+Spirit: "Yeah, now you can dodge attacks using the Space button, if timed correctly, you can doge the attack without needing to get out of the attack range..."
+Player_Character: "Sure, Let me get him.."
+[end_timeline]
