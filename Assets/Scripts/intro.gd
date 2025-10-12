@@ -14,7 +14,7 @@ var start_hover = false
 
 func _ready():
 	if Global.debug_mode: # devs wanna skip cutscene for fasat debuging and testing.
-		get_tree().change_scene_to_file("res://Assets/Scenes/tutorial_cutscene.tscn")
+		get_tree().change_scene_to_file("res://Assets/Scenes/world.tscn")
 	screen_size = get_viewport().size
 	base_position = night_sky.position
 	

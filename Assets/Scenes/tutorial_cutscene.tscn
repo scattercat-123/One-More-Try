@@ -1153,7 +1153,7 @@ _data = {
 &"text_change": SubResource("Animation_pc81b")
 }
 
-[node name="Tutorial_cutscene" type="Node3D"]
+[node name="Tutorial_cutscene" type="Node3D" groups=["Tut_cutscene"]]
 script = ExtResource("1_x3ypi")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

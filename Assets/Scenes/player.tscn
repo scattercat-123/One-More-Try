@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=3 uid="uid://cwvlty82rb7ta"]
+[gd_scene load_steps=141 format=3 uid="uid://cwvlty82rb7ta"]
 
 [ext_resource type="Script" uid="uid://c3nq8rp0w5wi" path="res://Assets/Scripts/player.gd" id="1_ecf78"]
 [ext_resource type="Texture2D" uid="uid://dq55pmwqj1l" path="res://Assets/Player/down.png" id="1_lerqx"]
@@ -11,11 +11,13 @@
 [ext_resource type="Texture2D" uid="uid://b1m5hnnsuceh4" path="res://Assets/Player/Character_RollDownRight.png" id="5_ncqey"]
 [ext_resource type="Texture2D" uid="uid://qwkl0gepj6vu" path="res://Assets/Player/Character_Down.png" id="5_o8kuu"]
 [ext_resource type="Texture2D" uid="uid://tc1du2s171qt" path="res://Assets/Player/right_idle.png" id="5_rsrmw"]
+[ext_resource type="AudioStream" uid="uid://dseom6bxnm4ud" path="res://Assets/Sound/sword_1.mp3" id="6_b5624"]
 [ext_resource type="Texture2D" uid="uid://b5ruqrwcino86" path="res://Assets/Player/up.png" id="6_o8kuu"]
 [ext_resource type="Texture2D" uid="uid://cb8agl4hv53h0" path="res://Assets/Player/Character_DownRight.png" id="6_tcr7l"]
 [ext_resource type="Texture2D" uid="uid://c01qtqdt8husq" path="res://Assets/Player/Character_RollDown.png" id="7_qnw5g"]
 [ext_resource type="Texture2D" uid="uid://cnbqao5gky3ea" path="res://Assets/Player/Up_left.png" id="7_xv74q"]
 [ext_resource type="Texture2D" uid="uid://dkxu5ipve8pot" path="res://Assets/Player/up_right.png" id="8_8qq7w"]
+[ext_resource type="AudioStream" uid="uid://d1o30s8nbc0e" path="res://Assets/Sound/sword_3.mp3" id="8_7578i"]
 [ext_resource type="Texture2D" uid="uid://qeussb33300u" path="res://Assets/Player/Character_Right.png" id="8_tcr7l"]
 [ext_resource type="Texture2D" uid="uid://my338ngsjdde" path="res://Assets/Player/Character_Up.png" id="9_jp3cw"]
 [ext_resource type="Texture2D" uid="uid://dcjbkwwl4xby5" path="res://Assets/Player/Character_RollRight.png" id="11_dsi02"]
@@ -30,6 +32,8 @@
 [ext_resource type="PackedScene" uid="uid://chq5xwwd06qwc" path="res://Assets/Scenes/gui.tscn" id="21_qnw5g"]
 [ext_resource type="Texture2D" uid="uid://cxyox8jcx8pv4" path="res://Assets/Player/shadow.png" id="22_dsi02"]
 [ext_resource type="Texture2D" uid="uid://oy0hokiahf0m" path="res://Assets/Player/slash_up.png" id="28_b5624"]
+[ext_resource type="AudioStream" uid="uid://ddwjv22pf2ke0" path="res://Assets/Sound/damaged.mp3" id="33_b5624"]
+[ext_resource type="Script" uid="uid://c3e2knniicvk2" path="res://Assets/Scripts/areas_for_hitting_range.gd" id="33_w34vp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3u0pv"]
 atlas = ExtResource("2_5lpyi")
@@ -901,32 +905,12 @@ animations = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_vy5gb"]
 size = Vector3(0.139542, 0.167717, 0.0379639)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_35grl"]
-size = Vector3(0.139, 0.322, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_c8jh0"]
-size = Vector3(0.139, 0.322, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5jjye"]
-size = Vector3(0.139, 0.322, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_b5624"]
-size = Vector3(0.139, 0.322, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_w34vp"]
-size = Vector3(0.139, 0.361, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_7578i"]
-size = Vector3(0.139, 0.361, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_mdvb1"]
-size = Vector3(0.139, 0.361, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_vjh5i"]
-size = Vector3(0.139, 0.361, 0.25)
+[sub_resource type="SphereShape3D" id="SphereShape3D_w34vp"]
+radius = 0.225
 
 [node name="player" type="CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+collision_mask = 33
 floor_max_angle = 1.5708
 script = ExtResource("1_ecf78")
 
@@ -934,9 +918,19 @@ script = ExtResource("1_ecf78")
 no_depth_test = true
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_62fms")
-animation = &"down_left_slash"
+animation = &"down_right_slash"
 frame = 5
 frame_progress = 1.0
+
+[node name="slash_1" type="AudioStreamPlayer" parent="slash"]
+stream = ExtResource("6_b5624")
+volume_db = -20.0
+max_polyphony = 6
+
+[node name="slash_2" type="AudioStreamPlayer" parent="slash"]
+stream = ExtResource("8_7578i")
+volume_db = -30.0
+max_polyphony = 6
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 no_depth_test = true
@@ -955,95 +949,53 @@ fov = 70.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.01384e-05, -0.0161934, 0.00213623)
 shape = SubResource("BoxShape3D_vy5gb")
 
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.01384e-05, -0.0161934, 0.00213623)
+shape = SubResource("BoxShape3D_vy5gb")
+
 [node name="GUI" parent="." instance=ExtResource("21_qnw5g")]
 offset_left = 63.0
 offset_top = -19.0
 offset_right = 63.0
 offset_bottom = -19.0
-mouse_filter = 2
 
 [node name="Sprite2D" type="Sprite3D" parent="."]
 transform = Transform3D(0.196353, 0.0380179, 1.66181e-09, 0, -8.74228e-09, 0.2, 0.0380179, -0.196353, -8.58288e-09, 0.0151344, -0.100055, -0.0643209)
 texture = ExtResource("22_dsi02")
 
 [node name="Areas for hitting" type="Node3D" parent="."]
+script = ExtResource("33_w34vp")
 
-[node name="Down" type="Area3D" parent="Areas for hitting"]
+[node name="player_hitbox" type="Area3D" parent="Areas for hitting" groups=["Player-Hitbox"]]
 collision_layer = 16
 collision_mask = 0
-monitoring = false
-monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Down"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.57764e-05, -0.164063, 0)
-shape = SubResource("BoxShape3D_35grl")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/player_hitbox"]
+shape = SubResource("SphereShape3D_w34vp")
 
-[node name="Up" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
+[node name="SFX" type="Node" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Up"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.162879, 0)
-shape = SubResource("BoxShape3D_c8jh0")
+[node name="Damage_Audio" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("33_b5624")
+volume_db = -15.0
+pitch_scale = 0.66
+max_polyphony = 2
 
-[node name="Left" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
+[node name="Damager" type="ColorRect" parent="."]
+visible = false
+offset_right = 1989.0
+offset_bottom = 1137.0
+mouse_filter = 2
+color = Color(1, 0.407843, 0.337255, 0.529412)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Left"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.159834, 0, 0)
-shape = SubResource("BoxShape3D_5jjye")
+[node name="debug_label_speed" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.146145, 0)
+visible = false
+pixel_size = 0.0022
+text = "speed"
 
-[node name="Right" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Right"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.161951, 0, 0)
-shape = SubResource("BoxShape3D_b5624")
-
-[node name="Bottom_Right" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Bottom_Right"]
-transform = Transform3D(-0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0, 1, 0.12906, -0.12762, 0)
-shape = SubResource("BoxShape3D_w34vp")
-
-[node name="Bottom_Left" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Bottom_Left"]
-transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.127957, -0.128864, 0)
-shape = SubResource("BoxShape3D_7578i")
-
-[node name="Top_Left" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Top_Left"]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.127404, 0.127404, 0)
-shape = SubResource("BoxShape3D_mdvb1")
-
-[node name="Top_Right" type="Area3D" parent="Areas for hitting"]
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Areas for hitting/Top_Right"]
-transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.128071, 0.127404, 0)
-shape = SubResource("BoxShape3D_vjh5i")
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

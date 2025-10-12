@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://dinhv081t42jm"]
+
+[ext_resource type="Script" uid="uid://ck3w4c7iwpeif" path="res://Assets/Scripts/fireball.gd" id="1_c273o"]
+[ext_resource type="Texture2D" uid="uid://css74va3xxuq0" path="res://Assets/Enemies/Fireball_Man/fireball_shoot.png" id="1_xvsru"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c273o"]
+atlas = ExtResource("1_xvsru")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hijby"]
+atlas = ExtResource("1_xvsru")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qc015"]
+atlas = ExtResource("1_xvsru")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgwpt"]
+atlas = ExtResource("1_xvsru")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgtdy"]
+atlas = ExtResource("1_xvsru")
+region = Rect2(0, 1024, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8t3ku"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c273o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hijby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qc015")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgwpt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgtdy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c273o"]
+
+[node name="fireball" type="Node3D"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+script = ExtResource("1_c273o")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_8t3ku")
+frame_progress = 0.943932
+
+[node name="hit" type="Area3D" parent="." groups=["Fireball"]]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0, 0)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="hit"]
+shape = SubResource("SphereShape3D_c273o")

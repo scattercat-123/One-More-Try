@@ -1,0 +1,12 @@
+res://Assets/Scenes/possessed_enemy.tscn
+res://Assets/Dialogues/Dialogue_Box.tres
+res://Assets/Scripts/ocean.gdshader
+res://Assets/Scripts/possessed_enemy.gd
+res://Assets/Scenes/world.tscn
+res://Assets/Scenes/player.tscn
+res://Assets/Scenes/fireball_enemy.tscn
+res://Assets/Scenes/gui.tscn
+res://Assets/Scripts/areas_for_hitting_range.gd
+res://Assets/Scripts/world.gd
+res://Assets/Scripts/player.gd
+res://Assets/Scripts/power_ups.gd

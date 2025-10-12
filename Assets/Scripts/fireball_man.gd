@@ -4,45 +4,91 @@ var can_move=false
 var enabled = true
 var facing: String
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
-@onready var player: CharacterBody3D = $"../player"
 var flip_speed = 20
 @export var speed := 1
-var health = 16
+var health = 50
 var once = false
+var player
+@onready var damage_numbers_origin: Node3D = $Damage_Numbers_Origin
+@onready var debug_label: Label3D = $Label3D
+var can_shoot = true
+var state := "idle"
+var state_timer := 0.0
+const STATE_LENGTH := 3.0
+@onready var debug_label_2: Label3D = $debug_label_2
+@onready var pivot_hit_path: Node3D = $Pivot_Hit_path
+var _pivot_aimed := false
+var _is_firing := false
+
+var state_weights := {
+	"chase": 0.40,
+	"fireball": 0.35,
+	"idle": 0.25
+}
+
 func _ready() -> void:
+	player = get_tree().get_first_node_in_group("Player")
 	Dialogic.signal_event.connect(signaling)
 	Global.enemies_left = 1
+	state = "chase"
+	state_timer = 0.0
+	if Global.debug_mode == false:
+		debug_label.visible = false
 
 func _process(delta: float) -> void:
-	if can_move:
+	var distance_to_player = global_position.distance_to(player.global_position)
+	if distance_to_player < 4 :
+		state_weights = {
+			"chase": 0.25,
+			"fireball": 0.65,
+			"idle": 0.1
+		}
+	else:
+		state_weights = {
+			"chase": 0.40,
+			"fireball": 0.35,
+			"idle": 0.25
+		}
+	debug_label_2.text = str(int(distance_to_player))
+	if can_move or Global.debug_mode == true or not Global.wave == 1:
 		rotation_degrees.y = 0
-		if enabled:
-			navigator(delta)
+		state_timer += delta
+		if state_timer >= STATE_LENGTH:
+			pick_next_state()
+		match state:
+			"idle":
+				_update_idle(delta)
+				debug_label.text = "idle"
+			"chase":
+				debug_label.text = "chase"
+				_update_chase(delta)
+			"fireball":
+				debug_label.text = "fire"
+				fireball_shoot()
 	else:
 		rotation_degrees.y = 90
 	if health <= 0:
 		visible = false
 		queue_free()
 		Global.enemies_left = 0
-		if once == false:
-			Global.wave = 2
+		if once == false and Global.wave==1:
 			Dialogic.start("after_first_wave")
 			once = true
 
 func _physics_process(delta: float) -> void:
-	var direction = velocity.normalized()
-	if direction.x > 0:
-		sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 0, flip_speed)
-	else:
-		sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 180, flip_speed)
-	# Add the gravity.
+	if state == "chase":
+		var direction = velocity.normalized()
+		if direction.x > 0:
+			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 0, flip_speed)
+		else:
+			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 180, flip_speed)
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if direction.length() > 0.01:
-		playwalk(direction)
-	else:
-		sprite.stop()
+	if velocity.normalized().length() > 0.01:
+		playwalk(velocity.normalized())
+
 	move_and_slide()
 	
 func signaling(arg):
@@ -89,4 +135,124 @@ func shortest_angle_deg(current: float, target: float, step: float) -> float:
 	return current + clamp(diff, -step, step)
 
 func _on_hitbox_area_entered(area: Area3D) -> void:
-	health = health - Global.player_dmg
+	if area.is_in_group("Player-Hitbox"):
+		if not player:
+			return
+		var dir_to_enemy = (global_position - player.global_position).normalized()
+
+		var facing_dir = player.last_dir.normalized()
+
+		var angle = rad_to_deg(facing_dir.angle_to(dir_to_enemy))
+
+		if angle < 80:
+			health -= Global.player_dmg
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+		
+func pick_next_state() -> void:
+	var roll = randf()
+	var acc = 0.0
+	for s in state_weights.keys():
+		acc += state_weights[s]
+		if roll <= acc:
+			state = s
+			state_timer = 0.0
+			_pivot_aimed = false
+			_is_firing = false
+			return
+	state = "idle"
+	state_timer = 0.0
+	_pivot_aimed = false
+	_is_firing = false
+
+func _update_chase(delta: float) -> void:
+	navigator(delta)
+	velocity = velocity.normalized() * speed
+	
+func _update_idle(_delta: float) -> void:
+	velocity = Vector3.ZERO
+	var player_dir = get_player_direction()
+	if player.global_position.x > global_position.x:
+		sprite.rotation_degrees.y = 0
+	else:
+		sprite.rotation_degrees.y = 180
+	match player_dir:
+		"up":
+			sprite.play("up_idle")
+		"down":
+			sprite.play("down_idle")
+		"right":
+			sprite.play("right_left_idle")
+		"up_right":
+			sprite.play("up_right_left_idle")
+		"down_right":
+			sprite.play("down_right_left_idle")
+
+func fireball_shoot() -> void:
+	var shoot_dir = (player.global_position - global_position).normalized()
+	if not _pivot_aimed:
+		_pivot_aimed = true
+		pivot_hit_path.global_position = global_position
+		pivot_hit_path.look_at(player.global_position, Vector3.UP)
+		pivot_hit_path.rotate_y(deg_to_rad(90))
+		pivot_hit_path.visible = true
+
+	if _is_firing or not can_shoot:
+		return
+
+	_is_firing = true
+	can_shoot = false
+	velocity = Vector3.ZERO
+	await get_tree().create_timer(0.3).timeout
+
+	var player_dir = get_player_direction()
+	match player_dir:
+		"up":
+			sprite.play("up_shoot")
+		"down":
+			sprite.play("down_shoot")
+		"right":
+			sprite.play("right_left_shoot")
+		"up_right":
+			sprite.play("up_left_right_shoot")
+		"down_right":
+			sprite.play("down_right_left_shoot")
+
+	await get_tree().create_timer(0.3).timeout
+	$SFX/fireball.play()
+	var fireball_scene = preload("res://Assets/Scenes/fireball.tscn")
+	var fireball = fireball_scene.instantiate()
+	get_parent().add_child(fireball)
+
+	fireball.global_position = global_position
+	fireball.direction = shoot_dir
+
+	await get_tree().create_timer(0.5).timeout
+	pick_next_state()
+	state_timer = 0
+	_is_firing = false
+	can_shoot = true
+	pick_next_state()
+	state_timer = 0.0
+	pivot_hit_path.visible = false
+	_pivot_aimed = false
+	
+func get_player_direction() -> String:
+	var dir = (player.global_position - global_position).normalized()
+	var tolerance = 0.4
+
+	if abs(dir.x) < tolerance:
+		dir.x = 0
+	if abs(dir.z) < tolerance:
+		dir.z = 0
+
+	if dir.z < 0 and abs(dir.x) > 0:
+		return "up_right"
+	elif dir.z > 0 and abs(dir.x) > 0:
+		return "down_right"
+	elif abs(dir.x) > 0 and dir.z == 0:
+		return "right"
+	elif dir.z < 0:
+		return "up"
+	elif dir.z > 0:
+		return "down"
+	return "down"

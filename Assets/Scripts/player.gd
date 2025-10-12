@@ -1,37 +1,54 @@
 extends CharacterBody3D
 @onready var sprite: AnimatedSprite3D = $sprite
 @onready var slash_sprite: AnimatedSprite3D = $slash
-@onready var attack_areas = {
-	"up": $"Areas for hitting/Up",
-	"down": $"Areas for hitting/Down",
-	"right": $"Areas for hitting/Right",
-	"up_right": $"Areas for hitting/Top_Right",
-	"down_right": $"Areas for hitting/Bottom_Right",
-	"left": $"Areas for hitting/Left",
-	"up_left": $"Areas for hitting/Top_Left",
-	"down_left": $"Areas for hitting/Bottom_Left"
-	
-}
+@onready var attack_area: CollisionShape3D = $"Areas for hitting/player_hitbox/CollisionShape3D"
 @onready var stamina_bar: ProgressBar = $GUI/GUI_BAR/stamina_bar
+@onready var health_bar: ProgressBar = $GUI/GUI_BAR/health_bar
 var is_slashing = false
 const SPEED = 1.7
+var SPEED_ACTUAL
 var flip_speed = 20
 var flip_right = true
 var running = false
 var facing : String
 var is_rolling:= false
 var can_move = false
-@export var rolling_cooldown = 1.0
+var player_dmg : int
+var player_health : int
+@export var rolling_cooldown = 0.7
 @export var roll_dis: int = 3
 var is_rolling_cooldown = false
 var last_dir: Vector3 = Vector3.FORWARD
+@onready var debug_label_speed: Label3D = $debug_label_speed
+
+func health_baring(health : float):
+	var target_value = health
+	target_value = clamp(target_value, 0, health_bar.max_value)
+	var tween = create_tween()
+	tween.tween_property(health_bar, "value", target_value, 1)
 
 func _ready() -> void:
+	attack_area.disabled = true
+	SPEED_ACTUAL= SPEED
+	player_dmg = 10
+	player_health = 100
 	if Global.debug_mode:
 		can_move = true
+		debug_label_speed.visible = true
 	Dialogic.signal_event.connect(signaling)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	var speed_factor :float = (1.0 + (Global.speed_boost * 0.20))
+	SPEED_ACTUAL = SPEED * speed_factor
+	debug_label_speed.text = str(SPEED_ACTUAL)
+	player_health = (100 + Global.extra_health) - Global.damage
+	Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)
+	player_dmg = 10 + (Global.extra_dmg)*2 + (Global.extra_dmgee)* 3
+	Global.player_dmg = player_dmg
+	health_bar.max_value = 100 + (Global.extra_health * 20) + (Global.health_pack * 40)
+	Global.max_health = health_bar.max_value 
+	health_baring(player_health)
+
 	if stamina_bar.value < stamina_bar.max_value:
 		stamina_bar.value += Global.stamina_regen
 
@@ -49,23 +66,23 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction != Vector3.ZERO:
 		last_dir = direction
-	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 0:
+	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30:
 		stamina_bar.value = stamina_bar.value - 25
 		await roll(last_dir)
 	if can_move and not is_slashing:
 		if direction:
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+			velocity.x = direction.x * SPEED_ACTUAL
+			velocity.z = direction.z * SPEED_ACTUAL
 		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.z = move_toward(velocity.z, 0, SPEED)
+			velocity.x = move_toward(velocity.x, 0, SPEED_ACTUAL)
+			velocity.z = move_toward(velocity.z, 0, SPEED_ACTUAL)
 	
 		if input_dir.x > 0:
 			flip_right = true
 		elif input_dir.x < 0:
 			flip_right = false
 		if direction.length() == 0:
-			playidle(facing)
+			playidle()
 		elif direction.length() > 0:
 			playwalk(direction)
 			
@@ -83,43 +100,41 @@ func signaling(arg):
 
 func slash(facing_dir):
 	is_slashing = true
-	for a in attack_areas.values():
-		a.monitorable = false
+	attack_area.disabled = false
+	var music_rand_int = randi_range(1,2)
+	if music_rand_int == 1:
+		$slash/slash_1.play()
+	elif music_rand_int == 2:
+		$slash/slash_2.play()
+
 	if (facing_dir == "up_right" or facing_dir == "up") and flip_right:
 		sprite.play("up_slash")
 		slash_sprite.stop()
 		slash_sprite.play("up_right_slash")
-		attack_areas["up_right"].monitorable = true
 	elif (facing_dir == "down_right" or facing_dir == "right") and flip_right:
 		sprite.play("right_slash")
 		slash_sprite.stop()
 		slash_sprite.play("down_right_slash")
-		attack_areas["down_right"].monitorable = true
 	elif facing_dir == "down" and flip_right:
 		sprite.play("down_slash")
 		slash_sprite.stop()
 		slash_sprite.play("down_left_slash")
-		attack_areas["down_left"].monitorable = true
 	elif facing_dir == "up" and not flip_right:
 		sprite.rotation_degrees.y = 0
 		sprite.play("up_slash")
 		slash_sprite.stop()
 		slash_sprite.play("up_right_slash")
-		attack_areas["up_left"].monitorable = true
 	elif (facing_dir == "up_right" or facing_dir == "right") and not flip_right:
 		sprite.play("left_slash")
 		slash_sprite.stop()
 		slash_sprite.play("up_left_slash")
-		attack_areas["up_left"].monitorable = true
 	elif (facing_dir == "down_right" or facing_dir == "right" or facing_dir == "down") and not flip_right:
 		sprite.rotation_degrees.y = 0
 		sprite.play("down_slash")
 		slash_sprite.stop()
 		slash_sprite.play("down_left_slash")
-		attack_areas["down_left"].monitorable = true
 	await sprite.animation_finished
-	for a in attack_areas.values():
-		a.monitorable = false
+	attack_area.disabled = true
 	is_slashing = false
 	
 func playwalk(dir) -> void: # runniing code
@@ -139,7 +154,7 @@ func playwalk(dir) -> void: # runniing code
 		facing = "down"
 		sprite.play("down_run")
 
-func playidle(facing) -> void: #idle code
+func playidle() -> void: #idle code
 	if facing == "up_right":
 		sprite.play("up_right_idle")
 	elif facing == "down_right":
@@ -165,7 +180,6 @@ func roll(dir) -> void: #roll
 	var roll_dir = dir.normalized()
 	velocity = roll_dir * roll_speed
 	play_anim_roll(dir)
-	# Start coroutine
 	await get_tree().create_timer(roll_duration).timeout
 
 	velocity = Vector3.ZERO
@@ -186,3 +200,13 @@ func play_anim_roll(dir) -> void:
 		sprite.play("up_roll")
 	elif dir.z > 0:
 		sprite.play("down_roll")
+
+func _on_hurtbox_area_entered(area: Area3D) -> void:
+	$SFX/Damage_Audio.pitch_scale = 1
+	$SFX/Damage_Audio.play()
+	if area.is_in_group("Fireball"):
+		Global.damage += 3
+	if area.is_in_group("Possessed_Jump"):
+		Global.damage += 5
+	if area.is_in_group("Possessed_Attack"):
+		Global.damage += 7

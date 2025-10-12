@@ -6,7 +6,7 @@ func _ready() -> void:
 	Dialogic.signal_event.connect(signaling)
 	enimies_left.visible = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	wave.text = "Wave: " + str(Global.wave) + "/" + str(Global.total_waves)
 	enimies_left.text = "Enemies Left:" + str(Global.enemies_left)
 	

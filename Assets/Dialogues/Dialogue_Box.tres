@@ -1,9 +1,7 @@
-[gd_resource type="Resource" script_class="DialogicStyle" load_steps=19 format=3 uid="uid://bet023y46jk8p"]
+[gd_resource type="Resource" script_class="DialogicStyle" load_steps=15 format=3 uid="uid://bet023y46jk8p"]
 
 [ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="1_e72tt"]
 [ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_g6inf"]
-[ext_resource type="PackedScene" uid="uid://c1k5m0w3r40xf" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_FullBackground/full_background_layer.tscn" id="3_xl5tv"]
-[ext_resource type="PackedScene" uid="uid://cn674foxwedqu" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn" id="4_qvja7"]
 [ext_resource type="PackedScene" uid="uid://cebxj3hg1wv21" path="res://Assets/Dialogues/TextboxWithPortrait/custom_textbox_with_portrait_.tscn" id="5_e72tt"]
 [ext_resource type="PackedScene" uid="uid://dsbwnp5hegnu3" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Glossary/glossary_popup_layer.tscn" id="6_hcvvt"]
 [ext_resource type="PackedScene" uid="uid://dhk6j6eb6e3q" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.tscn" id="7_u2b6y"]
@@ -14,16 +12,6 @@
 [sub_resource type="Resource" id="Resource_et0jv"]
 script = ExtResource("2_g6inf")
 scene = ExtResource("1_e72tt")
-overrides = {}
-
-[sub_resource type="Resource" id="Resource_2cswu"]
-script = ExtResource("2_g6inf")
-scene = ExtResource("3_xl5tv")
-overrides = {}
-
-[sub_resource type="Resource" id="Resource_4xe2w"]
-script = ExtResource("2_g6inf")
-scene = ExtResource("4_qvja7")
 overrides = {}
 
 [sub_resource type="Resource" id="Resource_4np7d"]
@@ -60,11 +48,9 @@ overrides = {}
 [resource]
 script = ExtResource("10_7q3q5")
 name = "Dialogue_Box"
-layer_list = Array[String](["10", "11", "12", "13", "14", "15", "16"])
+layer_list = Array[String](["12", "13", "14", "15", "16"])
 layer_info = {
 "": SubResource("Resource_et0jv"),
-"10": SubResource("Resource_2cswu"),
-"11": SubResource("Resource_4xe2w"),
 "12": SubResource("Resource_4np7d"),
 "13": SubResource("Resource_yg06c"),
 "14": SubResource("Resource_cacnd"),
