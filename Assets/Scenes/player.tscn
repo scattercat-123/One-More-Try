@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=3 uid="uid://cwvlty82rb7ta"]
+[gd_scene load_steps=146 format=3 uid="uid://cwvlty82rb7ta"]
 
 [ext_resource type="Script" uid="uid://c3nq8rp0w5wi" path="res://Assets/Scripts/player.gd" id="1_ecf78"]
 [ext_resource type="Texture2D" uid="uid://dq55pmwqj1l" path="res://Assets/Player/down.png" id="1_lerqx"]
@@ -32,8 +32,10 @@
 [ext_resource type="PackedScene" uid="uid://chq5xwwd06qwc" path="res://Assets/Scenes/gui.tscn" id="21_qnw5g"]
 [ext_resource type="Texture2D" uid="uid://cxyox8jcx8pv4" path="res://Assets/Player/shadow.png" id="22_dsi02"]
 [ext_resource type="Texture2D" uid="uid://oy0hokiahf0m" path="res://Assets/Player/slash_up.png" id="28_b5624"]
+[ext_resource type="Script" uid="uid://fjrjcrm6l4dp" path="res://Assets/Scripts/camera_player.gd" id="31_mdvb1"]
 [ext_resource type="AudioStream" uid="uid://ddwjv22pf2ke0" path="res://Assets/Sound/damaged.mp3" id="33_b5624"]
 [ext_resource type="Script" uid="uid://c3e2knniicvk2" path="res://Assets/Scripts/areas_for_hitting_range.gd" id="33_w34vp"]
+[ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="35_7578i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3u0pv"]
 atlas = ExtResource("2_5lpyi")
@@ -908,9 +910,94 @@ size = Vector3(0.139542, 0.167717, 0.0379639)
 [sub_resource type="SphereShape3D" id="SphereShape3D_w34vp"]
 radius = 0.225
 
+[sub_resource type="Animation" id="Animation_7578i"]
+resource_name = "notice"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Notices:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Notices:outline_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mdvb1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Notices:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Notices:outline_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.746695, 1.30238)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Camera3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.593866, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vjh5i"]
+_data = {
+&"RESET": SubResource("Animation_mdvb1"),
+&"notice": SubResource("Animation_7578i")
+}
+
 [node name="player" type="CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-collision_mask = 33
 floor_max_angle = 1.5708
 script = ExtResource("1_ecf78")
 
@@ -944,6 +1031,7 @@ frame_progress = 1.0
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.414392, 0.279785, 0, -0.279785, 0.414392, 0, 0.746695, 1.30238)
 fov = 70.0
+script = ExtResource("31_mdvb1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.01384e-05, -0.0161934, 0.00213623)
@@ -951,7 +1039,7 @@ shape = SubResource("BoxShape3D_vy5gb")
 
 [node name="Hurtbox" type="Area3D" parent="."]
 collision_layer = 0
-collision_mask = 32
+collision_mask = 160
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.01384e-05, -0.0161934, 0.00213623)
@@ -997,5 +1085,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.146145, 0)
 visible = false
 pixel_size = 0.0022
 text = "speed"
+
+[node name="Notices" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.107334, 0)
+pixel_size = 0.001
+billboard = 1
+texture_filter = 2
+text = "Must Complete Tutorial to advance"
+font = ExtResource("35_7578i")
+outline_size = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vjh5i")
+}
+autoplay = "notice"
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

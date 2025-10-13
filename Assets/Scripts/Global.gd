@@ -1,10 +1,10 @@
 extends Node
-var debug_mode = true
+var debug_mode = false
 #var player_dmg = 2
 var wave = 1
 var total_waves = 10
 var enemies_left = 0
-var stamina_regen = 0.1
+var stamina_regen = 0.2
 var player_dmg
 var damage = 0
 var extra_dmgee = 0

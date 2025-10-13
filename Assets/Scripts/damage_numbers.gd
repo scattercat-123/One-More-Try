@@ -6,8 +6,7 @@ func display_number(value: int, position: Vector3):
 	number.global_position = position
 	number.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	number.scale = Vector3(1.3, 1.3, 1.3)
-
-	number.modulate = Color("#FF2222")  # red
+	number.modulate = Color("#FF2222")
 
 	add_child(number)
 

@@ -20,6 +20,8 @@ var player_health : int
 var is_rolling_cooldown = false
 var last_dir: Vector3 = Vector3.FORWARD
 @onready var debug_label_speed: Label3D = $debug_label_speed
+@onready var notices: Label3D = $Notices
+@onready var camera: Camera3D = $Camera3D
 
 func health_baring(health : float):
 	var target_value = health
@@ -28,6 +30,7 @@ func health_baring(health : float):
 	tween.tween_property(health_bar, "value", target_value, 1)
 
 func _ready() -> void:
+	notices.visible = false
 	attack_area.disabled = true
 	SPEED_ACTUAL= SPEED
 	player_dmg = 10
@@ -97,6 +100,10 @@ func signaling(arg):
 		can_move = true
 	if arg == "first_wave_powerups":
 		$GUI/Power_Ups.show_powerups()
+	if arg == "start_attack":
+		$"../Tutorial blockage/Wall/CollisionShape3D".disabled = true
+		$"../Tutorial blockage/Area/CollisionShape3D2".disabled = true
+		$"../Tutorial blockage".visible = false
 
 func slash(facing_dir):
 	is_slashing = true
@@ -170,6 +177,12 @@ func shortest_angle_deg(current: float, target: float, step: float) -> float:
 	var diff = fmod((target - current + 180), 360) - 180
 	return current + clamp(diff, -step, step)
 
+func new_notice(text: String):
+	notices.visible = true
+	notices.text = text
+	await get_tree().create_timer(2.0).timeout
+	notices.visible = false
+
 func roll(dir) -> void: #roll
 	is_rolling = true
 	can_move = false
@@ -204,6 +217,9 @@ func play_anim_roll(dir) -> void:
 func _on_hurtbox_area_entered(area: Area3D) -> void:
 	$SFX/Damage_Audio.pitch_scale = 1
 	$SFX/Damage_Audio.play()
+	if area.is_in_group("Tutorial_blockage"):
+		new_notice("Must Complete Tutorial to advance")
+		$"../AnimationPlayer".play("must_complete_tutorial")
 	if area.is_in_group("Fireball"):
 		Global.damage += 3
 	if area.is_in_group("Possessed_Jump"):

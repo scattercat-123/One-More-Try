@@ -9,6 +9,7 @@ var flip_speed = 20
 var health = 50
 var once = false
 var player
+var start = false
 @onready var damage_numbers_origin: Node3D = $Damage_Numbers_Origin
 @onready var debug_label: Label3D = $Label3D
 var can_shoot = true
@@ -29,7 +30,7 @@ var state_weights := {
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 	Dialogic.signal_event.connect(signaling)
-	Global.enemies_left = 1
+	Global.enemies_left += 1
 	state = "chase"
 	state_timer = 0.0
 	if Global.debug_mode == false:
@@ -52,28 +53,26 @@ func _process(delta: float) -> void:
 	debug_label_2.text = str(int(distance_to_player))
 	if can_move or Global.debug_mode == true or not Global.wave == 1:
 		rotation_degrees.y = 0
-		state_timer += delta
-		if state_timer >= STATE_LENGTH:
-			pick_next_state()
-		match state:
-			"idle":
-				_update_idle(delta)
-				debug_label.text = "idle"
-			"chase":
-				debug_label.text = "chase"
-				_update_chase(delta)
-			"fireball":
-				debug_label.text = "fire"
-				fireball_shoot()
+		if start or not Global.wave == 1:
+			state_timer += delta
+			if state_timer >= STATE_LENGTH:
+				pick_next_state()
+			match state:
+				"idle":
+					_update_idle(delta)
+					debug_label.text = "idle"
+				"chase":
+					debug_label.text = "chase"
+					_update_chase(delta)
+				"fireball":
+					debug_label.text = "fire"
+					fireball_shoot()
 	else:
 		rotation_degrees.y = 90
 	if health <= 0:
 		visible = false
 		queue_free()
-		Global.enemies_left = 0
-		if once == false and Global.wave==1:
-			Dialogic.start("after_first_wave")
-			once = true
+		Global.enemies_left = Global.enemies_left - 1
 
 func _physics_process(delta: float) -> void:
 	if state == "chase":
@@ -94,6 +93,8 @@ func _physics_process(delta: float) -> void:
 func signaling(arg):
 	if arg == "fight_first_enemy":
 		can_move = true
+	if arg == "start_attack":
+		start = true
 
 func navigator(_delta):
 	var target_pos = player.global_position
