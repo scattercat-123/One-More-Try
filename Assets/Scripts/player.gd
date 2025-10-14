@@ -22,6 +22,7 @@ var last_dir: Vector3 = Vector3.FORWARD
 @onready var debug_label_speed: Label3D = $debug_label_speed
 @onready var notices: Label3D = $Notices
 @onready var camera: Camera3D = $Camera3D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func health_baring(health : float):
 	var target_value = health
@@ -54,14 +55,32 @@ func _process(_delta: float) -> void:
 
 	if stamina_bar.value < stamina_bar.max_value:
 		stamina_bar.value += Global.stamina_regen
+	if Global.player_health <= 0 and Global.second_chance == false and Global.has_died == false:
+		$SFX/death.play()
+		Global.has_died = true
+		Dialogic.end_timeline()
+		animation_player.play("Change")
+		await get_tree().create_timer(1.5).timeout
+		$"../cutscene_camera".make_current()
+		$"../AnimationPlayer".play("spectate")
+		$SFX/womp.play()
+		await get_tree().create_timer(6.25).timeout
+		animation_player.play("Change")
+		await get_tree().create_timer(1.5).timeout
+		get_tree().change_scene_to_file("res://Assets/Scenes/game_over.tscn")
+	
+	elif Global.player_health <= 0 and Global.second_chance:
+		player_health = 20
+		Global.second_chance = false
+		$SFX/Respawned.play()
+		new_notice("You have used your second chance powerup!")
 
 func _physics_process(delta: float) -> void:
-	if is_slashing == false:
+	if not is_slashing and not is_rolling:
 		if flip_right:
 			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 0, flip_speed)
 		else:
 			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 180, flip_speed)
-	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
@@ -72,7 +91,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30:
 		stamina_bar.value = stamina_bar.value - 25
 		await roll(last_dir)
-	if can_move and not is_slashing:
+	if can_move and not is_slashing and not is_rolling:
 		if direction:
 			velocity.x = direction.x * SPEED_ACTUAL
 			velocity.z = direction.z * SPEED_ACTUAL
@@ -89,7 +108,7 @@ func _physics_process(delta: float) -> void:
 		elif direction.length() > 0:
 			playwalk(direction)
 			
-	if Input.is_action_just_pressed("click") and is_slashing == false:
+	if Input.is_action_just_pressed("click") and is_slashing == false and not is_rolling:
 		sprite.stop()
 		stamina_bar.value = stamina_bar.value - 5
 		await slash(facing)
@@ -180,7 +199,7 @@ func shortest_angle_deg(current: float, target: float, step: float) -> float:
 func new_notice(text: String):
 	notices.visible = true
 	notices.text = text
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(5.0).timeout
 	notices.visible = false
 
 func roll(dir) -> void: #roll
@@ -226,3 +245,6 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 		Global.damage += 5
 	if area.is_in_group("Possessed_Attack"):
 		Global.damage += 7
+
+func _on_ocean_body_entered(body: Node3D) -> void:
+	player_health -= 9000

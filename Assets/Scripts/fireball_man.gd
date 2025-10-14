@@ -53,7 +53,7 @@ func _process(delta: float) -> void:
 	debug_label_2.text = str(int(distance_to_player))
 	if can_move or Global.debug_mode == true or not Global.wave == 1:
 		rotation_degrees.y = 0
-		if start or not Global.wave == 1:
+		if start or not Global.wave == 1 and Global.player_health > 0:
 			state_timer += delta
 			if state_timer >= STATE_LENGTH:
 				pick_next_state()

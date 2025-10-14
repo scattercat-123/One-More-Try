@@ -1,5 +1,5 @@
 extends Node
-var debug_mode = false
+var debug_mode = true
 #var player_dmg = 2
 var wave = 1
 var total_waves = 10
@@ -10,7 +10,7 @@ var damage = 0
 var extra_dmgee = 0
 var player_health
 var max_health = 100
-
+var has_died = false
 # powers:
 var speed_boost=0
 var extra_health = 0

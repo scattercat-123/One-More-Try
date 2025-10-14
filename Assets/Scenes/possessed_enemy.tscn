@@ -680,6 +680,8 @@ shape = SubResource("SphereShape3D_x42j0")
 debug_color = Color(0.999515, 0, 0.110578, 0.42)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 4.0
 
 [node name="Damage_Numbers_Origin" type="Node3D" parent="."]
 
@@ -687,12 +689,14 @@ debug_color = Color(0.999515, 0, 0.110578, 0.42)
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342735, 0)
+visible = false
 pixel_size = 0.003
 text = "Fireball"
 font = ExtResource("15_rwwda")
 
 [node name="debug_label_2" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.465709, 0)
+visible = false
 pixel_size = 0.0024
 text = "erer"
 

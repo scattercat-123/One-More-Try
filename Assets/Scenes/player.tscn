@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=3 uid="uid://cwvlty82rb7ta"]
+[gd_scene load_steps=150 format=3 uid="uid://cwvlty82rb7ta"]
 
 [ext_resource type="Script" uid="uid://c3nq8rp0w5wi" path="res://Assets/Scripts/player.gd" id="1_ecf78"]
 [ext_resource type="Texture2D" uid="uid://dq55pmwqj1l" path="res://Assets/Player/down.png" id="1_lerqx"]
@@ -36,6 +36,9 @@
 [ext_resource type="AudioStream" uid="uid://ddwjv22pf2ke0" path="res://Assets/Sound/damaged.mp3" id="33_b5624"]
 [ext_resource type="Script" uid="uid://c3e2knniicvk2" path="res://Assets/Scripts/areas_for_hitting_range.gd" id="33_w34vp"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="35_7578i"]
+[ext_resource type="AudioStream" uid="uid://dbkr6ssa402lu" path="res://Assets/Sound/fx-light-90387.mp3" id="36_vjh5i"]
+[ext_resource type="AudioStream" uid="uid://dd0jq7axwgggy" path="res://Assets/Sound/falha-critica-260131.mp3" id="37_tx0dr"]
+[ext_resource type="AudioStream" uid="uid://c8m7toqcym8wu" path="res://Assets/Sound/sad-trumpet-46384.mp3" id="38_rgkdp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3u0pv"]
 atlas = ExtResource("2_5lpyi")
@@ -910,33 +913,20 @@ size = Vector3(0.139542, 0.167717, 0.0379639)
 [sub_resource type="SphereShape3D" id="SphereShape3D_w34vp"]
 radius = 0.225
 
-[sub_resource type="Animation" id="Animation_7578i"]
-resource_name = "notice"
-length = 0.9
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_tx0dr"]
+resource_name = "Change"
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Notices:modulate")
+tracks/0/path = NodePath("Overlay:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
+"times": PackedFloat32Array(0, 1.5, 3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Notices:outline_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_mdvb1"]
@@ -989,9 +979,51 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector3(-0.593866, 0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Overlay:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7578i"]
+resource_name = "notice"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Notices:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Notices:outline_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vjh5i"]
 _data = {
+&"Change": SubResource("Animation_tx0dr"),
 &"RESET": SubResource("Animation_mdvb1"),
 &"notice": SubResource("Animation_7578i")
 }
@@ -1020,7 +1052,6 @@ volume_db = -30.0
 max_polyphony = 6
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
-no_depth_test = true
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_5jjye")
 animation = &"down_slash"
@@ -1073,6 +1104,16 @@ volume_db = -15.0
 pitch_scale = 0.66
 max_polyphony = 2
 
+[node name="Respawned" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("36_vjh5i")
+
+[node name="death" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("37_tx0dr")
+
+[node name="womp" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("38_rgkdp")
+volume_db = 15.0
+
 [node name="Damager" type="ColorRect" parent="."]
 visible = false
 offset_right = 1989.0
@@ -1095,6 +1136,14 @@ text = "Must Complete Tutorial to advance"
 font = ExtResource("35_7578i")
 outline_size = 6
 
+[node name="Overlay" type="ColorRect" parent="."]
+offset_left = -33.0
+offset_top = -25.0
+offset_right = 1974.0
+offset_bottom = 1134.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_vjh5i")
@@ -1102,3 +1151,5 @@ libraries = {
 autoplay = "notice"
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="GUI"]

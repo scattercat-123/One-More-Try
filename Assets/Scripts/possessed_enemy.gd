@@ -47,7 +47,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_flip or Global.debug_mode or not Global.wave == 1:
 		rotation_degrees.y = 0
-		if can_move or not Global.wave == 1:
+		if can_move or not Global.wave == 1 and Global.player_health > 0:
 			var distance_to_player = global_position.distance_to(player.global_position)
 			if distance_to_player < 1 and not state_locked:
 				state_weights = {
