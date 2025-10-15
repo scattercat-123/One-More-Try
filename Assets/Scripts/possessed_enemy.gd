@@ -51,17 +51,17 @@ func _process(delta: float) -> void:
 			var distance_to_player = global_position.distance_to(player.global_position)
 			if distance_to_player < 1 and not state_locked:
 				state_weights = {
-					"chase": 0.15,
-					"attack": 0.35,
-					"idle": 0.15,
-					"jumpy": 0.35,
+					"chase": 0.2,
+					"attack": 0.30,
+					"idle": 0.2,
+					"jumpy": 0.30,
 				}
 			else:
 				state_weights = {
-					"chase": 0.40,
-					"attack": 0.0,
+					"chase": 0.30,
+					"attack": 0.5,
 					"idle": 0.25,
-					"jumpy": 0,
+					"jumpy": 0.15,
 			}
 			if Input.is_action_just_pressed("click") and state == "idle":
 				await get_tree().create_timer(0.25).timeout
@@ -121,6 +121,8 @@ func signaling(arg):
 		is_flip = true
 	if arg == "start_attack":
 		can_move = true
+	if arg == "monster_saw":
+		$growl.play()
 
 func playwalk(dir: Vector3) -> void: #running
 	var tolerance = 0.3
@@ -209,7 +211,7 @@ func jumpy(dir: Vector3) -> void:
 	jump_path.visible = true
 	await get_tree().create_timer(timer_for_showing_path).timeout
 	velocity = Vector3.ZERO
-
+	$thump.play()
 	if player.global_position.x > global_position.x:
 		sprite.rotation_degrees.y = 0
 	else:
@@ -244,15 +246,23 @@ func jumpy(dir: Vector3) -> void:
 
 func attack() -> void:
 	state_locked = true
+
 	if not _pivot_aimed:
 		_pivot_aimed = true
-		attack_path.global_position = global_position
-		attack_path.look_at(player.global_position, Vector3.UP)
-		attack_path.rotate_y(deg_to_rad(90))
 		attack_path.visible = true
-	await get_tree().create_timer(timer_for_showing_path).timeout
+		attack_path.global_position = global_position
+
+		var aim_timer := get_tree().create_timer(timer_for_showing_path)
+		while aim_timer.time_left > 0:
+			if not is_instance_valid(player):
+				break
+			attack_path.look_at(player.global_position, Vector3.UP)
+			attack_path.rotate_y(deg_to_rad(90))
+			await get_tree().process_frame
+
 	damage_attack.disabled = false
 	velocity = Vector3.ZERO
+
 	var dir = (player.global_position - global_position).normalized()
 	var tolerance = 0.3
 	var dx = dir.x
@@ -262,7 +272,6 @@ func attack() -> void:
 		dx = 0
 	if abs(dz) < tolerance:
 		dz = 0
-
 	if player.global_position.x > global_position.x:
 		sprite.rotation_degrees.y = 0
 	else:
@@ -280,11 +289,21 @@ func attack() -> void:
 		sprite.play("down_attack")
 	else:
 		sprite.play("down_attack")
-
 	await sprite.animation_finished
 	await get_tree().create_timer(0.5).timeout
 	pick_next_state()
 	damage_attack.disabled = true
-	attack_path.visible = true
+	attack_path.visible = false
 	state_locked = false
 	_pivot_aimed = false
+
+func _on_sound_timer_timeout() -> void:
+	$SoundTimer.start()
+	if is_flip:
+		var randi = randi_range(0,5)
+		if randi == 0:
+			$growl.play()
+		elif randi == 1:
+			$growl2.play()
+		elif randi == 2:
+			$growl3.play()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://05dr7ewdfm2r"]
+[gd_scene load_steps=108 format=3 uid="uid://05dr7ewdfm2r"]
 
 [ext_resource type="Script" uid="uid://b2yt82f8n04tw" path="res://Assets/Scripts/possessed_enemy.gd" id="1_5te4p"]
 [ext_resource type="Texture2D" uid="uid://bsyatco071ak6" path="res://Assets/Enemies/possessed/Down/Png/PossesedDownAttack01.png" id="1_jtgik"]
@@ -17,6 +17,10 @@
 [ext_resource type="Texture2D" uid="uid://djmov2amr072e" path="res://Assets/Enemies/possessed/Up/Png/PossesedUpLand.png" id="12_qi73j"]
 [ext_resource type="Texture2D" uid="uid://c3noh3l104u2a" path="res://Assets/Enemies/possessed/Up/Png/PossesedUpWalk.png" id="13_q4eyk"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="15_rwwda"]
+[ext_resource type="AudioStream" uid="uid://cr43igddhu83w" path="res://Assets/Sound/thump-and-grunt-85606.mp3" id="18_14v1v"]
+[ext_resource type="AudioStream" uid="uid://dlhjhgyocfs88" path="res://Assets/Sound/creature-growl-113636.mp3" id="19_qbinj"]
+[ext_resource type="AudioStream" uid="uid://brnmv5ls238t7" path="res://Assets/Sound/godzilla-growl-368671.mp3" id="20_fsnep"]
+[ext_resource type="AudioStream" uid="uid://4r6lpocq61p3" path="res://Assets/Sound/monster-attack-47786.mp3" id="21_d0c05"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j5kdo"]
 atlas = ExtResource("1_jtgik")
@@ -687,6 +691,10 @@ radius = 4.0
 
 [node name="StateTimer" type="Timer" parent="."]
 
+[node name="SoundTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342735, 0)
 visible = false
@@ -733,4 +741,21 @@ shape = SubResource("BoxShape3D_hvyh2")
 disabled = true
 debug_color = Color(0.936606, 0.252477, 0, 0.42)
 
+[node name="thump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_14v1v")
+pitch_scale = 0.73
+
+[node name="growl" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_qbinj")
+volume_db = -5.042
+
+[node name="growl2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_fsnep")
+pitch_scale = 0.73
+
+[node name="growl3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_d0c05")
+pitch_scale = 1.02
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="SoundTimer" to="." method="_on_sound_timer_timeout"]

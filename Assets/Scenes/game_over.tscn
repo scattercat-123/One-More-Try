@@ -123,10 +123,10 @@ scale = Vector2(7.84375, 8.59375)
 texture = ExtResource("4_2iypb")
 
 [node name="Label2" type="Label" parent="."]
-offset_left = 536.0
-offset_top = 616.0
-offset_right = 2406.0
-offset_bottom = 1052.0
+offset_left = 493.0
+offset_top = 448.0
+offset_right = 2363.0
+offset_bottom = 884.0
 theme_override_fonts/font = ExtResource("5_gu83f")
 theme_override_font_sizes/font_size = 150
 text = "-imagine"

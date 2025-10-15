@@ -23,6 +23,7 @@ var last_dir: Vector3 = Vector3.FORWARD
 @onready var notices: Label3D = $Notices
 @onready var camera: Camera3D = $Camera3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+var allow_flip = true
 
 func health_baring(health : float):
 	var target_value = health
@@ -44,15 +45,16 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var speed_factor :float = (1.0 + (Global.speed_boost * 0.20))
 	SPEED_ACTUAL = SPEED * speed_factor
-	debug_label_speed.text = str(SPEED_ACTUAL)
-	player_health = (100 + Global.extra_health) - Global.damage
-	Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)
+	if Global.player_health > 0:
+		player_health = 100 - Global.damage
+		Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)
 	player_dmg = 10 + (Global.extra_dmg)*2 + (Global.extra_dmgee)* 3
 	Global.player_dmg = player_dmg
 	health_bar.max_value = 100 + (Global.extra_health * 20) + (Global.health_pack * 40)
 	Global.max_health = health_bar.max_value 
-	health_baring(player_health)
-
+	health_baring(Global.player_health)
+	if Global.debug_mode:
+		Global.extra_dmg = 20
 	if stamina_bar.value < stamina_bar.max_value:
 		stamina_bar.value += Global.stamina_regen
 	if Global.player_health <= 0 and Global.second_chance == false and Global.has_died == false:
@@ -64,7 +66,7 @@ func _process(_delta: float) -> void:
 		$"../cutscene_camera".make_current()
 		$"../AnimationPlayer".play("spectate")
 		$SFX/womp.play()
-		await get_tree().create_timer(6.25).timeout
+		await get_tree().create_timer(5).timeout
 		animation_player.play("Change")
 		await get_tree().create_timer(1.5).timeout
 		get_tree().change_scene_to_file("res://Assets/Scenes/game_over.tscn")
@@ -76,7 +78,7 @@ func _process(_delta: float) -> void:
 		new_notice("You have used your second chance powerup!")
 
 func _physics_process(delta: float) -> void:
-	if not is_slashing and not is_rolling:
+	if not is_slashing and not is_rolling and allow_flip:
 		if flip_right:
 			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 0, flip_speed)
 		else:
@@ -88,7 +90,7 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction != Vector3.ZERO:
 		last_dir = direction
-	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30:
+	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30 and allow_flip:
 		stamina_bar.value = stamina_bar.value - 25
 		await roll(last_dir)
 	if can_move and not is_slashing and not is_rolling:
@@ -126,6 +128,7 @@ func signaling(arg):
 
 func slash(facing_dir):
 	is_slashing = true
+	allow_flip = false
 	attack_area.disabled = false
 	var music_rand_int = randi_range(1,2)
 	if music_rand_int == 1:
@@ -162,7 +165,8 @@ func slash(facing_dir):
 	await sprite.animation_finished
 	attack_area.disabled = true
 	is_slashing = false
-	
+	allow_flip = true
+
 func playwalk(dir) -> void: # runniing code
 	if dir.z < 0 and abs(dir.x)> 0:
 		sprite.play("up_right_run")
@@ -180,7 +184,7 @@ func playwalk(dir) -> void: # runniing code
 		facing = "down"
 		sprite.play("down_run")
 
-func playidle() -> void: #idle code
+func playidle() -> void: #idle code 
 	if facing == "up_right":
 		sprite.play("up_right_idle")
 	elif facing == "down_right":
@@ -240,11 +244,12 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 		new_notice("Must Complete Tutorial to advance")
 		$"../AnimationPlayer".play("must_complete_tutorial")
 	if area.is_in_group("Fireball"):
-		Global.damage += 3
+		Global.damage += 2
 	if area.is_in_group("Possessed_Jump"):
-		Global.damage += 5
+		Global.damage += 3
 	if area.is_in_group("Possessed_Attack"):
-		Global.damage += 7
+		Global.damage += 5
 
 func _on_ocean_body_entered(body: Node3D) -> void:
-	player_health -= 9000
+	print("died")
+	Global.player_health = 0

@@ -192,6 +192,7 @@ enter={
 
 [layer_names]
 
+3d_physics/layer_2="ocean"
 3d_physics/layer_5="Player_Sword_Layer"
 3d_physics/layer_6="Player_hurt"
 3d_physics/layer_8="Tutorial_blockage"

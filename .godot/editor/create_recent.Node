@@ -1,8 +1,9 @@
+Timer
+AudioStreamPlayer
 Node3D
 AnimatedSprite2D
 Label
 ColorRect
-AudioStreamPlayer
 CollisionShape3D
 Area3D
 Label3D

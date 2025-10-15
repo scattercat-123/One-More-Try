@@ -4,12 +4,14 @@ extends Label
 	"imagine losing 
 	here 💀",
 	"skill issue fr",
-	"this game’s good right?",
+	"this game’s
+	 good right?",
 	"bro thought he 
 	could win 😭",
 	"get better lol",
 	"try again, maybe 
-	survive 2 more seconds"
+	survive 2 more
+	seconds"
 ]
 
 var current_text := ""

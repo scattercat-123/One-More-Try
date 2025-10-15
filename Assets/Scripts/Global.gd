@@ -8,7 +8,7 @@ var stamina_regen = 0.2
 var player_dmg
 var damage = 0
 var extra_dmgee = 0
-var player_health
+var player_health = 100
 var max_health = 100
 var has_died = false
 # powers:

@@ -1080,6 +1080,7 @@ mesh = SubResource("BoxMesh_31mi3")
 
 [node name="player" parent="." groups=["Player"] instance=ExtResource("1_jaky0")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -11.2237, 2.52241, 0)
+collision_layer = 3
 rolling_cooldown = 0.6
 
 [node name="FireballMan" parent="." instance=ExtResource("6_31mi3")]
@@ -1469,7 +1470,7 @@ mesh = SubResource("ArrayMesh_ccvqr")
 skeleton = NodePath("")
 
 [node name="flora10" type="Node3D" parent="Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.9859, 4.189, 30.2533)
+transform = Transform3D(0.842067, 0, 0.539373, 0, 1, 0, -0.539373, 0, 0.842067, 27.9859, 4.189, 30.2533)
 
 [node name="Cube_007" type="MeshInstance3D" parent="Objects/flora10"]
 transform = Transform3D(1.1782, 0, 0, 0, -1.92206e-06, 8.06172, 0, -8.06172, -1.92206e-06, 0, 0, 0)
@@ -1477,7 +1478,7 @@ mesh = SubResource("ArrayMesh_ccvqr")
 skeleton = NodePath("")
 
 [node name="flora11" type="Node3D" parent="Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7217, 4.189, 12.1836)
+transform = Transform3D(0.824324, 0, 0.566119, 0, 1, 0, -0.566119, 0, 0.824324, 26.7217, 4.189, 12.1836)
 
 [node name="Cube_007" type="MeshInstance3D" parent="Objects/flora11"]
 transform = Transform3D(1.1782, 0, 0, 0, -1.92206e-06, 8.06172, 0, -8.06172, -1.92206e-06, 0, 0, 0)
@@ -1499,6 +1500,7 @@ shape = SubResource("ConvexPolygonShape3D_m1fgp")
 
 [node name="Ocean" type="Area3D" parent="."]
 collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ocean"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.683478, 0.741003, -3.5184)

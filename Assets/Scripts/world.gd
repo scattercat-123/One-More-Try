@@ -7,13 +7,13 @@ extends Node3D
 @onready var cutscene_camera: Camera3D = $cutscene_camera
 @onready var markers_parent: Node3D = $Spawning_markers
 @onready var spawn_timer: Timer = $SpawnTimer
-
+@onready var powerup_gui = $player/GUI/Power_Ups
 @export var fireball_scene: PackedScene = preload("res://Assets/Scenes/fireball_enemy.tscn")
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
 
-var enemies_per_wave := [10, 20, 35]
+var enemies_per_wave := [0, 10, 20]
 
-var max_enemies_per_wave := [6, 10, 20]
+var max_enemies_per_wave := [0, 10, 20]
 
 var enemies_chance_spawn := [60, 40]
 
@@ -77,7 +77,6 @@ func _process(_delta: float) -> void:
 		once2 = true
 
 	if Global.wave >= 2 and not spawn_timer_started:
-
 		if markers.size() > 0 and Global.wave <= enemies_per_wave.size():
 			spawn_timer.start()
 			spawn_timer_started = true
@@ -105,7 +104,6 @@ func spawn_fireball_enemy_at(marker: Node3D) -> void:
 	fb.global_transform = marker.global_transform
 	fb.scale = Vector3(2, 2, 2)
 	Global.enemies_left += 1
-
 func spawn_possessed_enemy_at(marker: Node3D) -> void:
 	if marker == null:
 		return
@@ -114,9 +112,8 @@ func spawn_possessed_enemy_at(marker: Node3D) -> void:
 	ps.global_transform = marker.global_transform
 	ps.scale = Vector3(2, 2, 2)
 	Global.enemies_left += 1
-
 func _pick_weighted_index(weights: Array) -> int:
-	var sum := 0.0
+	var sum := 0.0	
 	for w in weights:
 		sum += float(w)
 	if sum <= 0.0:
@@ -128,11 +125,9 @@ func _pick_weighted_index(weights: Array) -> int:
 		if r <= acc:
 			return i
 	return weights.size() - 1
-
 func spawn_batch(count: int, wave_num: int) -> void:
 	if markers.size() == 0:
 		return
-
 	var modified_chances = enemies_chance_spawn.duplicate()
 	for i in range(modified_chances.size()):
 		var difficulty_factor = i * enemies_per_wave_chance_to_spawn * max(wave_num - 1, 0)
@@ -150,15 +145,12 @@ func spawn_batch(count: int, wave_num: int) -> void:
 		elif chosen == 1:
 			spawn_possessed_enemy_at(marker)
 		else:
-
 			spawn_possessed_enemy_at(marker)
 
 		spawned_this_wave += 1
 
 func _on_spawn_timer_timeout() -> void:
-
 	if Global.wave < 2 or Global.wave > enemies_per_wave.size():
-
 		if spawn_timer_started:
 			spawn_timer.stop()
 			spawn_timer_started = false
@@ -172,21 +164,24 @@ func _on_spawn_timer_timeout() -> void:
 	var max_simultaneous = max_enemies_per_wave[min(wave_idx, max_enemies_per_wave.size() - 1)]
 
 	var remaining_total = max(0, total_for_wave - spawned_this_wave)
-
 	var open_slots = max(0, max_simultaneous - Global.enemies_left)
-
 	var to_spawn = min(remaining_total, open_slots)
 
 	if to_spawn > 0:
 		spawn_batch(to_spawn, Global.wave)
 
-	if spawned_this_wave < total_for_wave:
+	if spawned_this_wave >= total_for_wave and Global.enemies_left == 0:
+		# ✅ wave is done
+		spawn_timer.stop()
+		spawn_timer_started = false
+		
+		# show powerups only once per wave
+		powerup_gui.show_powerups()
+		print("Wave %d complete! Showing powerups..." % Global.wave)
 
+		# prepare next wave
+		Global.wave += 1
+		spawned_this_wave = 0
+	else:
 		spawn_timer.start()
 		spawn_timer_started = true
-	else:
-
-		spawn_timer_started = false
-
-		if spawn_timer.is_stopped() == false:
-			spawn_timer.stop()
