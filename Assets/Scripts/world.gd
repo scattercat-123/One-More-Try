@@ -11,14 +11,11 @@ extends Node3D
 @export var fireball_scene: PackedScene = preload("res://Assets/Scenes/fireball_enemy.tscn")
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
 
-var enemies_per_wave := [0, 10, 20]
-
+var enemies_per_wave := [0, 10, 20, 25]
 var max_enemies_per_wave := [0, 10, 20]
-
 var enemies_chance_spawn := [60, 40]
-
 var enemies_per_wave_chance_to_spawn: int = 10
-
+var shown_powerups_this_wave = false
 var spawned_this_wave := 0    
 var last_wave := 0           
 var markers: Array = []
@@ -64,13 +61,6 @@ func _process(_delta: float) -> void:
 		var wave_idx = min(Global.wave - 1, enemies_per_wave.size() - 1)
 		var total_for_wave = enemies_per_wave[wave_idx] if wave_idx >= 0 else 0
 
-		if total_for_wave > 0 and spawned_this_wave >= total_for_wave and Global.enemies_left == 0:
-
-			Global.wave += 1
-
-			if spawn_timer and not spawn_timer.is_stopped():
-				spawn_timer.stop()
-			spawn_timer_started = false
 
 	if once2 == false and Global.wave == 1 and Global.enemies_left == 0:
 		Dialogic.start("after_first_wave")
@@ -113,7 +103,7 @@ func spawn_possessed_enemy_at(marker: Node3D) -> void:
 	ps.scale = Vector3(2, 2, 2)
 	Global.enemies_left += 1
 func _pick_weighted_index(weights: Array) -> int:
-	var sum := 0.0	
+	var sum := 0.0
 	for w in weights:
 		sum += float(w)
 	if sum <= 0.0:
@@ -155,33 +145,27 @@ func _on_spawn_timer_timeout() -> void:
 			spawn_timer.stop()
 			spawn_timer_started = false
 		return
-
 	if markers.size() == 0:
 		return
-
 	var wave_idx = min(Global.wave - 1, enemies_per_wave.size() - 1)
 	var total_for_wave = enemies_per_wave[wave_idx]
 	var max_simultaneous = max_enemies_per_wave[min(wave_idx, max_enemies_per_wave.size() - 1)]
-
 	var remaining_total = max(0, total_for_wave - spawned_this_wave)
 	var open_slots = max(0, max_simultaneous - Global.enemies_left)
 	var to_spawn = min(remaining_total, open_slots)
-
 	if to_spawn > 0:
 		spawn_batch(to_spawn, Global.wave)
-
-	if spawned_this_wave >= total_for_wave and Global.enemies_left == 0:
-		# ✅ wave is done
+	if not shown_powerups_this_wave and spawned_this_wave >= total_for_wave and Global.enemies_left == 0:
+		shown_powerups_this_wave = true
 		spawn_timer.stop()
 		spawn_timer_started = false
-		
-		# show powerups only once per wave
 		powerup_gui.show_powerups()
 		print("Wave %d complete! Showing powerups..." % Global.wave)
-
-		# prepare next wave
-		Global.wave += 1
-		spawned_this_wave = 0
 	else:
 		spawn_timer.start()
 		spawn_timer_started = true
+
+func _on_power_ups_powerup_selected() -> void:
+	Global.wave += 1
+	spawned_this_wave = 0
+	shown_powerups_this_wave = false 

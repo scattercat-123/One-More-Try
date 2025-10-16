@@ -1,3 +1,4 @@
+AudioStreamPlayer3D
 Timer
 AudioStreamPlayer
 Node3D
@@ -10,6 +11,4 @@ Label3D
 MeshInstance3D
 AnimationPlayer
 StaticBody3D
-AudioStreamPlayer3D
 AnimatedSprite3D
-CharacterBody3D

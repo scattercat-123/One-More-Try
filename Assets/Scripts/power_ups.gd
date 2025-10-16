@@ -1,5 +1,5 @@
 extends Control
-signal powerup_chosen
+signal powerup_selected
 
 var card_1_hover = false
 var card_2_hover = false
@@ -112,18 +112,15 @@ func mark_powerup_taken(data: Dictionary) -> void:
 func _process(_delta: float) -> void:
 	if card_1_hover and Input.is_action_just_pressed("click"):
 		apply_powerup($CanvasLayer/Card1)
-		emit_signal("powerup_chosen")
-		Global.wave += 1
+		emit_signal("powerup_selected")
 		$"../granted".play()
 	elif card_2_hover and Input.is_action_just_pressed("click"):
 		apply_powerup($CanvasLayer/Card2)
-		emit_signal("powerup_chosen")
-		Global.wave += 1
+		emit_signal("powerup_selected")
 		$"../granted".play()
 	elif card_3_hover and Input.is_action_just_pressed("click"):
 		apply_powerup($CanvasLayer/Card3)
-		emit_signal("powerup_chosen")
-		Global.wave += 1
+		emit_signal("powerup_selected")
 		$"../granted".play()
 
 

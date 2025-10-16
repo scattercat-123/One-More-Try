@@ -30,7 +30,6 @@ var state_weights := {
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 	Dialogic.signal_event.connect(signaling)
-	Global.enemies_left += 1
 	state = "chase"
 	state_timer = 0.0
 	if Global.debug_mode == false:
@@ -50,7 +49,7 @@ func _process(delta: float) -> void:
 			"fireball": 0.35,
 			"idle": 0.25
 		}
-	debug_label_2.text = str(int(distance_to_player))
+	debug_label_2.text = str(velocity.length())
 	if can_move or Global.debug_mode == true or not Global.wave == 1:
 		rotation_degrees.y = 0
 		if start or not Global.wave == 1 and Global.player_health > 0:
@@ -69,7 +68,7 @@ func _process(delta: float) -> void:
 					fireball_shoot()
 	else:
 		rotation_degrees.y = 90
-	if health <= 0:
+	if health <= 0 or global_position.y <= -1:
 		visible = false
 		queue_free()
 		Global.enemies_left = Global.enemies_left - 1
@@ -257,3 +256,9 @@ func get_player_direction() -> String:
 	elif dir.z > 0:
 		return "down"
 	return "down"
+
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	if state == "chase" and can_move:
+		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
+		move_and_slide()

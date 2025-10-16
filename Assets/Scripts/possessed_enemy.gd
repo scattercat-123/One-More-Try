@@ -25,6 +25,8 @@ var timer_for_showing_path = 1.2
 var state_locked = false
 @onready var damage_attack: CollisionShape3D = $Damage_Attack/CollisionShape3D
 @onready var attack_path: Node3D = $"Attack Path"
+var did_attack = false
+var did_jump = false
 
 var state_weights := {
 	"chase": 0.40,
@@ -38,7 +40,6 @@ func _ready() -> void:
 	attack_path.visible = false
 	jump_path.visible = false
 	player = get_tree().get_first_node_in_group("Player")
-	Global.enemies_left += 1
 	state = "chase"
 	state_timer = 0.0
 	if Global.debug_mode == false:
@@ -51,16 +52,16 @@ func _process(delta: float) -> void:
 			var distance_to_player = global_position.distance_to(player.global_position)
 			if distance_to_player < 1 and not state_locked:
 				state_weights = {
-					"chase": 0.2,
-					"attack": 0.30,
-					"idle": 0.2,
-					"jumpy": 0.30,
+					"chase": 0.125,
+					"attack": 0.375,
+					"idle": 0.125,
+					"jumpy": 0.375,
 				}
 			else:
 				state_weights = {
-					"chase": 0.30,
-					"attack": 0.5,
-					"idle": 0.25,
+					"chase": 0.45,
+					"attack": 0.1,
+					"idle": 0.3,
 					"jumpy": 0.15,
 			}
 			if Input.is_action_just_pressed("click") and state == "idle":
@@ -74,7 +75,7 @@ func _process(delta: float) -> void:
 					state = "jumpy"
 				else:
 					state = "attack"
-			debug_label_2.text = str(int(distance_to_player))
+			debug_label_2.text = str(velocity.length())
 			state_timer += delta
 			if not state_locked and state_timer >= STATE_LENGTH:
 				pick_next_state()
@@ -91,7 +92,7 @@ func _process(delta: float) -> void:
 				"jumpy":
 					debug_label.text = "jump"
 					jumpy(velocity.normalized())
-			if health <= 0:
+			if health <= 0 or global_position.y <= -1:
 				visible = false
 				Global.enemies_left = Global.enemies_left - 1
 				queue_free()
@@ -207,11 +208,13 @@ func _update_idle() -> void:
 		sprite.play("down_idle")
 
 func jumpy(dir: Vector3) -> void:
+	if state_locked or did_jump:
+		return
+	did_jump = true
 	state_locked = true
 	jump_path.visible = true
 	await get_tree().create_timer(timer_for_showing_path).timeout
 	velocity = Vector3.ZERO
-	$thump.play()
 	if player.global_position.x > global_position.x:
 		sprite.rotation_degrees.y = 0
 	else:
@@ -219,7 +222,7 @@ func jumpy(dir: Vector3) -> void:
 	var tolerance = 0.3
 	var dx = dir.x
 	var dz = dir.z
-	damage_jump.disabled = false
+	$thump.play()
 	if abs(dx) < tolerance:
 		dx = 0
 	if abs(dz) < tolerance:
@@ -236,6 +239,8 @@ func jumpy(dir: Vector3) -> void:
 		sprite.play("down_jump")
 	else:
 		sprite.play("down_jump")
+	await get_tree().create_timer(0.3).timeout
+	damage_jump.disabled = false
 	await sprite.animation_finished
 	damage_jump.disabled = false
 	damage_jump.disabled = true
@@ -243,10 +248,12 @@ func jumpy(dir: Vector3) -> void:
 	jump_path.visible = false
 	pick_next_state()
 	state_locked = false
-
+	did_jump = false
 func attack() -> void:
+	if state_locked or did_attack:
+		return
+	did_attack = true
 	state_locked = true
-
 	if not _pivot_aimed:
 		_pivot_aimed = true
 		attack_path.visible = true
@@ -260,7 +267,6 @@ func attack() -> void:
 			attack_path.rotate_y(deg_to_rad(90))
 			await get_tree().process_frame
 
-	damage_attack.disabled = false
 	velocity = Vector3.ZERO
 
 	var dir = (player.global_position - global_position).normalized()
@@ -276,7 +282,7 @@ func attack() -> void:
 		sprite.rotation_degrees.y = 0
 	else:
 		sprite.rotation_degrees.y = 180
-
+	$swing.play()
 	if abs(dx) > abs(dz):
 		sprite.play("right_attack")
 		if dx < 0:
@@ -289,6 +295,8 @@ func attack() -> void:
 		sprite.play("down_attack")
 	else:
 		sprite.play("down_attack")
+	await get_tree().create_timer(0.2).timeout
+	damage_attack.disabled = false
 	await sprite.animation_finished
 	await get_tree().create_timer(0.5).timeout
 	pick_next_state()
@@ -296,9 +304,10 @@ func attack() -> void:
 	attack_path.visible = false
 	state_locked = false
 	_pivot_aimed = false
+	did_attack = false
 
 func _on_sound_timer_timeout() -> void:
-	$SoundTimer.start()
+	$SoundTimer.start() 
 	if is_flip:
 		var randi = randi_range(0,5)
 		if randi == 0:
@@ -307,3 +316,8 @@ func _on_sound_timer_timeout() -> void:
 			$growl2.play()
 		elif randi == 2:
 			$growl3.play()
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	if state == "chase" and can_move:
+		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
+		move_and_slide()

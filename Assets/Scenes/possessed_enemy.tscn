@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=3 uid="uid://05dr7ewdfm2r"]
+[gd_scene load_steps=109 format=3 uid="uid://05dr7ewdfm2r"]
 
 [ext_resource type="Script" uid="uid://b2yt82f8n04tw" path="res://Assets/Scripts/possessed_enemy.gd" id="1_5te4p"]
 [ext_resource type="Texture2D" uid="uid://bsyatco071ak6" path="res://Assets/Enemies/possessed/Down/Png/PossesedDownAttack01.png" id="1_jtgik"]
@@ -21,6 +21,7 @@
 [ext_resource type="AudioStream" uid="uid://dlhjhgyocfs88" path="res://Assets/Sound/creature-growl-113636.mp3" id="19_qbinj"]
 [ext_resource type="AudioStream" uid="uid://brnmv5ls238t7" path="res://Assets/Sound/godzilla-growl-368671.mp3" id="20_fsnep"]
 [ext_resource type="AudioStream" uid="uid://4r6lpocq61p3" path="res://Assets/Sound/monster-attack-47786.mp3" id="21_d0c05"]
+[ext_resource type="AudioStream" uid="uid://dh82wdfb5tqnt" path="res://Assets/Sound/item-swing-sfx-2-409076.mp3" id="22_r80w4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j5kdo"]
 atlas = ExtResource("1_jtgik")
@@ -664,6 +665,7 @@ size = Vector3(0.5, 0.702, 0.5)
 
 [node name="possessed_enemy" type="CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+collision_layer = 5
 script = ExtResource("1_5te4p")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
@@ -685,7 +687,8 @@ debug_color = Color(0.999515, 0, 0.110578, 0.42)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
-radius = 4.0
+radius = 1.5
+max_speed = 0.3
 
 [node name="Damage_Numbers_Origin" type="Node3D" parent="."]
 
@@ -704,7 +707,6 @@ font = ExtResource("15_rwwda")
 
 [node name="debug_label_2" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.465709, 0)
-visible = false
 pixel_size = 0.0024
 text = "erer"
 
@@ -741,21 +743,26 @@ shape = SubResource("BoxShape3D_hvyh2")
 disabled = true
 debug_color = Color(0.936606, 0.252477, 0, 0.42)
 
-[node name="thump" type="AudioStreamPlayer" parent="."]
+[node name="thump" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("18_14v1v")
 pitch_scale = 0.73
 
-[node name="growl" type="AudioStreamPlayer" parent="."]
+[node name="growl" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("19_qbinj")
 volume_db = -5.042
 
-[node name="growl2" type="AudioStreamPlayer" parent="."]
+[node name="growl2" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("20_fsnep")
 pitch_scale = 0.73
 
-[node name="growl3" type="AudioStreamPlayer" parent="."]
+[node name="growl3" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("21_d0c05")
 pitch_scale = 1.02
 
+[node name="swing" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("22_r80w4")
+max_polyphony = 3
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="timeout" from="SoundTimer" to="." method="_on_sound_timer_timeout"]
