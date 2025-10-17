@@ -6,7 +6,7 @@ var facing: String
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
 var flip_speed = 20
 @export var speed := 1
-var health = 50
+var health = 40
 var once = false
 var player
 var start = false
@@ -70,9 +70,10 @@ func _process(delta: float) -> void:
 		rotation_degrees.y = 90
 	if health <= 0 or global_position.y <= -1:
 		visible = false
+		if Global.wave > 1:
+			get_tree().call_group("Spawner", "on_enemy_died")
 		queue_free()
 		Global.enemies_left = Global.enemies_left - 1
-
 func _physics_process(delta: float) -> void:
 	if state == "chase":
 		var direction = velocity.normalized()
@@ -147,7 +148,9 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		if angle < 80:
 			health -= Global.player_dmg
 			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
-		
+	if area.is_in_group("Slam_Box"):
+			health -= (Global.player_dmg) - 3
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
 func pick_next_state() -> void:
 	var roll = randf()
 	var acc = 0.0

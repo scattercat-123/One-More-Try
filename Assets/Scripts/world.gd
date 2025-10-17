@@ -12,7 +12,7 @@ extends Node3D
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
 
 var enemies_per_wave := [0, 10, 20, 25]
-var max_enemies_per_wave := [0, 10, 20]
+var max_enemies_per_wave := [0, 5, 10, 15]
 var enemies_chance_spawn := [60, 40]
 var enemies_per_wave_chance_to_spawn: int = 10
 var shown_powerups_this_wave = false
@@ -43,24 +43,20 @@ func _ready() -> void:
 	spawn_timer_started = false
 
 func _process(_delta: float) -> void:
-
 	if Global.wave != last_wave:
 		spawned_this_wave = 0
 		last_wave = Global.wave
 		spawn_timer_started = false
-
 		if spawn_timer and not spawn_timer.is_stopped():
 			spawn_timer.stop()
-
+		if Global.wavey:
+			Global.extra_per_wavey += 1
 	if Global.wave == 1 and once == true:
 		Global.enemies_left = 2
 		once = false
-
 	if Global.wave != 1:
-
 		var wave_idx = min(Global.wave - 1, enemies_per_wave.size() - 1)
 		var total_for_wave = enemies_per_wave[wave_idx] if wave_idx >= 0 else 0
-
 
 	if once2 == false and Global.wave == 1 and Global.enemies_left == 0:
 		Dialogic.start("after_first_wave")
@@ -73,7 +69,7 @@ func _process(_delta: float) -> void:
 func signaling(arg):
 	if arg == "cough":
 		await get_tree().create_timer(0.5).timeout
-		Global.damage = 30
+		Global.damage = 20
 		$Damage_Audio.play()
 		$Damager.visible = true
 		await get_tree().create_timer(0.3).timeout
@@ -169,3 +165,12 @@ func _on_power_ups_powerup_selected() -> void:
 	Global.wave += 1
 	spawned_this_wave = 0
 	shown_powerups_this_wave = false 
+
+func on_enemy_died() -> void:
+	var wave_idx = min(Global.wave - 1, enemies_per_wave.size() - 1)
+	var total_for_wave = enemies_per_wave[wave_idx]
+	var max_simultaneous = max_enemies_per_wave[min(wave_idx, max_enemies_per_wave.size() - 1)]
+	var remaining_total = max(0, total_for_wave - spawned_this_wave)
+	var open_slots = max(0, max_simultaneous - Global.enemies_left)
+	if remaining_total > 0 and open_slots > 0:
+		spawn_batch(1, Global.wave)

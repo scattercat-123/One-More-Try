@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var stamina_bar: ProgressBar = $GUI/GUI_BAR/stamina_bar
 @onready var health_bar: ProgressBar = $GUI/GUI_BAR/health_bar
 var is_slashing = false
+var is_slamming = false
 const SPEED = 1.7
 var SPEED_ACTUAL
 var flip_speed = 20
@@ -24,6 +25,7 @@ var last_dir: Vector3 = Vector3.FORWARD
 @onready var camera: Camera3D = $Camera3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 var allow_flip = true
+@onready var effects: AnimatedSprite3D = $effects
 
 func health_baring(health : float):
 	var target_value = health
@@ -34,6 +36,7 @@ func health_baring(health : float):
 func _ready() -> void:
 	notices.visible = false
 	attack_area.disabled = true
+	
 	SPEED_ACTUAL= SPEED
 	player_dmg = 10
 	player_health = 100
@@ -47,10 +50,14 @@ func _process(_delta: float) -> void:
 	SPEED_ACTUAL = SPEED * speed_factor
 	if Global.player_health > 0:
 		player_health = 100 - Global.damage
-		Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)
+		Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)+ (Global.extra_per_wavey * 20)
 	player_dmg = 10 + (Global.extra_dmg)*2 + (Global.extra_dmgee)* 3
-	Global.player_dmg = player_dmg
-	health_bar.max_value = 100 + (Global.extra_health * 20) + (Global.health_pack * 40)
+	if not Global.risk_taker:
+		Global.player_dmg = player_dmg
+	else:
+		Global.player_dmg = player_dmg + 10
+	if Global.player_health > health_bar.max_value:
+		health_bar.max_value = 100 + Global.player_health - health_bar.max_value
 	Global.max_health = health_bar.max_value 
 	health_baring(Global.player_health)
 	if Global.debug_mode:
@@ -90,10 +97,13 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction != Vector3.ZERO:
 		last_dir = direction
-	if Input.is_action_just_pressed("roll") and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30 and allow_flip:
+	if Input.is_action_just_pressed("roll") and not is_slamming and not is_rolling and can_move and not is_rolling_cooldown and stamina_bar.value > 30 and allow_flip:
 		stamina_bar.value = stamina_bar.value - 25
 		await roll(last_dir)
-	if can_move and not is_slashing and not is_rolling:
+	if Input.is_action_just_pressed("slam") and not is_rolling and can_move and not is_slashing and stamina_bar.value > 20 and allow_flip:
+		stamina_bar.value = stamina_bar.value - 15
+		await slam()
+	if can_move and not is_slashing and not is_rolling and not is_slamming:
 		if direction:
 			velocity.x = direction.x * SPEED_ACTUAL
 			velocity.z = direction.z * SPEED_ACTUAL
@@ -110,7 +120,7 @@ func _physics_process(delta: float) -> void:
 		elif direction.length() > 0:
 			playwalk(direction)
 			
-	if Input.is_action_just_pressed("click") and is_slashing == false and not is_rolling:
+	if Input.is_action_just_pressed("click") and is_slashing == false and not is_rolling and not is_slamming:
 		sprite.stop()
 		stamina_bar.value = stamina_bar.value - 5
 		await slash(facing)
@@ -236,6 +246,25 @@ func play_anim_roll(dir) -> void:
 		sprite.play("up_roll")
 	elif dir.z > 0:
 		sprite.play("down_roll")
+
+func slam():
+	if is_slamming:
+		return
+	velocity = Vector3.ZERO
+	is_slamming = true
+	can_move = false
+	sprite.play("jump")
+	slash_sprite.play("jump_slash")
+	await get_tree().create_timer(0.7).timeout
+	$slash/slash_2.play()
+	$Slam_Hit/CollisionShape3D.disabled = false
+	await get_tree().create_timer(0.1).timeout
+	effects.play("default")
+	$SFX/slam.play()
+	$Slam_Hit/CollisionShape3D.disabled = true
+	await get_tree().create_timer(0.2).timeout
+	is_slamming = false
+	can_move = true
 
 func _on_hurtbox_area_entered(area: Area3D) -> void:
 	$SFX/Damage_Audio.pitch_scale = 1

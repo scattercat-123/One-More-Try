@@ -1,5 +1,5 @@
 extends Node
-var debug_mode = true
+var debug_mode = false
 #var player_dmg = 2
 var wave = 1
 var total_waves = 10
@@ -21,6 +21,7 @@ var lag = false
 var risk_taker = false
 var second_chance = false
 var wavey = false
+var extra_per_wavey = 0
 var turtle = false
 var LEGEND = false
 var health_pack = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://bkjwsp7qyjjcw"]
+[gd_scene load_steps=95 format=3 uid="uid://bkjwsp7qyjjcw"]
 
 [ext_resource type="Script" uid="uid://bccvs0avrcii6" path="res://Assets/Scripts/fireball_man.gd" id="1_m54yg"]
 [ext_resource type="Texture2D" uid="uid://2q83lco3k62q" path="res://Assets/Enemies/Fireball_Man/down_idle.png" id="1_neajl"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://c6acawv0kv2ey" path="res://Assets/Enemies/Fireball_Man/up_run.png" id="14_co53f"]
 [ext_resource type="Texture2D" uid="uid://co71o022toj6a" path="res://Assets/Enemies/Fireball_Man/up_shoot.png" id="15_cup26"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="17_dg5fd"]
+[ext_resource type="AudioStream" uid="uid://ytcmqncene63" path="res://Assets/Sound/spawn.mp3" id="19_fkyqj"]
 [ext_resource type="AudioStream" uid="uid://cnphtbqwiyyyl" path="res://Assets/Sound/fireball-whoosh-3-179127.mp3" id="19_r4xks"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qdlyk"]
@@ -659,6 +660,7 @@ font = ExtResource("17_dg5fd")
 
 [node name="debug_label_2" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.465709, 0)
+visible = false
 pixel_size = 0.0024
 text = "erer"
 
@@ -667,6 +669,9 @@ text = "erer"
 [node name="fireball" type="AudioStreamPlayer3D" parent="SFX"]
 stream = ExtResource("19_r4xks")
 volume_db = -10.0
+
+[node name="spawn" type="AudioStreamPlayer3D" parent="SFX"]
+stream = ExtResource("19_fkyqj")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

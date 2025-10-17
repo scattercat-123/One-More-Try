@@ -20,7 +20,7 @@ var powerups = {
 	"rare": [
 		{"name": "Risk Taker", "desc": "Do +10 Dmg but take 1.5X damage in return", "var": "Global.risk_taker", "var_type": "bool"},
 		{"name": "Second chance", "desc": "Respawn with 20 HP after death. Works once", "var": "Global.second_chance", "var_type": "bool"},
-		{"name": "Wavey", "desc": "+10 HP after each wave", "var": "Global.wavey", "var_type": "bool"}
+		{"name": "Wavey", "desc": "+20 HP after each wave", "var": "Global.wavey", "var_type": "bool"}
 	],
 	"legendary": [
 		{"name": "Turtle", "desc": "+100 Health but speed is 60%", "var": "Global.turle", "var_type": "bool"},

@@ -5,7 +5,7 @@ var facing: String
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
 var flip_speed = 20
 @export var speed := 1
-var health = 70
+var health = 50
 var once = false
 var player
 var is_flip = false
@@ -94,8 +94,10 @@ func _process(delta: float) -> void:
 					jumpy(velocity.normalized())
 			if health <= 0 or global_position.y <= -1:
 				visible = false
-				Global.enemies_left = Global.enemies_left - 1
+				if Global.wave > 1:
+					get_tree().call_group("Spawner", "on_enemy_died")
 				queue_free()
+				Global.enemies_left = Global.enemies_left - 1
 	else:
 		rotation_degrees.y = 90
 
@@ -154,7 +156,9 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		if angle < 80:
 			health -= Global.player_dmg
 			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
-
+	if area.is_in_group("Slam_Box"):
+			health -= (Global.player_dmg) - 3
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
 func pick_next_state() -> void:
 	if state_locked: 
 		return
@@ -249,6 +253,7 @@ func jumpy(dir: Vector3) -> void:
 	pick_next_state()
 	state_locked = false
 	did_jump = false
+
 func attack() -> void:
 	if state_locked or did_attack:
 		return
