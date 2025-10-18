@@ -1,5 +1,5 @@
 extends Node
-var debug_mode = false
+var debug_mode = true
 #var player_dmg = 2
 var wave = 1
 var total_waves = 10

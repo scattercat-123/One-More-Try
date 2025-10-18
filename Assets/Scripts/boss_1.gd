@@ -1,10 +1,14 @@
 extends CharacterBody3D
-@onready var sprite: AnimatedSprite3D = $AnimatedSprite3D
+@onready var sprite: AnimatedSprite3D = $sprite
 var enabled = true
 var facing: String
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
-@export var speed := 1
-var health = 950
+@export var speed := 1.5
+var health = 1250
+var max_health = 1250
+var no_hand = false
+var hand_grow_timer = 0.0
+const HAND_GROW_DELAY = 6.0
 var once = false
 var player
 @onready var damage_numbers_origin: Node3D = $Damage_Numbers_Origin
@@ -25,13 +29,6 @@ var state_locked = false
 var did_attack = false
 var did_jump = false
 
-var state_weights := {
-	"chase": 0.40,
-	"rush_attack": 0.0,
-	"idle": 0.25,
-	"slam": 0,
-}
-
 func _ready() -> void:
 	Dialogic.signal_event.connect(signaling)
 	attack_path.visible = false
@@ -42,32 +39,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var distance_to_player = global_position.distance_to(player.global_position)
-	if distance_to_player < 1 and not state_locked:
-		state_weights = {
-			"chase": 0.125,
-			"rush_attack": 0.375,
-			"idle": 0.125,
-			"slam": 0.375,
-		}
-	else:
-		state_weights = {
-			"chase": 0.45,
-			"rush_attack": 0.1,
-			"idle": 0.3,
-			"slam": 0.15,
-	}
-	if Input.is_action_just_pressed("click") and state == "idle":
-		await get_tree().create_timer(0.25).timeout
-		pick_next_state()
-		state_timer = 0
-	if distance_to_player < 0.3 and state == "chase":
-		state_timer = 0
-		var rand = randi_range(0,1)
-		if rand == 0:
-			state = "jumpy"
-		else:
-			state = "rush_attack"
-	debug_label_2.text = str(velocity.length())
 	state_timer += delta
 	if not state_locked and state_timer >= STATE_LENGTH:
 		pick_next_state()
@@ -75,25 +46,36 @@ func _process(delta: float) -> void:
 		"idle":
 			_update_idle()
 		"chase":
-			debug_label.text = "chase"
 			_update_chase(delta)
 		"rush_attack":
 			attack()
 		"slam":
-			jumpy(velocity.normalized())
+			jumpy()
 	if health <= 0:
 		visible = false
 		queue_free()
 		Global.enemies_left = Global.enemies_left - 1
+	if health <= max_health - 20 and not no_hand:
+		no_hand = true
+		hand_grow_timer = 0.0
+
+	if no_hand:
+		hand_grow_timer += delta
+		if hand_grow_timer >= HAND_GROW_DELAY:
+			no_hand = false
+			sprite.play("hand_grow")
+		await sprite.animation_finished
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	if velocity.normalized().length() > 0.01:
-		playwalk(velocity.normalized())
+		playwalk()
+	if player.global_position.x > global_position.x:
+		sprite.rotation_degrees.y = 180
+	else:
+		sprite.rotation_degrees.y = 0
 	move_and_slide()
-
-func navigator(_delta):
 	var target_pos = player.global_position
 	target_pos.y = global_position.y
 	nav.target_position = target_pos
@@ -105,26 +87,18 @@ func navigator(_delta):
 func signaling(arg):
 	pass
 
-func playwalk(dir: Vector3) -> void: #running
-	var tolerance = 0.3
-	var dx = dir.x
-	var dz = dir.z
-	
-	if abs(dx) < tolerance:
-		dx = 0
-	if abs(dz) < tolerance:
-		dz = 0
-	
-	if abs(dx) > 0:
-		sprite.play("right_walk")
-		if dx > 0:
-			sprite.rotation_degrees.y = 0
-		else:
-			sprite.rotation_degrees.y = 180
-	elif dz < 0:
-		sprite.play("up_walk")
-	elif dz > 0:
-		sprite.play("down_walk")
+func playwalk() -> void:
+	if no_hand:
+		sprite.play("no_hand_run")
+	else:
+		sprite.play("run")
+
+func _update_idle() -> void:
+	velocity = Vector3.ZERO
+	if no_hand:
+		sprite.play("mini_idle")
+	else:
+		sprite.play("idle")
 
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Player-Hitbox"):
@@ -133,63 +107,56 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		var angle = rad_to_deg(facing_dir.angle_to(dir_to_enemy))
 		if angle < 80:
 			health -= Global.player_dmg
-			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
 	if area.is_in_group("Slam_Box"):
 			health -= (Global.player_dmg) - 3
-			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
+
 func pick_next_state() -> void:
-	if state_locked: 
+	if state_locked:
 		return
+
 	_pivot_aimed = false
 	jump_path.visible = false
 	damage_jump.disabled = true
 	damage_attack.disabled = true
 	attack_path.visible = false
-	var roll = randf()
-	var acc = 0.0
-	for s in state_weights.keys():
-		acc += state_weights[s]
-		if roll <= acc:
-			state = s
-			state_timer = 0.0
-			_pivot_aimed = false
-			_is_firing = false
-			return
-	state = "idle"
+
+	match state:
+		"chase":
+			# after chasing → choose between attack or slam
+			if randf() < 0.5:
+				state = "rush_attack"
+			else:
+				state = "slam"
+
+		"rush_attack", "slam":
+			# after attack/slam → decide idle or chase again
+			if randf() < 0.3:
+				state = "idle"
+			else:
+				state = "chase"
+
+		"idle":
+			# after idle → always go back to chase
+			state = "chase"
+
+		_:
+			state = "chase"
+
 	state_timer = 0.0
 	_pivot_aimed = false
 	_is_firing = false
 
+
 func _update_chase(delta: float) -> void:
-	navigator(delta)
-	velocity = velocity.normalized() * speed
+	if nav.is_navigation_finished():
+		nav.target_position = player.global_position
+		return
+	# we don’t move here directly — only update nav target
+	nav.target_position = player.global_position
 
-func _update_idle() -> void:
-	var dir = (player.global_position - global_position).normalized()
-	velocity = Vector3.ZERO
-	if player.global_position.x > global_position.x:
-		sprite.rotation_degrees.y = 0
-	else:
-		sprite.rotation_degrees.y = 180
-	var tolerance = 0.3
-	var dx = dir.x
-	var dz = dir.z
-	if abs(dx) < tolerance:
-		dx = 0
-	if abs(dz) < tolerance:
-		dz = 0
-	if abs(dx) > 0:
-		sprite.play("right_idle")
-		if dx > 0:
-			sprite.rotation_degrees.y = 0
-		else:
-			sprite.rotation_degrees.y = 180
-	elif dz < 0:
-		sprite.play("up_idle")
-	elif dz > 0:
-		sprite.play("down_idle")
-
-func jumpy(dir: Vector3) -> void:
+func jumpy() -> void:
 	if state_locked or did_jump:
 		return
 	did_jump = true
@@ -201,26 +168,7 @@ func jumpy(dir: Vector3) -> void:
 		sprite.rotation_degrees.y = 0
 	else:
 		sprite.rotation_degrees.y = 180
-	var tolerance = 0.3
-	var dx = dir.x
-	var dz = dir.z
-	$thump.play()
-	if abs(dx) < tolerance:
-		dx = 0
-	if abs(dz) < tolerance:
-		dz = 0
-	if abs(dx) > 0:
-		sprite.play("right_jump")
-		if dx < 0:
-			sprite.rotation_degrees.y = 180
-		else:
-			sprite.rotation_degrees.y = 0
-	elif dz < 0:
-		sprite.play("up_jump")
-	elif dz > 0:
-		sprite.play("down_jump")
-	else:
-		sprite.play("down_jump")
+	sprite.play("slam")
 	await get_tree().create_timer(0.3).timeout
 	damage_jump.disabled = false
 	await sprite.animation_finished
@@ -241,7 +189,6 @@ func attack() -> void:
 		_pivot_aimed = true
 		attack_path.visible = true
 		attack_path.global_position = global_position
-
 		var aim_timer := get_tree().create_timer(timer_for_showing_path)
 		while aim_timer.time_left > 0:
 			if not is_instance_valid(player):
@@ -256,7 +203,7 @@ func attack() -> void:
 	var tolerance = 0.3
 	var dx = dir.x
 	var dz = dir.z
-
+	sprite.play("rush_attack")
 	if abs(dx) < tolerance:
 		dx = 0
 	if abs(dz) < tolerance:
@@ -265,7 +212,6 @@ func attack() -> void:
 		sprite.rotation_degrees.y = 0
 	else:
 		sprite.rotation_degrees.y = 180
-	$swing.play()
 	sprite.play()
 	await get_tree().create_timer(0.2).timeout
 	damage_attack.disabled = false
@@ -281,4 +227,4 @@ func attack() -> void:
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if state == "chase":
 		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
-		move_and_slide()
+	move_and_slide()

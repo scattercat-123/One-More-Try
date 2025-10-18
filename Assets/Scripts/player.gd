@@ -279,6 +279,6 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Possessed_Attack"):
 		Global.damage += 5
 
-func _on_ocean_body_entered(body: Node3D) -> void:
+func _on_ocean_body_entered(_body: Node3D) -> void:
 	print("died")
 	Global.player_health = 0

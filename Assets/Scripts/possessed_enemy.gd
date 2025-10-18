@@ -314,12 +314,12 @@ func attack() -> void:
 func _on_sound_timer_timeout() -> void:
 	$SoundTimer.start() 
 	if is_flip:
-		var randi = randi_range(0,5)
-		if randi == 0:
+		var rand_i = randi_range(0,5)
+		if rand_i == 0:
 			$growl.play()
-		elif randi == 1:
+		elif rand_i == 1:
 			$growl2.play()
-		elif randi == 2:
+		elif rand_i == 2:
 			$growl3.play()
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:

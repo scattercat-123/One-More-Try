@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://chq5xwwd06qwc"]
+[gd_scene load_steps=28 format=3 uid="uid://chq5xwwd06qwc"]
 
 [ext_resource type="Texture2D" uid="uid://bn4i7ivnj661j" path="res://Assets/Player/player_display.png" id="1_5kaq3"]
 [ext_resource type="Script" uid="uid://cgvild5p0tqtu" path="res://Assets/Scripts/gui.gd" id="1_mr3jv"]
 [ext_resource type="Script" uid="uid://nwuwlbbp1840" path="res://Assets/Scripts/health_label.gd" id="2_65erl"]
 [ext_resource type="Texture2D" uid="uid://cmu7eh65yb4cr" path="res://Assets/Player/Pixel2_Healthbar_0002_pixel2_Border.png" id="2_iw08q"]
 [ext_resource type="Script" uid="uid://cxbnu65dg12nf" path="res://Assets/Scripts/power_ups.gd" id="3_iw08q"]
+[ext_resource type="Script" uid="uid://03kcfce1xcxg" path="res://Assets/Scripts/stamina_label.gd" id="4_c6weo"]
 [ext_resource type="Texture2D" uid="uid://c8j55ln6van5w" path="res://Assets/World/Card_Powerup.png" id="4_xm3wa"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="5_5t6kp"]
 [ext_resource type="Texture2D" uid="uid://dj1fpb6yak18m" path="res://Assets/World/Ranks_powerup.png" id="6_oc5i2"]
@@ -397,6 +398,7 @@ scale = Vector2(0.7, 0.7)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_5t6kp")
 text = "100/100"
+script = ExtResource("4_c6weo")
 
 [node name="bar" type="Sprite2D" parent="GUI_BAR"]
 position = Vector2(-28, -0.5)
