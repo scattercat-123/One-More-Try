@@ -552,6 +552,16 @@ theme_override_fonts/font = ExtResource("5_5t6kp")
 theme_override_font_sizes/font_size = 100
 text = "Enemies Left: 1"
 
+[node name="boss" type="Label" parent="Labels GUI"]
+offset_left = 1121.0
+offset_top = 111.0
+offset_right = 1885.0
+offset_bottom = 199.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_5t6kp")
+theme_override_font_sizes/font_size = 100
+text = "Next Boss : Wave 4"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_mr3jv")

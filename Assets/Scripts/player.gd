@@ -36,7 +36,7 @@ func health_baring(health : float):
 func _ready() -> void:
 	notices.visible = false
 	attack_area.disabled = true
-	
+	$RainParticles.visible = false
 	SPEED_ACTUAL= SPEED
 	player_dmg = 10
 	player_health = 100
@@ -46,6 +46,10 @@ func _ready() -> void:
 	Dialogic.signal_event.connect(signaling)
 
 func _process(_delta: float) -> void:
+	if Global.wave == 4:
+		$RainParticles.visible = true
+	else:
+		$RainParticles.visible = false
 	var speed_factor :float = (1.0 + (Global.speed_boost * 0.20))
 	SPEED_ACTUAL = SPEED * speed_factor
 	if Global.player_health > 0:

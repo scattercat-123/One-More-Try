@@ -10,6 +10,13 @@ res://Assets/Scenes/possessed_enemy.tscn
 res://Assets/Scenes/nature.tscn
 res://Assets/Scenes/game_over.tscn
 res://Assets/Scripts/Global.gd
+res://Assets/Scripts/world.gd
+res://Assets/Scripts/camera_player.gd
+res://Assets/Scripts/world_environment.gd
+res://Assets/Scenes/tutorial_cutscene.tscn
+res://Assets/Scripts/cutscene_camera.gd
+res://Assets/Scenes/lightning.tscn
+res://Assets/Scripts/storm_scene_boss.gd
 res://Assets/Scripts/player.gd
-res://Assets/Scripts/stamina_label.gd
-res://Assets/Scripts/possessed_enemy.gd
+res://Assets/Scripts/labels_gui.gd
+res://Assets/Scenes/game_done.tscn

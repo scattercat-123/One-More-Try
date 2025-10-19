@@ -1,5 +1,7 @@
 extends Node3D
-
+@onready var world_environment: WorldEnvironment = $WorldEnvironment
+@export var target_env: Environment
+@export var transition_duration: float = 1.0
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var health_bar: ProgressBar = $player/GUI/GUI_BAR/health_bar
 @onready var stamina_bar: ProgressBar = $player/GUI/GUI_BAR/stamina_bar
@@ -10,9 +12,9 @@ extends Node3D
 @onready var powerup_gui = $player/GUI/Power_Ups
 @export var fireball_scene: PackedScene = preload("res://Assets/Scenes/fireball_enemy.tscn")
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
-
-var enemies_per_wave := [0, 10, 20, 25]
-var max_enemies_per_wave := [0, 5, 10, 15]
+@export var boss_1_scene: PackedScene = preload("res://Assets/Scenes/boss_1.tscn")
+var enemies_per_wave := [0, 10, 20, 25, 0]
+var max_enemies_per_wave := [0, 5, 10, 15, 0]
 var enemies_chance_spawn := [60, 40]
 var enemies_per_wave_chance_to_spawn: int = 10
 var shown_powerups_this_wave = false
@@ -21,6 +23,7 @@ var last_wave := 0
 var markers: Array = []
 var once = true
 var once2 = false
+var once3 = false
 var spawn_timer_started := false
 
 func _ready() -> void:
@@ -41,8 +44,23 @@ func _ready() -> void:
 
 	spawn_timer.stop()
 	spawn_timer_started = false
-
 func _process(_delta: float) -> void:
+	if Global.wave == 4 and once3 == false:
+		once3 = true
+		var b1 = boss_1_scene.instantiate()
+		get_parent().add_child(b1)
+		b1.global_transform = $Spawning_markers/Marker3D32.global_transform
+		transition_environment()
+		$player/Camera3D.start_earthquake(0.05, 10.0)
+		$cutscene_camera.start_earthquake(0.1, 4)
+		$cutscene_camera.make_current()
+		$Storm_scene/boss_music.play()
+		$AnimationPlayer.play("storm_see")
+		$player/GUI.visible = false
+		await get_tree().create_timer(4.0).timeout
+		$player/GUI.visible = true
+		$AnimationPlayer.stop()
+		$player/Camera3D.make_current()
 	if Global.wave != last_wave:
 		spawned_this_wave = 0
 		last_wave = Global.wave
@@ -81,7 +99,6 @@ func signaling(arg):
 			cutscene_camera.make_current()
 		await get_tree().create_timer(8.0).timeout
 		player_camera.make_current()
-
 func spawn_fireball_enemy_at(marker: Node3D) -> void:
 	if marker == null:
 		return
@@ -134,7 +151,6 @@ func spawn_batch(count: int, wave_num: int) -> void:
 			spawn_possessed_enemy_at(marker)
 
 		spawned_this_wave += 1
-
 func _on_spawn_timer_timeout() -> void:
 	if Global.wave < 2 or Global.wave > enemies_per_wave.size():
 		if spawn_timer_started:
@@ -160,12 +176,10 @@ func _on_spawn_timer_timeout() -> void:
 	else:
 		spawn_timer.start()
 		spawn_timer_started = true
-
 func _on_power_ups_powerup_selected() -> void:
 	Global.wave += 1
 	spawned_this_wave = 0
 	shown_powerups_this_wave = false 
-
 func on_enemy_died() -> void:
 	var wave_idx = min(Global.wave - 1, enemies_per_wave.size() - 1)
 	var total_for_wave = enemies_per_wave[wave_idx]
@@ -174,3 +188,32 @@ func on_enemy_died() -> void:
 	var open_slots = max(0, max_simultaneous - Global.enemies_left)
 	if remaining_total > 0 and open_slots > 0:
 		spawn_batch(1, Global.wave)
+func transition_environment():
+	var current_env = world_environment.environment
+	var new_env = Environment.new()
+	for prop in current_env.get_property_list():
+		if (prop.type != 0 and
+			prop.name != "resource_path" and
+			prop.name != "RefCounted" and
+			prop.name != "Resource" and
+			prop.name != "resource_name" and
+			prop.name != "resource_scene_unique_id"):
+			var current_value = current_env.get(prop.name)
+			new_env.set(str(prop.name), current_value)
+
+	world_environment.environment = new_env
+	for prop in new_env.get_property_list():
+		if (prop.type != 0 and
+			prop.name != "resource_path" and
+			prop.name != "RefCounted" and
+			prop.name != "Resource" and
+			prop.name != "resource_name" and
+			prop.name != "resource_scene_unique_id"):
+				var target_value = target_env.get(prop.name)
+				var tween = get_tree().create_tween()
+				tween.tween_property(new_env, str(prop.name), target_value, transition_duration)
+
+
+func _on_boss_music_finished() -> void:
+	if Global.wave == 4:
+		$Storm_scene/boss_music.play(4)

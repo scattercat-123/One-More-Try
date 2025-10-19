@@ -1,6 +1,7 @@
-[gd_scene load_steps=128 format=4 uid="uid://bhtj5bv0ojtfx"]
+[gd_scene load_steps=126 format=4 uid="uid://bhtj5bv0ojtfx"]
 
 [ext_resource type="Script" uid="uid://brh0cu5scdec0" path="res://Assets/Scripts/tutorial_cutscene.gd" id="1_x3ypi"]
+[ext_resource type="Environment" uid="uid://nsopub8a1gjn" path="res://Assets/World/stormy_environment.tres" id="2_d0gyv"]
 [ext_resource type="Texture2D" uid="uid://dq55pmwqj1l" path="res://Assets/Player/down.png" id="2_nr6rc"]
 [ext_resource type="Texture2D" uid="uid://vctmb008t6kq" path="res://Assets/Player/down_left.png" id="3_n1c7q"]
 [ext_resource type="Texture2D" uid="uid://cwu6obt1o3odk" path="res://Assets/Player/down_right.png" id="4_xa0wl"]
@@ -30,24 +31,6 @@
 [ext_resource type="AudioStream" uid="uid://cupuhk3ttifpm" path="res://Assets/Sound/rain-storm-sound-155232.mp3" id="27_w2b2u"]
 [ext_resource type="Script" uid="uid://b33lkh4iyy6yb" path="res://Assets/Scripts/wind_spawner.gd" id="29_d0gyv"]
 [ext_resource type="Script" uid="uid://ctsxuoe261fc2" path="res://Assets/Scenes/intro_cutscene_dialogues.gd" id="30_151w2"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ag7q1"]
-sky_top_color = Color(0.121569, 0.180392, 0.239216, 1)
-sky_horizon_color = Color(0.300698, 0.319326, 0.341875, 1)
-ground_bottom_color = Color(0.105882, 0.121569, 0.152941, 1)
-ground_horizon_color = Color(0.300698, 0.319326, 0.341875, 1)
-energy_multiplier = 0.2
-
-[sub_resource type="Sky" id="Sky_x3ypi"]
-sky_material = SubResource("ProceduralSkyMaterial_ag7q1")
-
-[sub_resource type="Environment" id="Environment_w2b2u"]
-background_mode = 2
-sky = SubResource("Sky_x3ypi")
-tonemap_mode = 2
-fog_enabled = true
-fog_light_color = Color(0.117647, 0.133333, 0.168627, 1)
-fog_density = 0.0616
 
 [sub_resource type="Animation" id="Animation_aptat"]
 length = 0.001
@@ -1157,7 +1140,7 @@ _data = {
 script = ExtResource("1_x3ypi")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_w2b2u")
+environment = ExtResource("2_d0gyv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -1252,10 +1235,12 @@ script = ExtResource("26_w2b2u")
 [node name="thunder" type="AudioStreamPlayer" parent="Lightining"]
 stream = ExtResource("26_i1wvd")
 volume_db = -10.0
+max_polyphony = 3
 
 [node name="thunder2" type="AudioStreamPlayer" parent="Lightining"]
 stream = ExtResource("27_pc81b")
 volume_db = -10.0
+max_polyphony = 3
 
 [node name="Wind" type="Node3D" parent="."]
 script = ExtResource("29_d0gyv")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://c6x0nfw5wpiq0"]
+[gd_scene load_steps=40 format=3 uid="uid://c6x0nfw5wpiq0"]
 
 [ext_resource type="Script" uid="uid://bk2c4bx5ldquv" path="res://Assets/Scripts/boss_1.gd" id="1_tqimg"]
 [ext_resource type="Texture2D" uid="uid://bl4nuc2xorbi4" path="res://Assets/Enemies/Boss/RockFlameBoss.png" id="2_t8c7j"]
@@ -75,7 +75,11 @@ region = Rect2(600, 1500, 300, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_anjmo"]
 atlas = ExtResource("2_t8c7j")
-region = Rect2(0, 600, 300, 300)
+region = Rect2(300, 300, 300, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5vgt"]
+atlas = ExtResource("2_t8c7j")
+region = Rect2(300, 600, 300, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bx65y"]
 atlas = ExtResource("2_t8c7j")
@@ -142,7 +146,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x8kqn")
 }],
-"loop": true,
+"loop": false,
 "name": &"hand_grow",
 "speed": 5.0
 }, {
@@ -194,10 +198,13 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_anjmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5vgt")
 }],
 "loop": true,
-"name": &"new_animation",
-"speed": 5.0
+"name": &"no_hand_idle",
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -239,7 +246,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"rush_attack",
-"speed": 5.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -248,9 +255,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m7vh7")
 }],
-"loop": false,
+"loop": true,
 "name": &"slam",
-"speed": 5.0
+"speed": 3.0
 }]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6ynqp"]
@@ -263,11 +270,11 @@ size = Vector2(1, 1)
 transparency = 1
 albedo_color = Color(0.85098, 0, 0, 0.623529)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_7uste"]
-size = Vector2(0.5, 0.3)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_4fepu"]
-size = Vector3(0.5, 0.702, 0.5)
+size = Vector3(5.0119, 3.10979, 4.99487)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7uste"]
+size = Vector3(3.15469, 1, 2.54184)
 
 [node name="Boss_1" type="CharacterBody3D"]
 floor_stop_on_slope = false
@@ -308,15 +315,8 @@ path_height_offset = -0.5
 max_speed = 0.5
 
 [node name="Jump_Path" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.163037, 0)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, -1.48625, 0)
 mesh = SubResource("PlaneMesh_tqimg")
-surface_material_override/0 = SubResource("StandardMaterial3D_t8c7j")
-
-[node name="Attack Path" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Attack Path"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143417, -0.161661, 0)
-mesh = SubResource("PlaneMesh_7uste")
 surface_material_override/0 = SubResource("StandardMaterial3D_t8c7j")
 
 [node name="Damage_Jump" type="Area3D" parent="." groups=["Possessed_Jump"]]
@@ -324,23 +324,27 @@ collision_layer = 32
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Damage_Jump"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.148926, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0083952, -1.05497, 0.00549316)
 shape = SubResource("BoxShape3D_4fepu")
 disabled = true
 debug_color = Color(0.936606, 0.252477, 0, 0.42)
+debug_fill = false
 
 [node name="Damage_Attack" type="Area3D" parent="." groups=["Possessed_Jump"]]
 collision_layer = 32
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Damage_Attack" groups=["Possessed_Attack"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.148926, 0)
-shape = SubResource("BoxShape3D_4fepu")
-disabled = true
-debug_color = Color(0.936606, 0.252477, 0, 0.42)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Damage_Attack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.144058, 0, 0.0701752)
+shape = SubResource("BoxShape3D_7uste")
 
 [node name="Damage_Numbers_Origin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.292201, 0.677905, 0)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.91996, -0.572038, 0)
+visible = false
+text = "fds"
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

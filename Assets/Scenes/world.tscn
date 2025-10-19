@@ -1,18 +1,24 @@
-[gd_scene load_steps=93 format=4 uid="uid://bqjljjvowjk07"]
+[gd_scene load_steps=107 format=4 uid="uid://bqjljjvowjk07"]
 
 [ext_resource type="Script" uid="uid://5nxmqdooll3y" path="res://Assets/Scripts/world.gd" id="1_dv8ie"]
 [ext_resource type="PackedScene" uid="uid://cwvlty82rb7ta" path="res://Assets/Scenes/player.tscn" id="1_jaky0"]
 [ext_resource type="Texture2D" uid="uid://drxotnpuvxbjc" path="res://Assets/World/Ground.png" id="1_vost8"]
+[ext_resource type="Environment" uid="uid://nsopub8a1gjn" path="res://Assets/World/stormy_environment.tres" id="2_5kudc"]
 [ext_resource type="ArrayMesh" uid="uid://dsa25sllj7283" path="res://Assets/World/sand v1.obj" id="2_uc036"]
 [ext_resource type="PackedScene" uid="uid://bkjwsp7qyjjcw" path="res://Assets/Scenes/fireball_enemy.tscn" id="6_31mi3"]
 [ext_resource type="PackedScene" uid="uid://05dr7ewdfm2r" path="res://Assets/Scenes/possessed_enemy.tscn" id="6_44f6d"]
 [ext_resource type="AudioStream" uid="uid://ddwjv22pf2ke0" path="res://Assets/Sound/damaged.mp3" id="6_pfv4s"]
-[ext_resource type="PackedScene" uid="uid://c6x0nfw5wpiq0" path="res://Assets/Scenes/boss_1.tscn" id="7_5kudc"]
 [ext_resource type="Texture2D" uid="uid://kuef6lo06six" path="res://Assets/World/voxel-nature-asset-pack/textures/colors.png" id="8_44f6d"]
 [ext_resource type="AudioStream" uid="uid://d0qencuscfrss" path="res://Assets/Sound/ocean-waves-250310.mp3" id="8_sol70"]
 [ext_resource type="ArrayMesh" uid="uid://dpqtawoem4von" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb.obj" id="9_eh6bj"]
 [ext_resource type="Texture2D" uid="uid://du2ucbauodvl0" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb-RGBA.png" id="10_sol70"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="11_5kudc"]
+[ext_resource type="Script" uid="uid://daft6vd0sv3xj" path="res://Assets/Scripts/cutscene_camera.gd" id="12_cvvkx"]
+[ext_resource type="Texture2D" uid="uid://c2t2vcthkw3kn" path="res://Assets/World/lightning.png" id="15_c6fuy"]
+[ext_resource type="Script" uid="uid://d2yjpehjo8r4b" path="res://Assets/Scripts/storm_scene_boss.gd" id="15_c8enp"]
+[ext_resource type="AudioStream" uid="uid://dcg6d5l3glnow" path="res://Assets/Sound/big-thunder-clap-99753 (2).mp3" id="16_mt257"]
+[ext_resource type="AudioStream" uid="uid://c68fa422eylyr" path="res://Assets/Sound/loud-thunder-sound-effect-359272.mp3" id="17_c8enp"]
+[ext_resource type="AudioStream" uid="uid://cy1fgqjx7gpks" path="res://Assets/Sound/video-game-boss-fiight-259885.mp3" id="19_g2xa6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iacna"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -25,6 +31,8 @@ sky_material = SubResource("ProceduralSkyMaterial_iacna")
 background_mode = 2
 sky = SubResource("Sky_uc036")
 tonemap_mode = 2
+
+[sub_resource type="GDScript" id="GDScript_cvvkx"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_44f6d"]
 vertices = PackedVector3Array(11.3, 2.40523, 4.3, 10.3, 2.40523, 4.3, 9.8, 2.40523, 5.3, 11.3, 2.40523, 11.3, -1.2, 2.40523, -6.95, 0.0499992, 2.40523, -7.45, 0.0499992, 2.40523, -10.2, -10.2, 2.40523, -10.2, -8.2, 2.40523, 5.8, -10.2, 2.40523, 5.55, -10.2, 2.40523, 11.3, -0.450001, 2.40523, -3.7, -7.95, 2.40523, 4.05, 8.3, 2.40523, 5.3, 7.8, 2.40523, 4.8, -1.2, 2.40523, -4.45, 7.8, 2.40523, 3.55, 0.299999, 2.40523, -3.7, -9.7, 2.40523, 3.55, -8.45, 2.40523, 3.55, -10.2, 2.40523, 4.05, 9.8, 2.40523, 3.05, 1.3, 2.40523, -6.95, 11.3, 2.40523, -10.2, 8.05, 2.40523, 3.05, 1.3, 2.40523, -4.45)
@@ -904,7 +912,7 @@ as_normal_map = true
 noise = SubResource("FastNoiseLite_iacna")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uc036"]
-render_priority = 0
+render_priority = -1
 shader = SubResource("Shader_iacna")
 shader_parameter/albedo = Color(0, 0.270588, 0.815686, 0.72549)
 shader_parameter/albedo_texture_size = Vector2i(0, 0)
@@ -1097,6 +1105,35 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_c6fuy"]
+resource_name = "storm_see"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cutscene_camera:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.25, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-13.0161, 2.74607, 0), Vector3(-7.47991, 4.27434, 0), Vector3(-4.04672, 4.78281, 0), Vector3(-4.04672, 4.78281, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cutscene_camera:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.25, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0.442389, -1.5708, -2.07062e-08), Vector3(1.53699, -1.5708, -1.17004e-06), Vector3(-0.0338061, -0.785398, -5.28089e-08)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dv8ie"]
 _data = {
 &"RESET": SubResource("Animation_uc036"),
@@ -1104,7 +1141,8 @@ _data = {
 &"monster_saw": SubResource("Animation_pfv4s"),
 &"must_complete_tutorial": SubResource("Animation_31mi3"),
 &"spectate": SubResource("Animation_eh6bj"),
-&"start": SubResource("Animation_iacna")
+&"start": SubResource("Animation_iacna"),
+&"storm_see": SubResource("Animation_c6fuy")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_44f6d"]
@@ -1117,8 +1155,55 @@ size = Vector3(0.487305, 17.0994, 42.4603)
 transparency = 1
 albedo_color = Color(0.752941, 0, 0, 0)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lv2k"]
+atlas = ExtResource("15_c6fuy")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs31k"]
+atlas = ExtResource("15_c6fuy")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4alk"]
+atlas = ExtResource("15_c6fuy")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d68u6"]
+atlas = ExtResource("15_c6fuy")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6gea"]
+atlas = ExtResource("15_c6fuy")
+region = Rect2(512, 0, 128, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qa1rn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lv2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs31k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4alk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d68u6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6gea")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
 [node name="World" type="Node3D" groups=["Spawner"]]
 script = ExtResource("1_dv8ie")
+target_env = ExtResource("2_5kudc")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -1127,6 +1212,7 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dv8ie")
+script = SubResource("GDScript_cvvkx")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_44f6d")
@@ -1436,9 +1522,6 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.625907, 2.43799, 2.41611)
 [node name="possessed_enemy" parent="." instance=ExtResource("6_44f6d")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.49283, 0)
 
-[node name="Boss_1" parent="." instance=ExtResource("7_5kudc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.74044, 3.8803, 0)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_dv8ie")
@@ -1463,6 +1546,7 @@ color = Color(1, 0.407843, 0.337255, 0.592157)
 [node name="cutscene_camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6341, 2.90221, 2.38802)
 fov = 70.0
+script = ExtResource("12_cvvkx")
 
 [node name="Damage_Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_pfv4s")
@@ -1592,13 +1676,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.17598, 4.06872, 0)
 [node name="Marker3D2" type="Marker3D" parent="Spawning_markers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.623, 4.06872, 0)
 
-[node name="SpawnTimer" type="Timer" parent="."]
-autostart = true
-
-[node name="Bg_Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_sol70")
-autoplay = true
-
 [node name="Tutorial blockage" type="Node3D" parent="."]
 
 [node name="Wall" type="StaticBody3D" parent="Tutorial blockage"]
@@ -1620,9 +1697,42 @@ collision_mask = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.42461, 4.84915, -5.07811)
 shape = SubResource("BoxShape3D_44f6d")
 
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Bg_Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_sol70")
+autoplay = true
+
+[node name="Storm_scene" type="Node3D" parent="."]
+script = ExtResource("15_c8enp")
+
+[node name="lightning_tree" type="AnimatedSprite3D" parent="Storm_scene"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 8.05101, -6.09183)
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_qa1rn")
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+
+[node name="lightning_1" type="AudioStreamPlayer" parent="Storm_scene"]
+stream = ExtResource("16_mt257")
+max_polyphony = 3
+
+[node name="lightning_2" type="AudioStreamPlayer" parent="Storm_scene"]
+stream = ExtResource("17_c8enp")
+max_polyphony = 3
+
+[node name="rain_storm" type="AudioStreamPlayer" parent="Storm_scene"]
+
+[node name="boss_music" type="AudioStreamPlayer" parent="Storm_scene"]
+stream = ExtResource("19_g2xa6")
+
 [connection signal="body_entered" from="NavigationRegion3D/Ground/GROUND/StaticBody3D2/Ocean" to="player" method="_on_ocean_body_entered"]
 [connection signal="powerup_selected" from="player/GUI/Power_Ups" to="." method="_on_power_ups_powerup_selected"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="finished" from="Storm_scene/boss_music" to="." method="_on_boss_music_finished"]
 
 [editable path="player"]
 [editable path="player/GUI"]

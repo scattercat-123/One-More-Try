@@ -1,4 +1,4 @@
-[gd_scene load_steps=172 format=3 uid="uid://cwvlty82rb7ta"]
+[gd_scene load_steps=175 format=3 uid="uid://cwvlty82rb7ta"]
 
 [ext_resource type="Script" uid="uid://c3nq8rp0w5wi" path="res://Assets/Scripts/player.gd" id="1_ecf78"]
 [ext_resource type="Texture2D" uid="uid://dq55pmwqj1l" path="res://Assets/Player/down.png" id="1_lerqx"]
@@ -1047,7 +1047,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [],
 "loop": true,
@@ -1178,6 +1178,24 @@ _data = {
 &"RESET": SubResource("Animation_mdvb1"),
 &"notice": SubResource("Animation_7578i")
 }
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cxlt4"]
+angle_min = 5.00001
+angle_max = 10.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 15.0
+scale_min = 0.05
+scale_max = 0.09
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d0gyv"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.121814, 0.0884651, 0.362888, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_icc0i"]
+material = SubResource("StandardMaterial3D_d0gyv")
+size = Vector2(1, 5)
 
 [node name="player" type="CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -1319,6 +1337,13 @@ libraries = {
 &"": SubResource("AnimationLibrary_vjh5i")
 }
 autoplay = "notice"
+
+[node name="RainParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(2.42968, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39372, 0)
+amount = 125
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_cxlt4")
+draw_pass_1 = SubResource("QuadMesh_icc0i")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 

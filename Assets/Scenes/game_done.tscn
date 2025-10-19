@@ -1,0 +1,155 @@
+[gd_scene load_steps=19 format=3 uid="uid://dwn7gqmk65kok"]
+
+[ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="1_npfck"]
+[ext_resource type="Texture2D" uid="uid://kmttb71iqfn5" path="res://Assets/Enemies/possessed/Right/Png/PossesedRightAttack01.png" id="2_662as"]
+[ext_resource type="Texture2D" uid="uid://d3kg7874t2qxx" path="res://Assets/Enemies/Spirit/spirit_question_mark.png" id="3_2qme3"]
+[ext_resource type="FontFile" uid="uid://di2qbs7yudr6d" path="res://Assets/Fonts/it-skaldheim-demo.regular.otf" id="4_cljif"]
+[ext_resource type="Script" uid="uid://cwefaf6tidj7t" path="res://Assets/Scripts/label_gameover.gd" id="5_dijoe"]
+[ext_resource type="Script" uid="uid://c6axwrlflyvky" path="res://Assets/Scripts/label_game_over_rainbow.gd" id="6_uf3kf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygpko"]
+atlas = ExtResource("2_662as")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yaqa7"]
+atlas = ExtResource("2_662as")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hkte"]
+atlas = ExtResource("2_662as")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bw2ej"]
+atlas = ExtResource("2_662as")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvsmm"]
+atlas = ExtResource("2_662as")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00u6t"]
+atlas = ExtResource("2_662as")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pnhr"]
+atlas = ExtResource("2_662as")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5k1a1"]
+atlas = ExtResource("2_662as")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvnm0"]
+atlas = ExtResource("2_662as")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35oqk"]
+atlas = ExtResource("2_662as")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m46jc"]
+atlas = ExtResource("2_662as")
+region = Rect2(480, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yyag3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygpko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yaqa7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hkte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bw2ej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvsmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_00u6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pnhr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5k1a1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvnm0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35oqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m46jc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="game_done" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -48.0
+offset_top = -38.0
+offset_right = -8.0
+offset_bottom = 2.0
+scale = Vector2(50.5275, 29.2385)
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 50.0
+offset_right = 1842.0
+offset_bottom = 455.0
+theme_override_fonts/font = ExtResource("1_npfck")
+theme_override_font_sizes/font_size = 150
+text = "THANKS FOR PLAYING!!!
+I have done this much
+Till now! will do more soon!"
+horizontal_alignment = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(376, 769)
+scale = Vector2(15, 15)
+sprite_frames = SubResource("SpriteFrames_yyag3")
+autoplay = "default"
+
+[node name="SpiritQuestionMark" type="Sprite2D" parent="."]
+position = Vector2(1657, 592)
+scale = Vector2(7.84375, 8.59375)
+texture = ExtResource("3_2qme3")
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 493.0
+offset_top = 448.0
+offset_right = 2363.0
+offset_bottom = 884.0
+theme_override_fonts/font = ExtResource("4_cljif")
+theme_override_font_sizes/font_size = 150
+text = "-imagine"
+script = ExtResource("5_dijoe")
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 1428.0
+offset_top = 714.0
+offset_right = 3298.0
+offset_bottom = 1150.0
+theme_override_fonts/font = ExtResource("4_cljif")
+theme_override_font_sizes/font_size = 150
+text = "TrY Again
+~spirit"
+script = ExtResource("6_uf3kf")
