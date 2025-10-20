@@ -1,4 +1,9 @@
+AudioStreamPlayer3D
 CollisionShape3D
+Area3D
+CharacterBody3D
+Sprite3D
+AnimatedSprite3D
 Label
 ColorRect
 AudioStreamPlayer
@@ -7,8 +12,3 @@ Sprite2D
 Node2D
 Label3D
 StaticBody3D
-NavigationObstacle3D
-Area3D
-AnimatedSprite3D
-CharacterBody3D
-AudioStreamPlayer3D

@@ -15,7 +15,7 @@ extends Node3D
 @export var boss_1_scene: PackedScene = preload("res://Assets/Scenes/boss_1.tscn")
 var enemies_per_wave := [0, 10, 20, 25, 0]
 var max_enemies_per_wave := [0, 5, 10, 15, 0]
-var enemies_chance_spawn := [60, 40]
+var enemies_chance_spawn := [65, 35]
 var enemies_per_wave_chance_to_spawn: int = 10
 var shown_powerups_this_wave = false
 var spawned_this_wave := 0    

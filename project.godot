@@ -13,7 +13,12 @@ config_version=5
 config/name="One More Try"
 run/main_scene="uid://bncv4x203usd2"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0.105396, 0.0221852, 0.240693, 1)
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/image="uid://c20l8qrdl5klv"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=1000
 
 [autoload]
 
@@ -206,6 +211,7 @@ slam={
 3d_physics/layer_5="Player_Sword_Layer"
 3d_physics/layer_6="Player_hurt"
 3d_physics/layer_8="Tutorial_blockage"
+3d_physics/layer_9="enemy_heal"
 
 [rendering]
 

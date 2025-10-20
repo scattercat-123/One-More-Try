@@ -44,6 +44,10 @@ func _ready() -> void:
 	state_timer = 0.0
 	if Global.debug_mode == false:
 		debug_label.visible = false
+	var rand_spawm_sound = randf_range(0.0, 3.5)
+	if Global.wave > 1:
+		await get_tree().create_timer(rand_spawm_sound).timeout
+		$spawn.play()
 
 func _process(delta: float) -> void:
 	if is_flip or Global.debug_mode or not Global.wave == 1:

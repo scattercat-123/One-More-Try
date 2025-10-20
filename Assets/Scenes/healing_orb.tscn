@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=3 uid="uid://ko0yfs6d80sg"]
+
+[ext_resource type="Script" uid="uid://ck3w4c7iwpeif" path="res://Assets/Scripts/fireball.gd" id="1_lphwc"]
+[ext_resource type="Texture2D" uid="uid://b1igw3s0ry80q" path="res://Assets/Enemies/Healer/healing_orb.png" id="2_lphwc"]
+[ext_resource type="AudioStream" uid="uid://cu7503it3vd33" path="res://Assets/Sound/magical-glowing-37417.mp3" id="3_l26qb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l26qb"]
+atlas = ExtResource("2_lphwc")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dnpql"]
+atlas = ExtResource("2_lphwc")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huntl"]
+atlas = ExtResource("2_lphwc")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbrt0"]
+atlas = ExtResource("2_lphwc")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7gyx"]
+atlas = ExtResource("2_lphwc")
+region = Rect2(0, 1024, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8t3ku"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l26qb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dnpql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_huntl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbrt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7gyx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c273o"]
+
+[node name="fireball" type="Node3D"]
+script = ExtResource("1_lphwc")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_8t3ku")
+frame_progress = 0.803116
+
+[node name="hit" type="Area3D" parent="." groups=["Fireball"]]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0, 0)
+collision_layer = 256
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="hit"]
+shape = SubResource("SphereShape3D_c273o")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_l26qb")
+volume_db = -26.0
+autoplay = true

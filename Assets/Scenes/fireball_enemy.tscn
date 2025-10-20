@@ -648,6 +648,7 @@ radius = 1.5
 max_speed = 0.3
 
 [node name="Damage_Numbers_Origin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0865489, 0)
 
 [node name="StateTimer" type="Timer" parent="."]
 

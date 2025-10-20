@@ -18,6 +18,8 @@ Spirit: "Uhh, I almost forgot .. umm yeah Try using WASD or Arrow Keys to move..
 [wait time="1.0" hide_text="false"]
 Spirit: "Damn, now if I'm correct use the Left Mouse Button to slash your sword..."
 [wait time="1.0" hide_text="false"]
+Spirit: "You can also slam with the Right Mouse Button for damage for bigger area!"
+[wait time="1.0" hide_text="false"]
 Player_Character: "YOOo, It's Working!!"
 Spirit: "Yeah, now you can dodge attacks using the Space button, if timed correctly, you can doge the attack without needing to get out of the attack range..."
 [signal arg="start_attack"]

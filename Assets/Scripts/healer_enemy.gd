@@ -1,0 +1,239 @@
+extends CharacterBody3D
+@onready var sprite: AnimatedSprite3D = $sprite
+var can_move=false
+var enabled = true
+var facing: String
+@onready var nav: NavigationAgent3D = $NavigationAgent3D
+var flip_speed = 20
+@export var speed := 1
+var health = 25
+var once = false
+var player
+var start = false
+@onready var damage_numbers_origin: Node3D = $Damage_Numbers_Origin
+@onready var debug_label: Label3D = $debug_label
+var can_shoot = true
+var state := "idle"
+var state_timer := 0.0
+const STATE_LENGTH := 3.0
+var _is_firing := false
+
+var state_weights := {
+	"chase": 0.2,
+	"attack": 0.15,
+	"idle": 0.35,
+	"heal" : 0.3
+}
+
+func _ready() -> void:
+	player = get_tree().get_first_node_in_group("Player")
+	state_timer = 0.0
+	if Global.debug_mode == false:
+		debug_label.visible = false
+
+func _process(delta: float) -> void:
+	var distance_to_player = global_position.distance_to(player.global_position)
+	debug_label.text = str(state)
+	if Global.player_health > 0:
+		state_timer += delta
+		if state_timer >= STATE_LENGTH:
+			pick_next_state()
+		match state:
+			"idle":
+				_update_idle(delta)
+			"chase":
+				_update_chase(delta)
+			"heal":
+				heal()
+			"attack":
+				attack()
+	if health <= 0 or global_position.y <= -1:
+		visible = false
+		if Global.wave > 1:
+			get_tree().call_group("Spawner", "on_enemy_died")
+		queue_free()
+		Global.enemies_left = Global.enemies_left - 1
+func _physics_process(delta: float) -> void:
+	if state == "chase":
+		var direction = velocity.normalized()
+		if direction.x > 0:
+			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 0, flip_speed)
+		else:
+			sprite.rotation_degrees.y = shortest_angle_deg(sprite.rotation_degrees.y, 180, flip_speed)
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+	if velocity.normalized().length() > 0.01:
+		playwalk(velocity.normalized())
+	move_and_slide()
+
+func navigator(_delta):
+	var target_pos = player.global_position
+	target_pos.y = global_position.y
+	nav.target_position = target_pos
+	var next_pos = nav.get_next_path_position()
+	next_pos.y = global_position.y
+	var direction = (next_pos - global_position).normalized()
+	velocity = direction * speed
+
+func playwalk(dir: Vector3) -> void: #RUNNING logic
+	var tolerance = 0.3
+
+	var dx = dir.x
+	var dz = dir.z
+	if abs(dx) < tolerance:
+		dx = 0
+	if abs(dz) < tolerance:
+		dz = 0
+
+	if dz < 0 and abs(dx) > 0:
+		sprite.play("walk_top_right")
+		facing = "up_right"
+	elif dz > 0 and abs(dx) > 0:
+		sprite.play("walk_down_right")
+		facing = "down_right"
+	elif abs(dx) > 0 and dz == 0:
+		sprite.play("walk_right")
+		facing = "right"
+	elif dz < 0:
+		facing = "up"
+		sprite.play("walk_up")
+	elif dz > 0:
+		facing = "down"
+		sprite.play("walk_down")
+
+func shortest_angle_deg(current: float, target: float, step: float) -> float:
+	var diff = fmod((target - current + 180), 360) - 180
+	return current + clamp(diff, -step, step)
+
+func _on_hitbox_area_entered(area: Area3D) -> void:
+	if area.is_in_group("Player-Hitbox"):
+		var dir_to_enemy = (global_position - player.global_position).normalized()
+		var facing_dir = player.last_dir.normalized()
+		var angle = rad_to_deg(facing_dir.angle_to(dir_to_enemy))
+		if angle < 80:
+			health -= Global.player_dmg
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+	
+	if area.is_in_group("Slam_Box"):
+			health -= (Global.player_dmg) - 3
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+
+func pick_next_state() -> void:
+	var roll = randf()
+	var acc = 0.0
+	for s in state_weights.keys():
+		acc += state_weights[s]
+		if roll <= acc:
+			state = s
+			state_timer = 0.0
+			_is_firing = false
+			return
+	state = "idle"
+	state_timer = 0.0
+	_is_firing = false
+
+func _update_chase(delta: float) -> void:
+	navigator(delta)
+	velocity = velocity.normalized() * speed
+	
+func _update_idle(_delta: float) -> void:
+	velocity = Vector3.ZERO
+	var player_dir = get_player_direction()
+	if player.global_position.x > global_position.x:
+		sprite.rotation_degrees.y = 0
+	else:
+		sprite.rotation_degrees.y = 180
+	match player_dir:
+		"up":
+			sprite.play("idle_up")
+		"down":
+			sprite.play("idle_down")
+		"right":
+			sprite.play("idle_right")
+		"up_right":
+			sprite.play("idle_up_right")
+		"down_right":
+			sprite.play("idle_down_right")
+
+func attack() -> void:
+	var player_dir = get_player_direction()
+	match player_dir:
+		"up":
+			sprite.play("attack_up")
+		"down":
+			sprite.play("attack_down")
+		"right":
+			sprite.play("attack_right")
+		"up_right":
+			sprite.play("attack_right")
+		"down_right":
+			sprite.play("attack_right")
+	$attack/CollisionShape3D.disabled = false
+	await get_tree().create_timer(1.5).timeout
+	$attack/CollisionShape3D.disabled = true
+
+func heal() -> void:
+	var shoot_dir = (player.global_position - global_position).normalized()
+	if _is_firing or not can_shoot:
+		return
+	_is_firing = true
+	can_shoot = false
+	velocity = Vector3.ZERO
+	await get_tree().create_timer(0.3).timeout
+
+	var player_dir = get_player_direction()
+	match player_dir:
+		"up":
+			sprite.play("heal_up")
+		"down":
+			sprite.play("heal_down")
+		"right":
+			sprite.play("heal_right")
+		"up_right":
+			sprite.play("heal_right")
+		"down_right":
+			sprite.play("heal_right")
+
+	await get_tree().create_timer(0.3).timeout
+	$whoosh.play()
+	var orb_scene = preload("res://Assets/Scenes/healing_orb.tscn")
+	var orb = orb_scene.instantiate()
+	get_parent().add_child(orb)
+
+	orb.global_position = global_position
+	orb.direction = shoot_dir
+
+	await get_tree().create_timer(0.5).timeout
+	pick_next_state()
+	state_timer = 0
+	_is_firing = false
+	can_shoot = true
+	pick_next_state()
+	state_timer = 0.0
+	
+func get_player_direction() -> String:
+	var dir = (player.global_position - global_position).normalized()
+	var tolerance = 0.4
+
+	if abs(dir.x) < tolerance:
+		dir.x = 0
+	if abs(dir.z) < tolerance:
+		dir.z = 0
+
+	if dir.z < 0 and abs(dir.x) > 0:
+		return "up_right"
+	elif dir.z > 0 and abs(dir.x) > 0:
+		return "down_right"
+	elif abs(dir.x) > 0 and dir.z == 0:
+		return "right"
+	elif dir.z < 0:
+		return "up"
+	elif dir.z > 0:
+		return "down"
+	return "down"
+
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	if state == "chase" and can_move:
+		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
+		move_and_slide()

@@ -134,6 +134,7 @@ scale = Vector2(7.84375, 8.59375)
 texture = ExtResource("3_2qme3")
 
 [node name="Label2" type="Label" parent="."]
+layout_mode = 0
 offset_left = 493.0
 offset_top = 448.0
 offset_right = 2363.0
@@ -144,6 +145,7 @@ text = "-imagine"
 script = ExtResource("5_dijoe")
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 1428.0
 offset_top = 714.0
 offset_right = 3298.0
