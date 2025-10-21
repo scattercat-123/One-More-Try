@@ -19,10 +19,10 @@ const STATE_LENGTH := 3.0
 var _is_firing := false
 
 var state_weights := {
-	"chase": 0.2,
+	"chase": 0.15,
 	"attack": 0.15,
-	"idle": 0.35,
-	"heal" : 0.3
+	"idle": 0.45,
+	"heal" : 0.25
 }
 
 func _ready() -> void:
@@ -199,10 +199,7 @@ func heal() -> void:
 	var orb_scene = preload("res://Assets/Scenes/healing_orb.tscn")
 	var orb = orb_scene.instantiate()
 	get_parent().add_child(orb)
-
 	orb.global_position = global_position
-	orb.direction = shoot_dir
-
 	await get_tree().create_timer(0.5).timeout
 	pick_next_state()
 	state_timer = 0

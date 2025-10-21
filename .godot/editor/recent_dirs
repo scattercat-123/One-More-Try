@@ -1,3 +1,4 @@
+res://Assets/Player
 res://Assets/Enemies/Healer
 res://Assets/Enemies/Healer/4Dir_LowRez_Block
 res://Assets/Enemies/Healer/8Dir_LowRez_Run
@@ -6,7 +7,6 @@ res://Assets/Enemies/Healer/4Dir_LowRez_Attack
 res://Assets/Scenes
 res://Assets/Scripts
 C:/Users/jayen/Desktop/Games/One-More-Try/export
-res://Assets/Player
 res://Assets/World
 res://Assets/Enemies/Boss
 res://Assets/Player/sword

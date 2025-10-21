@@ -606,7 +606,7 @@ size = Vector3(0.1, 0.289771, 0.03)
 [sub_resource type="SphereShape3D" id="SphereShape3D_jm51t"]
 radius = 0.25
 
-[node name="FireballMan" type="CharacterBody3D"]
+[node name="FireballMan" type="CharacterBody3D" groups=["Enemies"]]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 collision_layer = 5
 floor_max_angle = 0.970403
@@ -661,7 +661,6 @@ font = ExtResource("17_dg5fd")
 
 [node name="debug_label_2" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.465709, 0)
-visible = false
 pixel_size = 0.0024
 text = "erer"
 
@@ -674,6 +673,15 @@ volume_db = -10.0
 [node name="spawn" type="AudioStreamPlayer3D" parent="SFX"]
 stream = ExtResource("19_fkyqj")
 
+[node name="Area" type="Area3D" parent="." groups=["Enemy_Areas"]]
+collision_layer = 256
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00511475, 0)
+shape = SubResource("BoxShape3D_wycm4")
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]

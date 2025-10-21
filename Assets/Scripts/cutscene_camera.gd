@@ -9,7 +9,7 @@ var shake_timer := 0.0
 func _process(delta: float) -> void:
 	if $"../AnimationPlayer".current_animation == "storm_see" and once:
 		once = false
-		await get_tree().create_timer(1.8).timeout
+		await get_tree().create_timer(5.5).timeout
 		$"../Storm_scene/lightning_tree".play("default")
 		$"../Storm_scene".play_lightning_sound()
 		var tree: MeshInstance3D = $"../NavigationRegion3D/Objects/tree1/Cylinder_019"

@@ -7,5 +7,5 @@ func _process(delta: float) -> void:
 	global_position += direction * speed * delta
 
 func _ready():
-	pass
-	#queue_free()
+	await get_tree().create_timer(0.7).timeout
+	queue_free()

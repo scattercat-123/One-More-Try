@@ -664,7 +664,7 @@ size = Vector2(0.5, 0.3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hvyh2"]
 size = Vector3(0.5, 0.702, 0.5)
 
-[node name="possessed_enemy" type="CharacterBody3D"]
+[node name="possessed_enemy" type="CharacterBody3D" groups=["Enemies"]]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 collision_layer = 5
 script = ExtResource("1_5te4p")
@@ -768,6 +768,15 @@ max_polyphony = 3
 [node name="spawn" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("23_n21as")
 
+[node name="Area" type="Area3D" parent="." groups=["Enemy_Areas"]]
+collision_layer = 256
+collision_mask = 512
+
+[node name="Collision" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0151915, 0)
+shape = SubResource("BoxShape3D_0f3ah")
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="timeout" from="SoundTimer" to="." method="_on_sound_timer_timeout"]
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]

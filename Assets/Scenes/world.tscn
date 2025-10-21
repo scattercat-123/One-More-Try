@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=4 uid="uid://bqjljjvowjk07"]
+[gd_scene load_steps=107 format=4 uid="uid://bqjljjvowjk07"]
 
 [ext_resource type="Script" uid="uid://5nxmqdooll3y" path="res://Assets/Scripts/world.gd" id="1_dv8ie"]
 [ext_resource type="PackedScene" uid="uid://cwvlty82rb7ta" path="res://Assets/Scenes/player.tscn" id="1_jaky0"]
@@ -13,7 +13,6 @@
 [ext_resource type="ArrayMesh" uid="uid://dpqtawoem4von" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb.obj" id="9_eh6bj"]
 [ext_resource type="Texture2D" uid="uid://du2ucbauodvl0" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb-RGBA.png" id="10_sol70"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="11_5kudc"]
-[ext_resource type="PackedScene" uid="uid://cojaqtdny5e5u" path="res://Assets/Scenes/healer_enemy.tscn" id="12_2x841"]
 [ext_resource type="Script" uid="uid://daft6vd0sv3xj" path="res://Assets/Scripts/cutscene_camera.gd" id="12_cvvkx"]
 [ext_resource type="Texture2D" uid="uid://c2t2vcthkw3kn" path="res://Assets/World/lightning.png" id="15_c6fuy"]
 [ext_resource type="Script" uid="uid://d2yjpehjo8r4b" path="res://Assets/Scripts/storm_scene_boss.gd" id="15_c8enp"]
@@ -1108,7 +1107,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_c6fuy"]
 resource_name = "storm_see"
-length = 2.0
+length = 6.0
 loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1117,7 +1116,7 @@ tracks/0/path = NodePath("cutscene_camera:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.25, 2),
+"times": PackedFloat32Array(0, 1.7, 3.8, 6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-13.0161, 2.74607, 0), Vector3(-7.47991, 4.27434, 0), Vector3(-4.04672, 4.78281, 0), Vector3(-4.04672, 4.78281, 0)]
@@ -1129,7 +1128,7 @@ tracks/1/path = NodePath("cutscene_camera:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.25, 2),
+"times": PackedFloat32Array(0, 1.7, 3.8, 6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, -1.5708, 0), Vector3(0.442389, -1.5708, -2.07062e-08), Vector3(1.53699, -1.5708, -1.17004e-06), Vector3(-0.0338061, -0.785398, -5.28089e-08)]
@@ -1522,9 +1521,6 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.625907, 2.43799, 2.41611)
 
 [node name="possessed_enemy" parent="." instance=ExtResource("6_44f6d")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.49283, 0)
-
-[node name="healer_enemy" parent="." instance=ExtResource("12_2x841")]
-transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -4.51537, 2.46009, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

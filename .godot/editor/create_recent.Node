@@ -1,7 +1,9 @@
-AudioStreamPlayer3D
-CollisionShape3D
+Label3D
 Area3D
+AudioStreamPlayer3D
 CharacterBody3D
+NavigationAgent3D
+CollisionShape3D
 Sprite3D
 AnimatedSprite3D
 Label
@@ -10,5 +12,3 @@ AudioStreamPlayer
 Node3D
 Sprite2D
 Node2D
-Label3D
-StaticBody3D

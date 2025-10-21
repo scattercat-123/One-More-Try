@@ -11,12 +11,11 @@ var once = false
 var player
 var start = false
 @onready var damage_numbers_origin: Node3D = $Damage_Numbers_Origin
-@onready var debug_label: Label3D = $Label3D
+@onready var debug_label: Label3D = $debug_label_2
 var can_shoot = true
 var state := "idle"
 var state_timer := 0.0
 const STATE_LENGTH := 3.0
-@onready var debug_label_2: Label3D = $debug_label_2
 @onready var pivot_hit_path: Node3D = $Pivot_Hit_path
 var _pivot_aimed := false
 var _is_firing := false
@@ -43,9 +42,9 @@ func _process(delta: float) -> void:
 	var distance_to_player = global_position.distance_to(player.global_position)
 	if distance_to_player < 4 :
 		state_weights = {
-			"chase": 0.25,
-			"fireball": 0.65,
-			"idle": 0.1
+			"chase": 0.3,
+			"fireball": 0.45,
+			"idle": 0.25
 		}
 	else:
 		state_weights = {
@@ -53,7 +52,7 @@ func _process(delta: float) -> void:
 			"fireball": 0.35,
 			"idle": 0.25
 		}
-	debug_label_2.text = str(velocity.length())
+	debug_label.text = str(health)
 	if can_move or Global.debug_mode == true or not Global.wave == 1:
 		rotation_degrees.y = 0
 		if start or not Global.wave == 1 and Global.player_health > 0:
@@ -63,12 +62,9 @@ func _process(delta: float) -> void:
 			match state:
 				"idle":
 					_update_idle(delta)
-					debug_label.text = "idle"
 				"chase":
-					debug_label.text = "chase"
 					_update_chase(delta)
 				"fireball":
-					debug_label.text = "fire"
 					fireball_shoot()
 	else:
 		rotation_degrees.y = 90
@@ -269,3 +265,7 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if state == "chase" and can_move:
 		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
 		move_and_slide()
+
+func _on_area_area_entered(area: Area3D) -> void:
+	health += 10
+	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)

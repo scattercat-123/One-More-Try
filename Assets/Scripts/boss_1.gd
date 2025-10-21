@@ -189,3 +189,8 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if state == "chase":
 		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
 	move_and_slide()
+
+
+func _on_area_area_entered(area: Area3D) -> void:
+	health += 30
+	DamageNumbers.display_heal_number(30, damage_numbers_origin.global_position)

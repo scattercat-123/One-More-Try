@@ -276,7 +276,7 @@ size = Vector3(5.0119, 3.10979, 4.99487)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7uste"]
 size = Vector3(3.15469, 1, 2.54184)
 
-[node name="Boss_1" type="CharacterBody3D"]
+[node name="Boss_1" type="CharacterBody3D" groups=["Enemies"]]
 floor_stop_on_slope = false
 floor_max_angle = 1.0472
 script = ExtResource("1_tqimg")
@@ -346,5 +346,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.91996, -0.572038, 0)
 visible = false
 text = "fds"
 
+[node name="Area" type="Area3D" parent="." groups=["Enemy_Areas"]]
+collision_layer = 256
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0313339, -0.154907, 0)
+shape = SubResource("BoxShape3D_tqimg")
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]

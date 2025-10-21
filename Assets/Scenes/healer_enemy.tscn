@@ -362,7 +362,7 @@ script = ExtResource("1_mf4db")
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_2t1kd")
 animation = &"heal_right"
-frame_progress = 0.132276
+frame_progress = 0.0401975
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
@@ -382,7 +382,7 @@ text = "erer"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000411928, 0)
 shape = SubResource("BoxShape3D_33tpt")
 
-[node name="attack" type="Area3D" parent="."]
+[node name="attack" type="Area3D" parent="." groups=["Healer_enemy"]]
 collision_layer = 32
 collision_mask = 0
 
@@ -402,6 +402,14 @@ monitorable = false
 [node name="hitbox" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("SphereShape3D_xvr40")
 debug_color = Color(0.999515, 0, 0.110578, 0.42)
+
+[node name="Area" type="Area3D" parent="." groups=["Enemy_Areas"]]
+collision_layer = 256
+collision_mask = 512
+
+[node name="Collision" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000411928, 0)
+shape = SubResource("BoxShape3D_33tpt")
 
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

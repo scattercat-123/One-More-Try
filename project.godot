@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.105396, 0.0221852, 0.240693, 1)
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-boot_splash/image="uid://c20l8qrdl5klv"
+boot_splash/image="uid://c6aa4em361otp"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=1000
 
@@ -109,6 +109,9 @@ Possessed_Attack=""
 Tutorial_blockage=""
 Spawner=""
 Slam_Box=""
+Healer_enemy=""
+Enemies=""
+Enemy_Areas=""
 
 [input]
 
@@ -211,7 +214,8 @@ slam={
 3d_physics/layer_5="Player_Sword_Layer"
 3d_physics/layer_6="Player_hurt"
 3d_physics/layer_8="Tutorial_blockage"
-3d_physics/layer_9="enemy_heal"
+3d_physics/layer_9="enemy_healing_orb_touch_detect"
+3d_physics/layer_10="heal_enemy"
 
 [rendering]
 

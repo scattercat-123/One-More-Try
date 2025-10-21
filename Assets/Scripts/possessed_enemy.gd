@@ -96,12 +96,12 @@ func _process(delta: float) -> void:
 				"jumpy":
 					debug_label.text = "jump"
 					jumpy(velocity.normalized())
-			if health <= 0 or global_position.y <= -1:
-				visible = false
-				if Global.wave > 1:
-					get_tree().call_group("Spawner", "on_enemy_died")
-				queue_free()
-				Global.enemies_left = Global.enemies_left - 1
+		if health <= 0 or global_position.y <= -1:
+			visible = false
+			if Global.wave > 1:
+				get_tree().call_group("Spawner", "on_enemy_died")
+			queue_free()
+			Global.enemies_left = Global.enemies_left - 1
 	else:
 		rotation_degrees.y = 90
 
@@ -163,6 +163,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Slam_Box"):
 			health -= (Global.player_dmg) - 3
 			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+
 func pick_next_state() -> void:
 	if state_locked: 
 		return
@@ -330,3 +331,7 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if state == "chase" and can_move:
 		velocity = velocity.move_toward(safe_velocity * speed, 0.7)
 		move_and_slide()
+
+func _on_area_area_entered(area: Area3D) -> void:
+	health += 10
+	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)

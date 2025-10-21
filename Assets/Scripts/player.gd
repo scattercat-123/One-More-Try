@@ -259,14 +259,14 @@ func slam():
 	can_move = false
 	sprite.play("jump")
 	slash_sprite.play("jump_slash")
-	await get_tree().create_timer(0.7).timeout
+	await get_tree().create_timer(0.3).timeout
 	$slash/slash_2.play()
-	$Slam_Hit/CollisionShape3D.disabled = false
 	await get_tree().create_timer(0.1).timeout
 	effects.play("default")
 	$SFX/slam.play()
+	$Slam_Hit/CollisionShape3D.disabled = false
+	await get_tree().create_timer(0.3).timeout
 	$Slam_Hit/CollisionShape3D.disabled = true
-	await get_tree().create_timer(0.2).timeout
 	is_slamming = false
 	can_move = true
 
@@ -276,12 +276,26 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Tutorial_blockage"):
 		new_notice("Must Complete Tutorial to advance")
 		$"../AnimationPlayer".play("must_complete_tutorial")
-	if area.is_in_group("Fireball"):
-		Global.damage += 2
+	if area.is_in_group("Fireball") or area.is_in_group("Healer_enemy"):
+		if not Global.crit_hit:
+			Global.damage += 2
+		else:
+			Global.damage += 2 * 1.5
 	if area.is_in_group("Possessed_Jump"):
-		Global.damage += 3
+		if not Global.crit_hit:
+			Global.damage += 3
+		else:
+			Global.damage += 3 * 1.5
 	if area.is_in_group("Possessed_Attack"):
-		Global.damage += 5
+		if not Global.crit_hit:
+			Global.damage += 5
+		else:
+			Global.damage += 5 * 1.5
+	if area.is_in_group("Possessed_Attack"):
+		if not Global.crit_hit:
+			Global.damage += 5
+		else:
+			Global.damage += 5 * 1.5
 
 func _on_ocean_body_entered(_body: Node3D) -> void:
 	print("died")

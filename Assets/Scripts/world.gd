@@ -13,9 +13,10 @@ extends Node3D
 @export var fireball_scene: PackedScene = preload("res://Assets/Scenes/fireball_enemy.tscn")
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
 @export var boss_1_scene: PackedScene = preload("res://Assets/Scenes/boss_1.tscn")
-var enemies_per_wave := [0, 10, 20, 25, 0]
+@export var healer_enemy: PackedScene = preload("res://Assets/Scenes/healer_enemy.tscn")
+var enemies_per_wave := [0, 10, 20, 5, 25]
 var max_enemies_per_wave := [0, 5, 10, 15, 0]
-var enemies_chance_spawn := [65, 35]
+var enemies_chance_spawn := [65, 35, 0]
 var enemies_per_wave_chance_to_spawn: int = 10
 var shown_powerups_this_wave = false
 var spawned_this_wave := 0    
@@ -57,7 +58,7 @@ func _process(_delta: float) -> void:
 		$Storm_scene/boss_music.play()
 		$AnimationPlayer.play("storm_see")
 		$player/GUI.visible = false
-		await get_tree().create_timer(4.0).timeout
+		await get_tree().create_timer(6.0).timeout
 		$player/GUI.visible = true
 		$AnimationPlayer.stop()
 		$player/Camera3D.make_current()
@@ -107,6 +108,14 @@ func spawn_fireball_enemy_at(marker: Node3D) -> void:
 	fb.global_transform = marker.global_transform
 	fb.scale = Vector3(2, 2, 2)
 	Global.enemies_left += 1
+func spawn_healer_enemy_at(marker: Node3D) -> void:
+	if marker == null:
+		return
+	var he = healer_enemy.instantiate()
+	get_parent().add_child(he)
+	he.global_transform = marker.global_transform
+	he.scale = Vector3(2, 2, 2)
+	Global.enemies_left += 1
 func spawn_possessed_enemy_at(marker: Node3D) -> void:
 	if marker == null:
 		return
@@ -132,25 +141,28 @@ func spawn_batch(count: int, wave_num: int) -> void:
 	if markers.size() == 0:
 		return
 	var modified_chances = enemies_chance_spawn.duplicate()
+	if wave_num >= 3:
+		modified_chances[2] = 20
+	else:
+		modified_chances[2] = 0
+
 	for i in range(modified_chances.size()):
 		var difficulty_factor = i * enemies_per_wave_chance_to_spawn * max(wave_num - 1, 0)
 		modified_chances[i] = float(modified_chances[i]) + float(difficulty_factor)
-
 	for s in range(count):
 		if markers.size() == 0:
 			break
-		var midx = randi() % markers.size()
-		var marker: Node3D = markers[midx]
-
+		var marker: Node3D = markers[randi() % markers.size()]
 		var chosen = _pick_weighted_index(modified_chances)
-		if chosen == 0:
-			spawn_fireball_enemy_at(marker)
-		elif chosen == 1:
-			spawn_possessed_enemy_at(marker)
-		else:
-			spawn_possessed_enemy_at(marker)
-
+		match chosen:
+			0:
+				spawn_fireball_enemy_at(marker)
+			1:
+				spawn_possessed_enemy_at(marker)
+			2:
+				spawn_healer_enemy_at(marker)
 		spawned_this_wave += 1
+
 func _on_spawn_timer_timeout() -> void:
 	if Global.wave < 2 or Global.wave > enemies_per_wave.size():
 		if spawn_timer_started:
