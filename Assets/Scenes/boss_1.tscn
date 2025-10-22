@@ -1,7 +1,10 @@
-[gd_scene load_steps=40 format=3 uid="uid://c6x0nfw5wpiq0"]
+[gd_scene load_steps=42 format=3 uid="uid://c6x0nfw5wpiq0"]
 
 [ext_resource type="Script" uid="uid://bk2c4bx5ldquv" path="res://Assets/Scripts/boss_1.gd" id="1_tqimg"]
 [ext_resource type="Texture2D" uid="uid://bl4nuc2xorbi4" path="res://Assets/Enemies/Boss/RockFlameBoss.png" id="2_t8c7j"]
+[ext_resource type="AudioStream" uid="uid://b0c4a848cdjoj" path="res://Assets/Sound/healing-magic-6-378666.mp3" id="3_t8c7j"]
+[ext_resource type="AudioStream" uid="uid://bv486e4erncqe" path="res://Assets/Sound/slam.mp3" id="4_7uste"]
+[ext_resource type="AudioStream" uid="uid://b3oimy1gl1iqb" path="res://Assets/Sound/slammy.mp3" id="5_4fepu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tqimg"]
 size = Vector3(0.831284, 2.69458, 1)
@@ -105,17 +108,13 @@ region = Rect2(1200, 0, 300, 300)
 atlas = ExtResource("2_t8c7j")
 region = Rect2(600, 900, 300, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q7v3p"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7ct1"]
 atlas = ExtResource("2_t8c7j")
-region = Rect2(900, 900, 300, 300)
+region = Rect2(0, 1200, 300, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2v77h"]
 atlas = ExtResource("2_t8c7j")
 region = Rect2(1200, 900, 300, 300)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s7ct1"]
-atlas = ExtResource("2_t8c7j")
-region = Rect2(0, 1200, 300, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_af5gd"]
 atlas = ExtResource("2_t8c7j")
@@ -236,13 +235,10 @@ animations = [{
 "texture": SubResource("AtlasTexture_0h2xf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q7v3p")
+"texture": SubResource("AtlasTexture_s7ct1")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2v77h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s7ct1")
 }],
 "loop": true,
 "name": &"rush_attack",
@@ -300,7 +296,8 @@ shape = SubResource("BoxShape3D_t8c7j")
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_g5vgt")
-animation = &"hand_grow"
+animation = &"rush_attack"
+frame_progress = 0.46894
 
 [node name="Hitbox" type="Area3D" parent="."]
 collision_layer = 0
@@ -353,6 +350,16 @@ collision_mask = 512
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0313339, -0.154907, 0)
 shape = SubResource("BoxShape3D_tqimg")
+
+[node name="healed" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_t8c7j")
+volume_db = -20.0
+
+[node name="rush" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_7uste")
+
+[node name="slammy" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_4fepu")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

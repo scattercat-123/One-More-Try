@@ -38,12 +38,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	state_timer += delta
 	if state == "rush_attack":
-		speed = 1.75
+		speed = 2
+	else:
+		speed = 1
 	if not state_locked and state_timer >= STATE_LENGTH:
 		pick_next_state()
 	if state == "idle":
+		Global.boss_1_state = "idle"
 		_update_idle()
 	elif state == "chase":
+		Global.boss_1_state = "chase"
 		_update_chase()
 	elif state == "rush_attack":
 		attack()
@@ -150,9 +154,16 @@ func jumpy() -> void:
 	state_locked = true
 	jump_path.visible = true
 	await get_tree().create_timer(timer_for_showing_path).timeout
+	Global.boss_1_state = "slam"
 	sprite.play("slam")
 	damage_jump.disabled = false
-	await get_tree().create_timer(2.25).timeout
+	$rush.play()
+	await get_tree().create_timer(0.666).timeout
+	$rush.play()
+	await get_tree().create_timer(0.666).timeout
+	$rush.play()
+	await get_tree().create_timer(0.666).timeout
+	$rush.play()
 	damage_jump.disabled = true
 	jump_path.visible = false
 	state_locked = false
@@ -168,10 +179,24 @@ func attack() -> void:
 	state_locked = true
 
 	sprite.play("rush_attack")
+	Global.boss_1_state = "rush_attack"
 	damage_attack.disabled = false
-	await get_tree().create_timer(3).timeout
+	$slammy.play()
+	await get_tree().create_timer(0.25).timeout
+	$rush.play()
+	await get_tree().create_timer(0.25).timeout
+	$slammy.play()
+	await get_tree().create_timer(0.5).timeout
+	$rush.play()
+	await get_tree().create_timer(0.25).timeout
+	$rush.play()
+	await get_tree().create_timer(0.5).timeout
+	$slammy.play()
+	await get_tree().create_timer(0.5).timeout
+	$rush.play()
+	await get_tree().create_timer(0.25).timeout
+	$rush.play()
 	damage_attack.disabled = true
-
 	state_locked = false
 	is_attacking = false
 	did_attack = false
@@ -183,7 +208,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
 	elif area.is_in_group("Slam_Box"):
 		health -= max(0, Global.player_dmg - 3)
-		DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
+		DamageNumbers.display_number(Global.player_dmg-3, damage_numbers_origin.global_position)
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	if state == "chase":
@@ -192,5 +217,9 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 
 
 func _on_area_area_entered(area: Area3D) -> void:
+	$healed.play()
 	health += 30
 	DamageNumbers.display_heal_number(30, damage_numbers_origin.global_position)
+	sprite.modulate = "78ffaa"
+	await get_tree().create_timer(0.25).timeout
+	sprite.modulate = "ffffff"

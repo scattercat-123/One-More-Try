@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://b1igw3s0ry80q" path="res://Assets/Enemies/Healer/healing_orb.png" id="2_lphwc"]
 [ext_resource type="AudioStream" uid="uid://cu7503it3vd33" path="res://Assets/Sound/magical-glowing-37417.mp3" id="3_l26qb"]
 [ext_resource type="AudioStream" uid="uid://b1xhn605j5h7j" path="res://Assets/Sound/scary-sound-effect-359877.mp3" id="4_dnpql"]
-[ext_resource type="AudioStream" uid="uid://b0c4a848cdjoj" path="res://Assets/Sound/healing-magic-6-378666.mp3" id="5_huntl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l26qb"]
 atlas = ExtResource("2_lphwc")
@@ -51,7 +50,11 @@ animations = [{
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_c273o"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_huntl"]
+
 [node name="healing_orb" type="CharacterBody3D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_l26qb")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
@@ -80,8 +83,9 @@ target_desired_distance = 0.1
 [node name="glow" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_dnpql")
 
-[node name="healed" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("5_huntl")
-volume_db = -20.0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_huntl")
+debug_color = Color(0, 0.6, 0.701961, 0)
+debug_fill = false
 
 [connection signal="area_entered" from="hit" to="." method="_on_hit_area_entered"]

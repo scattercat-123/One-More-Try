@@ -26,10 +26,13 @@ var state_weights := {
 }
 
 func _ready() -> void:
+	var rand_spawm_sound = randf_range(0.0, 3.5)
 	player = get_tree().get_first_node_in_group("Player")
 	state_timer = 0.0
 	if Global.debug_mode == false:
 		debug_label.visible = false
+	await get_tree().create_timer(rand_spawm_sound).timeout
+	$spawn.play()
 
 func _process(delta: float) -> void:
 	var distance_to_player = global_position.distance_to(player.global_position)
@@ -47,6 +50,7 @@ func _process(delta: float) -> void:
 				heal()
 			"attack":
 				attack()
+	$Health_bar_viewport/health_bar.value = health
 	if health <= 0 or global_position.y <= -1:
 		visible = false
 		if Global.wave > 1:
@@ -112,11 +116,11 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		var angle = rad_to_deg(facing_dir.angle_to(dir_to_enemy))
 		if angle < 80:
 			health -= Global.player_dmg
-			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
 	
 	if area.is_in_group("Slam_Box"):
 			health -= (Global.player_dmg) - 3
-			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+			DamageNumbers.display_number(Global.player_dmg-3, damage_numbers_origin.global_position)
 
 func pick_next_state() -> void:
 	var roll = randf()

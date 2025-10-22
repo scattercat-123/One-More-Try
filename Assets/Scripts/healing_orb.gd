@@ -4,10 +4,13 @@ extends CharacterBody3D
 var target: Node3D = null
 @export var speed: float = 4.0
 
+var can_detect := false
+
 func _ready():
-	await get_tree().process_frame
+	await get_tree().create_timer(0.2).timeout
 	find_target()
 	$glow.play()
+	can_detect = true
 	
 func _process(delta):
 	if not is_instance_valid(target):
@@ -27,6 +30,7 @@ func find_target():
 		nav.target_position = target.global_position
 	
 func _on_hit_area_entered(area: Area3D) -> void:
-		$healed.play()
+	if not can_detect:
+		return
+	if area.is_in_group("Enemy_Areas"):
 		queue_free()
-		pass

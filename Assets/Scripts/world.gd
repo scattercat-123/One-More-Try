@@ -14,6 +14,7 @@ extends Node3D
 @export var possessed_scene: PackedScene = preload("res://Assets/Scenes/possessed_enemy.tscn")
 @export var boss_1_scene: PackedScene = preload("res://Assets/Scenes/boss_1.tscn")
 @export var healer_enemy: PackedScene = preload("res://Assets/Scenes/healer_enemy.tscn")
+@export var lightning_scene: PackedScene = preload("res://Assets/Scenes/lightning.tscn")
 var enemies_per_wave := [0, 10, 20, 5, 25]
 var max_enemies_per_wave := [0, 5, 10, 15, 0]
 var enemies_chance_spawn := [65, 35, 0]
@@ -48,6 +49,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Global.wave == 4 and once3 == false:
 		once3 = true
+		Dialogic.start("boss_1")
 		var b1 = boss_1_scene.instantiate()
 		get_parent().add_child(b1)
 		b1.global_transform = $Spawning_markers/Marker3D32.global_transform
@@ -225,7 +227,18 @@ func transition_environment():
 				var tween = get_tree().create_tween()
 				tween.tween_property(new_env, str(prop.name), target_value, transition_duration)
 
-
 func _on_boss_music_finished() -> void:
 	if Global.wave == 4:
 		$Storm_scene/boss_music.play(4)
+
+func _on_lightning_timeout() -> void:
+	if Global.wave == 4:
+		$Storm_scene/Lightning.wait_time = randi_range(1, 3)
+		if markers.size() == 0:
+			return
+		var random_marker: Node3D = markers[randi() % markers.size()]
+		var lightning_strike = lightning_scene.instantiate()
+		get_parent().add_child(lightning_strike)
+		lightning_strike.global_transform = random_marker.global_transform
+		lightning_strike.scale = Vector3(2,2,2)
+		$Storm_scene/Lightning.start()

@@ -12,7 +12,7 @@ var powerups = {
 		{"name": "Extra Dmg", "desc": "+2 Damage per hit", "var": "Global.extra_dmg", "var_type": "int"},
 	],
 	"uncommon": [
-		{"name": "Critical Hit", "desc": "10% chance to double damage", "var": "Global.crit_hit", "var_type": "bool"},
+		{"name": "Critical Hit", "desc": "10% chance to do 1.5x Damage", "var": "Global.crit_hit", "var_type": "bool"},
 		{"name": "Lag", "desc": "Do plus 5 damage but lagged by 4 seconds", "var": "Global.lag", "var_type": "bool"},
 		{"name": "Damagee", "desc": "+3 Damage per hit", "var": "Global.extra_dmgee", "var_type": "int"},
 		{"name": "Health Pack", "desc": "+40 HP", "var": "Global.health_pack", "var_type": "int"}

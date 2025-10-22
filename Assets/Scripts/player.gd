@@ -9,6 +9,7 @@ var is_slamming = false
 const SPEED = 1.7
 var SPEED_ACTUAL
 var flip_speed = 20
+var crit_hit = 1
 var flip_right = true
 var running = false
 var facing : String
@@ -57,9 +58,9 @@ func _process(_delta: float) -> void:
 		Global.player_health = player_health + (Global.extra_health * 20) + (Global.health_pack * 40)+ (Global.extra_per_wavey * 20)
 	player_dmg = 10 + (Global.extra_dmg)*2 + (Global.extra_dmgee)* 3
 	if not Global.risk_taker:
-		Global.player_dmg = player_dmg
+		Global.player_dmg = (player_dmg) * crit_hit
 	else:
-		Global.player_dmg = player_dmg + 10
+		Global.player_dmg = (player_dmg + 10) * crit_hit
 	if Global.player_health > health_bar.max_value:
 		health_bar.max_value = 100 + Global.player_health - health_bar.max_value
 	Global.max_health = health_bar.max_value 
@@ -106,6 +107,13 @@ func _physics_process(delta: float) -> void:
 		await roll(last_dir)
 	if Input.is_action_just_pressed("slam") and not is_rolling and can_move and not is_slashing and stamina_bar.value > 20 and allow_flip:
 		stamina_bar.value = stamina_bar.value - 15
+		if Global.crit_hit:
+			var rand_dmgg = randi_range(0,9)
+			if rand_dmgg == 1:
+				crit_hit = 1.5
+				DamageNumbers.display_text("Critical Hit!", $Damage_Numbers_Origin.global_position)
+			else:
+				crit_hit = 1
 		await slam()
 	if can_move and not is_slashing and not is_rolling and not is_slamming:
 		if direction:
@@ -127,6 +135,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("click") and is_slashing == false and not is_rolling and not is_slamming:
 		sprite.stop()
 		stamina_bar.value = stamina_bar.value - 5
+		if Global.crit_hit:
+			var rand_dmg = randi_range(0,9)
+			if rand_dmg == 1:
+				crit_hit = 1.5
+			else:
+				crit_hit = 1
 		await slash(facing)
 	move_and_slide()
 	
@@ -276,26 +290,31 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Tutorial_blockage"):
 		new_notice("Must Complete Tutorial to advance")
 		$"../AnimationPlayer".play("must_complete_tutorial")
-	if area.is_in_group("Fireball") or area.is_in_group("Healer_enemy"):
-		if not Global.crit_hit:
+	if area.is_in_group("Fireball"):
+		if not Global.risk_taker:
 			Global.damage += 2
 		else:
 			Global.damage += 2 * 1.5
 	if area.is_in_group("Possessed_Jump"):
-		if not Global.crit_hit:
+		if not Global.risk_taker:
 			Global.damage += 3
 		else:
 			Global.damage += 3 * 1.5
 	if area.is_in_group("Possessed_Attack"):
-		if not Global.crit_hit:
+		if not Global.risk_taker:
 			Global.damage += 5
 		else:
 			Global.damage += 5 * 1.5
 	if area.is_in_group("Possessed_Attack"):
-		if not Global.crit_hit:
+		if not Global.risk_taker:
 			Global.damage += 5
 		else:
 			Global.damage += 5 * 1.5
+	if area.is_in_group("Healer_enemy"):
+		if not Global.risk_taker:
+			Global.damage += 2
+		else:
+			Global.damage += 2 * 1.5
 
 func _on_ocean_body_entered(_body: Node3D) -> void:
 	print("died")

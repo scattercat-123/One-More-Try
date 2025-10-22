@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://cojaqtdny5e5u"]
+[gd_scene load_steps=67 format=3 uid="uid://cojaqtdny5e5u"]
 
 [ext_resource type="Script" uid="uid://brrqhhxuehbrt" path="res://Assets/Scripts/healer_enemy.gd" id="1_mf4db"]
 [ext_resource type="Texture2D" uid="uid://dk5e8u42si28k" path="res://Assets/Enemies/Healer/4Dir_LowRez_Attack/AttackFront.png" id="2_7wko8"]
@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://crcoow4ri72xi" path="res://Assets/Enemies/Healer/8Dir_LowRez_Run/Run_RightUp.png" id="14_0l3qq"]
 [ext_resource type="Texture2D" uid="uid://bwnsjvf06call" path="res://Assets/Enemies/Healer/8Dir_LowRez_Run/Run_Up.png" id="15_vdns7"]
 [ext_resource type="AudioStream" uid="uid://dmfsotlselc6g" path="res://Assets/Sound/whoosh-motion-2-390709.mp3" id="19_xvr40"]
+[ext_resource type="AudioStream" uid="uid://ytcmqncene63" path="res://Assets/Sound/spawn.mp3" id="20_5g5vo"]
+[ext_resource type="Texture2D" uid="uid://b4qy1klr6541n" path="res://Assets/Enemies/Enemy_Health_bar.png" id="21_j2rg1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_25c75"]
 atlas = ExtResource("2_7wko8")
@@ -355,6 +357,28 @@ radius = 0.1
 [sub_resource type="SphereShape3D" id="SphereShape3D_xvr40"]
 radius = 0.175
 
+[sub_resource type="Gradient" id="Gradient_4olq3"]
+colors = PackedColorArray(1, 1, 1, 0, 0.215902, 0.215902, 0.215902, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ioa53"]
+gradient = SubResource("Gradient_4olq3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_opojr"]
+texture = SubResource("GradientTexture1D_ioa53")
+
+[sub_resource type="Gradient" id="Gradient_vsymb"]
+offsets = PackedFloat32Array(0, 0.513043, 1)
+colors = PackedColorArray(0, 0.403922, 0, 1, 0.249854, 0.847761, 0.252668, 1, 0, 0.404555, 5.77569e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0l3qq"]
+gradient = SubResource("Gradient_vsymb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vdns7"]
+texture = SubResource("GradientTexture1D_0l3qq")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mahwm"]
+viewport_path = NodePath("Health_bar_viewport")
+
 [node name="healer_enemy" type="CharacterBody3D"]
 script = ExtResource("1_mf4db")
 
@@ -410,6 +434,35 @@ collision_mask = 512
 [node name="Collision" type="CollisionShape3D" parent="Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000411928, 0)
 shape = SubResource("BoxShape3D_33tpt")
+
+[node name="spawn" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("20_5g5vo")
+
+[node name="Health_bar_viewport" type="SubViewport" parent="."]
+size = Vector2i(106, 10)
+
+[node name="health_bar" type="ProgressBar" parent="Health_bar_viewport"]
+offset_left = 1.0
+offset_right = 106.0
+offset_bottom = 8.0
+scale = Vector2(0.999521, 1.11612)
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_opojr")
+theme_override_styles/fill = SubResource("StyleBoxTexture_vdns7")
+max_value = 25.0
+value = 25.0
+show_percentage = false
+
+[node name="bar" type="Sprite2D" parent="Health_bar_viewport/health_bar"]
+position = Vector2(52.0249, 4.47981)
+scale = Vector2(1, 1)
+texture = ExtResource("21_j2rg1")
+
+[node name="Health_Bar" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.180016, 0)
+billboard = 1
+texture_filter = 2
+texture = SubResource("ViewportTexture_mahwm")
 
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

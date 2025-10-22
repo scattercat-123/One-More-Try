@@ -15,20 +15,20 @@
 [sub_resource type="Gradient" id="Gradient_5t6kp"]
 colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_w41h6"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c6weo"]
 gradient = SubResource("Gradient_5t6kp")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oc5i2"]
-texture = SubResource("GradientTexture1D_w41h6")
+texture = SubResource("GradientTexture1D_c6weo")
 
 [sub_resource type="Gradient" id="Gradient_65erl"]
 colors = PackedColorArray(0.999982, 0.259583, 0.205064, 1, 0.391064, 4.06103e-07, 1.44392e-07, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_mr3jv"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nhh5w"]
 gradient = SubResource("Gradient_65erl")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g2xwr"]
-texture = SubResource("GradientTexture1D_mr3jv")
+texture = SubResource("GradientTexture1D_nhh5w")
 
 [sub_resource type="Gradient" id="Gradient_iw08q"]
 colors = PackedColorArray(4.9334e-07, 0, 0.300713, 1, 0, 0, 1, 1)

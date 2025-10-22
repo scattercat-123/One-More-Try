@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://bkjwsp7qyjjcw"]
+[gd_scene load_steps=103 format=3 uid="uid://bkjwsp7qyjjcw"]
 
 [ext_resource type="Script" uid="uid://bccvs0avrcii6" path="res://Assets/Scripts/fireball_man.gd" id="1_m54yg"]
 [ext_resource type="Texture2D" uid="uid://2q83lco3k62q" path="res://Assets/Enemies/Fireball_Man/down_idle.png" id="1_neajl"]
@@ -16,9 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://brv4prbux24wy" path="res://Assets/Enemies/Fireball_Man/up_right_idle.png" id="13_gtm0n"]
 [ext_resource type="Texture2D" uid="uid://c6acawv0kv2ey" path="res://Assets/Enemies/Fireball_Man/up_run.png" id="14_co53f"]
 [ext_resource type="Texture2D" uid="uid://co71o022toj6a" path="res://Assets/Enemies/Fireball_Man/up_shoot.png" id="15_cup26"]
-[ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="17_dg5fd"]
+[ext_resource type="AudioStream" uid="uid://b0c4a848cdjoj" path="res://Assets/Sound/healing-magic-6-378666.mp3" id="19_djmht"]
 [ext_resource type="AudioStream" uid="uid://ytcmqncene63" path="res://Assets/Sound/spawn.mp3" id="19_fkyqj"]
 [ext_resource type="AudioStream" uid="uid://cnphtbqwiyyyl" path="res://Assets/Sound/fireball-whoosh-3-179127.mp3" id="19_r4xks"]
+[ext_resource type="Texture2D" uid="uid://b4qy1klr6541n" path="res://Assets/Enemies/Enemy_Health_bar.png" id="20_fkyqj"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qdlyk"]
 size = Vector2(3, 0.3)
@@ -606,6 +607,28 @@ size = Vector3(0.1, 0.289771, 0.03)
 [sub_resource type="SphereShape3D" id="SphereShape3D_jm51t"]
 radius = 0.25
 
+[sub_resource type="Gradient" id="Gradient_djmht"]
+colors = PackedColorArray(1, 1, 1, 0, 0.215902, 0.215902, 0.215902, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fkyqj"]
+gradient = SubResource("Gradient_djmht")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gisxu"]
+texture = SubResource("GradientTexture1D_fkyqj")
+
+[sub_resource type="Gradient" id="Gradient_67nax"]
+offsets = PackedFloat32Array(0, 0.513043, 1)
+colors = PackedColorArray(0, 0.403922, 0, 1, 0.249854, 0.847761, 0.252668, 1, 0, 0.404555, 5.77569e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_djmht"]
+gradient = SubResource("Gradient_67nax")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_krdi6"]
+texture = SubResource("GradientTexture1D_djmht")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fkyqj"]
+viewport_path = NodePath("Health_bar_viewport")
+
 [node name="FireballMan" type="CharacterBody3D" groups=["Enemies"]]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 collision_layer = 5
@@ -652,13 +675,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0865489, 0)
 
 [node name="StateTimer" type="Timer" parent="."]
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342735, 0)
-visible = false
-pixel_size = 0.003
-text = "Fireball"
-font = ExtResource("17_dg5fd")
-
 [node name="debug_label_2" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.465709, 0)
 pixel_size = 0.0024
@@ -673,13 +689,43 @@ volume_db = -10.0
 [node name="spawn" type="AudioStreamPlayer3D" parent="SFX"]
 stream = ExtResource("19_fkyqj")
 
+[node name="healed" type="AudioStreamPlayer3D" parent="SFX"]
+stream = ExtResource("19_djmht")
+volume_db = -20.0
+
 [node name="Area" type="Area3D" parent="." groups=["Enemy_Areas"]]
 collision_layer = 256
-collision_mask = 0
+collision_mask = 512
 
 [node name="Collision" type="CollisionShape3D" parent="Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00511475, 0)
 shape = SubResource("BoxShape3D_wycm4")
+
+[node name="Health_bar_viewport" type="SubViewport" parent="."]
+size = Vector2i(106, 10)
+
+[node name="health_bar" type="ProgressBar" parent="Health_bar_viewport"]
+offset_left = 1.0
+offset_right = 106.0
+offset_bottom = 8.0
+scale = Vector2(0.999521, 1.11612)
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_gisxu")
+theme_override_styles/fill = SubResource("StyleBoxTexture_krdi6")
+max_value = 40.0
+value = 40.0
+show_percentage = false
+
+[node name="bar" type="Sprite2D" parent="Health_bar_viewport/health_bar"]
+position = Vector2(52.0249, 4.47981)
+scale = Vector2(1, 1)
+texture = ExtResource("20_fkyqj")
+
+[node name="Health_Bar" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.180016, 0)
+billboard = 1
+texture_filter = 2
+texture = SubResource("ViewportTexture_fkyqj")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

@@ -1,5 +1,5 @@
 extends Node
-var debug_mode = true
+var debug_mode = false  ## only for dev, for quickly chekcnig changes instead of playing the entire game..
 #var player_dmg = 2
 var wave = 1
 var total_waves = 10
@@ -25,3 +25,4 @@ var extra_per_wavey = 0
 var turtle = false
 var LEGEND = false
 var health_pack = 0
+var boss_1_state = "none"

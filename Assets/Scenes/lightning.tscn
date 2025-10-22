@@ -1,6 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dymbn4mm8vrov"]
+[gd_scene load_steps=12 format=3 uid="uid://dymbn4mm8vrov"]
 
+[ext_resource type="Script" uid="uid://b5loixe0wi6ew" path="res://Assets/Scripts/lightning.gd" id="1_6lv2k"]
 [ext_resource type="Texture2D" uid="uid://c2t2vcthkw3kn" path="res://Assets/World/lightning.png" id="1_oj5a7"]
+[ext_resource type="AudioStream" uid="uid://c68fa422eylyr" path="res://Assets/Sound/loud-thunder-sound-effect-359272.mp3" id="3_l4alk"]
+[ext_resource type="AudioStream" uid="uid://dcg6d5l3glnow" path="res://Assets/Sound/big-thunder-clap-99753 (2).mp3" id="4_d68u6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6lv2k"]
 atlas = ExtResource("1_oj5a7")
@@ -48,13 +51,35 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_vs31k"]
+size = Vector3(0.578896, 0.482803, 1)
+
 [node name="Lightning" type="Node3D"]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+script = ExtResource("1_6lv2k")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.861205, 0)
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_evwc4")
 autoplay = "default"
 frame = 5
 frame_progress = 1.0
+
+[node name="Lightning" type="Area3D" parent="." groups=["Lightning"]]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00412878, -0.896949, 0)
+shape = SubResource("BoxShape3D_vs31k")
+disabled = true
+
+[node name="thunder" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_l4alk")
+max_polyphony = 3
+
+[node name="thunder2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_d68u6")
+max_polyphony = 3

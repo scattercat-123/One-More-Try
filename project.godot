@@ -30,11 +30,13 @@ DamageNumbers="*res://Assets/Scripts/damage_numbers.gd"
 
 directories/dch_directory={
 "Player_Character": "res://Assets/Dialogues/Player_Character.dch",
-"Spirit": "res://Assets/Dialogues/Spirit.dch"
+"Spirit": "res://Assets/Dialogues/Spirit.dch",
+"boss_1": "res://Assets/Dialogues/boss_1.dch"
 }
 directories/dtl_directory={
 "1": "res://Assets/Dialogues/1.dtl",
 "after_first_wave": "res://Assets/Dialogues/after_first_wave.dtl",
+"boss_1": "res://Assets/Dialogues/boss_1.dtl",
 "woke_up_from_island": "res://Assets/Dialogues/woke_up_from_island.dtl"
 }
 layout/style_directory={
@@ -112,6 +114,7 @@ Slam_Box=""
 Healer_enemy=""
 Enemies=""
 Enemy_Areas=""
+Lightning=""
 
 [input]
 

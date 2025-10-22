@@ -1729,10 +1729,15 @@ max_polyphony = 3
 [node name="boss_music" type="AudioStreamPlayer" parent="Storm_scene"]
 stream = ExtResource("19_g2xa6")
 
+[node name="Lightning" type="Timer" parent="Storm_scene"]
+wait_time = 3.0
+autostart = true
+
 [connection signal="body_entered" from="NavigationRegion3D/Ground/GROUND/StaticBody3D2/Ocean" to="player" method="_on_ocean_body_entered"]
 [connection signal="powerup_selected" from="player/GUI/Power_Ups" to="." method="_on_power_ups_powerup_selected"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="finished" from="Storm_scene/boss_music" to="." method="_on_boss_music_finished"]
+[connection signal="timeout" from="Storm_scene/Lightning" to="." method="_on_lightning_timeout"]
 
 [editable path="player"]
 [editable path="player/GUI"]

@@ -68,6 +68,7 @@ func _process(delta: float) -> void:
 					fireball_shoot()
 	else:
 		rotation_degrees.y = 90
+	$Health_bar_viewport/health_bar.value = health
 	if health <= 0 or global_position.y <= -1:
 		visible = false
 		if Global.wave > 1:
@@ -150,7 +151,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
 	if area.is_in_group("Slam_Box"):
 			health -= (Global.player_dmg) - 3
-			DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position, )
+			DamageNumbers.display_number(Global.player_dmg-3, damage_numbers_origin.global_position, )
 func pick_next_state() -> void:
 	var roll = randf()
 	var acc = 0.0
@@ -267,5 +268,11 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 		move_and_slide()
 
 func _on_area_area_entered(area: Area3D) -> void:
+	$SFX/healed.play()
+	if $Health_bar_viewport/health_bar.max_value < ($Health_bar_viewport/health_bar.value + 10):
+		$Health_bar_viewport/health_bar.max_value += ($Health_bar_viewport/health_bar.value+10) - $Health_bar_viewport/health_bar.max_value
 	health += 10
 	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)
+	sprite.modulate = "78ffaa"
+	await get_tree().create_timer(0.25).timeout
+	sprite.modulate = "ffffff"

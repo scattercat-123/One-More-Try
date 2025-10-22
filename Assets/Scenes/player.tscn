@@ -1345,6 +1345,9 @@ randomness = 0.3
 process_material = SubResource("ParticleProcessMaterial_cxlt4")
 draw_pass_1 = SubResource("QuadMesh_icc0i")
 
+[node name="Damage_Numbers_Origin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.038451, 0)
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 
 [editable path="GUI"]
