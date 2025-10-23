@@ -297,7 +297,7 @@ shape = SubResource("BoxShape3D_t8c7j")
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_g5vgt")
 animation = &"rush_attack"
-frame_progress = 0.46894
+frame_progress = 0.0873022
 
 [node name="Hitbox" type="Area3D" parent="."]
 collision_layer = 0

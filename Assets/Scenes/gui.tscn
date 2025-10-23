@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://chq5xwwd06qwc"]
+[gd_scene load_steps=36 format=3 uid="uid://chq5xwwd06qwc"]
 
 [ext_resource type="Texture2D" uid="uid://bn4i7ivnj661j" path="res://Assets/Player/player_display.png" id="1_5kaq3"]
 [ext_resource type="Script" uid="uid://cgvild5p0tqtu" path="res://Assets/Scripts/gui.gd" id="1_mr3jv"]
@@ -11,9 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://dj1fpb6yak18m" path="res://Assets/World/Ranks_powerup.png" id="6_oc5i2"]
 [ext_resource type="Script" uid="uid://ds0qdh8cqgck6" path="res://Assets/Scripts/labels_gui.gd" id="6_w41h6"]
 [ext_resource type="AudioStream" uid="uid://dpxlsfbj2de3i" path="res://Assets/Sound/correct-156911.mp3" id="10_g2xwr"]
+[ext_resource type="Texture2D" uid="uid://cnwxwskjpk4b4" path="res://Assets/Enemies/Boss_Health_bar.png" id="12_nhh5w"]
 
 [sub_resource type="Gradient" id="Gradient_5t6kp"]
-colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
+colors = PackedColorArray(0.752941, 0.752941, 0.752941, 0.47451, 0.215902, 0.215902, 0.215902, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_c6weo"]
 gradient = SubResource("Gradient_5t6kp")
@@ -22,13 +23,33 @@ gradient = SubResource("Gradient_5t6kp")
 texture = SubResource("GradientTexture1D_c6weo")
 
 [sub_resource type="Gradient" id="Gradient_65erl"]
-colors = PackedColorArray(0.999982, 0.259583, 0.205064, 1, 0.391064, 4.06103e-07, 1.44392e-07, 1)
+colors = PackedColorArray(0.913725, 0, 0, 1, 0.372586, 0.10739, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_nhh5w"]
 gradient = SubResource("Gradient_65erl")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g2xwr"]
 texture = SubResource("GradientTexture1D_nhh5w")
+
+[sub_resource type="Gradient" id="Gradient_nhh5w"]
+offsets = PackedFloat32Array(0, 0.543478, 1)
+colors = PackedColorArray(0, 0, 0, 0.811765, 0.552941, 0.576471, 0.560784, 0.760784, 0, 0, 0, 0.890196)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5sow0"]
+gradient = SubResource("Gradient_nhh5w")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rwvgi"]
+texture = SubResource("GradientTexture1D_5sow0")
+
+[sub_resource type="Gradient" id="Gradient_i7i8d"]
+offsets = PackedFloat32Array(0, 0.508696, 1)
+colors = PackedColorArray(0.478431, 0.168627, 0, 1, 1, 0.364706, 0, 1, 0.477606, 0.168763, 4.81308e-08, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pe0wb"]
+gradient = SubResource("Gradient_i7i8d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ywnq2"]
+texture = SubResource("GradientTexture1D_pe0wb")
 
 [sub_resource type="Gradient" id="Gradient_iw08q"]
 colors = PackedColorArray(4.9334e-07, 0, 0.300713, 1, 0, 0, 1, 1)
@@ -149,6 +170,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("GUI_BAR/boss_health_bar:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-65.2, 210.4)]
 }
 
 [sub_resource type="Animation" id="Animation_mr3jv"]
@@ -327,8 +360,24 @@ tracks/6/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_nhh5w"]
+resource_name = "Hide_boss_1_health_bar"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GUI_BAR/boss_health_bar:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-65.2, 210.4), Vector2(-65.2, 234.8)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mr3jv"]
 _data = {
+&"Hide_boss_1_health_bar": SubResource("Animation_nhh5w"),
 &"RESET": SubResource("Animation_65erl"),
 &"hide_power": SubResource("Animation_mr3jv"),
 &"select_power": SubResource("Animation_oc5i2")
@@ -375,6 +424,33 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_5t6kp")
 text = "100/100"
 script = ExtResource("2_65erl")
+
+[node name="boss_health_bar" type="ProgressBar" parent="GUI_BAR"]
+offset_left = -65.2
+offset_top = 210.4
+offset_right = 212.8
+offset_bottom = 220.4
+theme_override_styles/background = SubResource("StyleBoxTexture_rwvgi")
+theme_override_styles/fill = SubResource("StyleBoxTexture_ywnq2")
+max_value = 500.0
+value = 255.0
+show_percentage = false
+
+[node name="Label2" type="Label" parent="GUI_BAR/boss_health_bar"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = -0.800001
+offset_right = 230.0
+offset_bottom = 22.2
+scale = Vector2(0.7, 0.7)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_5t6kp")
+text = "Boss Health: 500/500"
+
+[node name="BossHealthBar" type="Sprite2D" parent="GUI_BAR/boss_health_bar"]
+position = Vector2(139.2, 4.40001)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("12_nhh5w")
 
 [node name="stamina_bar" type="ProgressBar" parent="GUI_BAR"]
 offset_left = -104.2

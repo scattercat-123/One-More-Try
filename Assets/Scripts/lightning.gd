@@ -11,5 +11,8 @@ func _ready() -> void:
 			$thunder2.play()
 	await get_tree().create_timer(0.45).timeout
 	$Lightning/CollisionShape3D.disabled = false
-	await get_tree().create_timer(0.1).timeout
+	if $thunder.playing:
+		await $thunder.finished
+	elif $thunder2.playing:
+		await $thunder2.finished
 	queue_free()

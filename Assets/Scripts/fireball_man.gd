@@ -19,6 +19,7 @@ const STATE_LENGTH := 3.0
 @onready var pivot_hit_path: Node3D = $Pivot_Hit_path
 var _pivot_aimed := false
 var _is_firing := false
+var displayed_health := 40.0
 
 var state_weights := {
 	"chase": 0.40,
@@ -68,7 +69,8 @@ func _process(delta: float) -> void:
 					fireball_shoot()
 	else:
 		rotation_degrees.y = 90
-	$Health_bar_viewport/health_bar.value = health
+	displayed_health = lerp(displayed_health, float(health), delta * 10.0)
+	$Health_bar_viewport/health_bar.value = displayed_health
 	if health <= 0 or global_position.y <= -1:
 		visible = false
 		if Global.wave > 1:
@@ -269,9 +271,13 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 
 func _on_area_area_entered(area: Area3D) -> void:
 	$SFX/healed.play()
-	if $Health_bar_viewport/health_bar.max_value < ($Health_bar_viewport/health_bar.value + 10):
-		$Health_bar_viewport/health_bar.max_value += ($Health_bar_viewport/health_bar.value+10) - $Health_bar_viewport/health_bar.max_value
-	health += 10
+	var heal_amount = 10
+	var new_health = health + heal_amount
+	if new_health > $Health_bar_viewport/health_bar.max_value:
+		$Health_bar_viewport/health_bar.max_value = new_health
+	health = new_health
+	$Health_bar_viewport/health_bar.value = health
+
 	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)
 	sprite.modulate = "78ffaa"
 	await get_tree().create_timer(0.25).timeout

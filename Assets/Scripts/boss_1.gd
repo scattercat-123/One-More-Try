@@ -11,6 +11,7 @@ extends CharacterBody3D
 @export var max_health: int = 500
 var health: int = max_health
 var player
+var displayed_health := 500.0
 var state: String = "idle"
 var state_timer: float = 0.0
 const STATE_LENGTH := 4.0
@@ -20,7 +21,6 @@ var hand_grow_timer := 0.0
 const HAND_GROW_DELAY := 6.0
 const HAND_GROW_THRESHOLD := 150
 var playing_hand_grow := false
-
 var did_attack := false
 var did_jump := false
 var is_slamming := false
@@ -34,6 +34,7 @@ func _ready() -> void:
 	state_timer = 0.0
 	damage_jump.disabled = true
 	damage_attack.disabled = true
+	Global.enemies_left += 1
 
 func _process(delta: float) -> void:
 	state_timer += delta
@@ -54,11 +55,8 @@ func _process(delta: float) -> void:
 	elif state == "slam":
 		jumpy()
 	label.text = state
-	if health <= 0:
+	if health <= 100:
 		Global.enemies_left -= 1
-		get_tree().change_scene_to_file("res://Assets/Scenes/game_done.tscn")
-		queue_free()
-		return
 	if health <= max_health - HAND_GROW_THRESHOLD and not no_hand:
 		no_hand = true
 		hand_grow_timer = 0.0
@@ -68,6 +66,8 @@ func _process(delta: float) -> void:
 		if hand_grow_timer >= HAND_GROW_DELAY:
 			hand_grow_timer = 0.0
 			play_hand_grow()
+	displayed_health = lerp(displayed_health, float(health), delta * 10.0)
+	Global.boss_1_health_value = displayed_health
 
 func _physics_process(delta: float) -> void:
 	# gravity
@@ -218,7 +218,12 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 
 func _on_area_area_entered(area: Area3D) -> void:
 	$healed.play()
-	health += 30
+	var heal_amount = 30
+	var new_health = health + heal_amount
+	if new_health > get_parent().get_node("player/GUI/GUI_BAR/boss_health_bar").max_value:
+		get_parent().get_node("player/GUI/GUI_BAR/boss_health_bar").max_value = new_health
+	health = new_health
+	get_parent().get_node("player/GUI/GUI_BAR/boss_health_bar").value = health
 	DamageNumbers.display_heal_number(30, damage_numbers_origin.global_position)
 	sprite.modulate = "78ffaa"
 	await get_tree().create_timer(0.25).timeout

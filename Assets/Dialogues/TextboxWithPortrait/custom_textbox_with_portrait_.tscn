@@ -128,10 +128,10 @@ script = ExtResource("5_sr2qw")
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 0
-offset_left = 1362.0
-offset_top = 811.0
-offset_right = 1550.0
-offset_bottom = 834.0
+offset_left = 1354.0
+offset_top = 856.0
+offset_right = 1542.0
+offset_bottom = 879.0
 theme_override_fonts/font = ExtResource("6_4cv55")
 theme_override_font_sizes/font_size = 20
 text = "Press ENTER to Skip..."

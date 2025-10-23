@@ -1,3 +1,6 @@
+res://Assets/Enemies/Slime pack/Slime pack
+res://Assets/Scenes
+res://Assets/Scripts
 res://Assets/Dialogues
 res://Assets/Enemies/Boss
 res://Assets/Player
@@ -6,8 +9,6 @@ res://Assets/Enemies/Healer/4Dir_LowRez_Block
 res://Assets/Enemies/Healer/8Dir_LowRez_Run
 res://Assets/Enemies/Healer/8Dir_LowRez_Idle
 res://Assets/Enemies/Healer/4Dir_LowRez_Attack
-res://Assets/Scenes
-res://Assets/Scripts
 C:/Users/jayen/Desktop/Games/One-More-Try/export
 res://Assets/World
 res://Assets/Player/sword

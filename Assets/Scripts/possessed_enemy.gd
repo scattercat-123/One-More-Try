@@ -27,7 +27,7 @@ var state_locked = false
 @onready var attack_path: Node3D = $"Attack Path"
 var did_attack = false
 var did_jump = false
-
+var displayed_health := 50.0
 var state_weights := {
 	"chase": 0.40,
 	"attack": 0.0,
@@ -96,7 +96,8 @@ func _process(delta: float) -> void:
 				"jumpy":
 					debug_label.text = "jump"
 					jumpy(velocity.normalized())
-		$Health_bar_viewport/health_bar.value = health
+		displayed_health = lerp(displayed_health, float(health), delta * 10.0)
+		$Health_bar_viewport/health_bar.value = displayed_health
 		if health <= 0 or global_position.y <= -1:
 			visible = false
 			if Global.wave > 1:
@@ -335,9 +336,12 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 
 func _on_area_area_entered(area: Area3D) -> void:
 	$healed.play()
-	if $Health_bar_viewport/health_bar.max_value < ($Health_bar_viewport/health_bar.value + 10):
-		$Health_bar_viewport/health_bar.max_value += ($Health_bar_viewport/health_bar.value+10) - $Health_bar_viewport/health_bar.max_value
-	health += 10
+	var heal_amount = 10
+	var new_health = health + heal_amount
+	if new_health > $Health_bar_viewport/health_bar.max_value:
+		$Health_bar_viewport/health_bar.max_value = new_health
+	health = new_health
+	$Health_bar_viewport/health_bar.value = health
 	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)
 	sprite.modulate = "78ffaa"
 	await get_tree().create_timer(0.25).timeout

@@ -17,7 +17,7 @@ var state := "idle"
 var state_timer := 0.0
 const STATE_LENGTH := 3.0
 var _is_firing := false
-
+var displayed_health := 25.0
 var state_weights := {
 	"chase": 0.15,
 	"attack": 0.15,
@@ -50,7 +50,8 @@ func _process(delta: float) -> void:
 				heal()
 			"attack":
 				attack()
-	$Health_bar_viewport/health_bar.value = health
+	displayed_health = lerp(displayed_health, float(health), delta * 10.0)
+	$Health_bar_viewport/health_bar.value = displayed_health
 	if health <= 0 or global_position.y <= -1:
 		visible = false
 		if Global.wave > 1:

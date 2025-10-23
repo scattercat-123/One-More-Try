@@ -127,3 +127,9 @@ func _apply_export_overrides() -> void:
 
 	name_label.horizontal_alignment = name_label_alignment as HorizontalAlignment
 	name_label.hide_when_empty = name_label_hide_when_no_character
+
+func _process(delta: float) -> void:
+	if Global.wave == 4:
+		$".".position.y = -100
+	else:
+		$".".position.y = 0

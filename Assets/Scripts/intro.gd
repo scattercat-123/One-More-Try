@@ -6,13 +6,14 @@ extends Node2D
 
 var screen_size: Vector2
 var base_position: Vector2
-
+var game_scene : PackedScene
 var fade_in_time := 3# seconds to fully fade
 var fade_elapsed := 0.0
 var fading_in := false
 var start_hover = false
 
 func _ready():
+	game_scene = preload("res://Assets/Scenes/world.tscn")
 	if Global.debug_mode: # devs wanna skip cutscene for fasat debuging and testing.
 		get_tree().change_scene_to_file("res://Assets/Scenes/world.tscn")
 	screen_size = get_viewport().size
