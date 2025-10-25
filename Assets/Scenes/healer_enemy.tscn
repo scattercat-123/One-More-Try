@@ -380,6 +380,7 @@ texture = SubResource("GradientTexture1D_0l3qq")
 viewport_path = NodePath("Health_bar_viewport")
 
 [node name="healer_enemy" type="CharacterBody3D"]
+collision_layer = 4
 script = ExtResource("1_mf4db")
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]

@@ -33,19 +33,16 @@ func _ready() -> void:
 		$"Tutorial blockage/Area/CollisionShape3D2".disabled = true
 		$"Tutorial blockage/Wall/CollisionShape3D".disabled = true
 		$"Tutorial blockage".visible = true
-
 	Dialogic.start("woke_up_from_island")
 	Dialogic.signal_event.connect(signaling)
-
 	health_bar.value = 100
 	stamina_bar.value = 100
 	player_camera.make_current()
-
 	randomize()
 	markers = markers_parent.get_children()
-
 	spawn_timer.stop()
 	spawn_timer_started = false
+
 func _process(_delta: float) -> void:
 	if Global.wave == 4 and once3 == false:
 		once3 = true

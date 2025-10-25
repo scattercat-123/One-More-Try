@@ -108,9 +108,9 @@ func play_hand_grow() -> void:
 		return
 	playing_hand_grow = true
 	state_locked = true
-	no_hand = false
 	sprite.play("hand_grow")
 	await sprite.animation_finished
+	no_hand = false
 	playing_hand_grow = false
 	state_locked = false
 	if velocity.length() > 0.01:

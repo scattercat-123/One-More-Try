@@ -1,10 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://chq5xwwd06qwc"]
+[gd_scene load_steps=37 format=3 uid="uid://chq5xwwd06qwc"]
 
 [ext_resource type="Texture2D" uid="uid://bn4i7ivnj661j" path="res://Assets/Player/player_display.png" id="1_5kaq3"]
 [ext_resource type="Script" uid="uid://cgvild5p0tqtu" path="res://Assets/Scripts/gui.gd" id="1_mr3jv"]
 [ext_resource type="Script" uid="uid://nwuwlbbp1840" path="res://Assets/Scripts/health_label.gd" id="2_65erl"]
 [ext_resource type="Texture2D" uid="uid://cmu7eh65yb4cr" path="res://Assets/Player/Pixel2_Healthbar_0002_pixel2_Border.png" id="2_iw08q"]
 [ext_resource type="Script" uid="uid://cxbnu65dg12nf" path="res://Assets/Scripts/power_ups.gd" id="3_iw08q"]
+[ext_resource type="Script" uid="uid://e3pengccv2pm" path="res://Assets/Scripts/label_2_boss_health_bar.gd" id="4_5sow0"]
 [ext_resource type="Script" uid="uid://03kcfce1xcxg" path="res://Assets/Scripts/stamina_label.gd" id="4_c6weo"]
 [ext_resource type="Texture2D" uid="uid://c8j55ln6van5w" path="res://Assets/World/Card_Powerup.png" id="4_xm3wa"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="5_5t6kp"]
@@ -84,6 +85,21 @@ animations = [{
 "name": &"logo",
 "speed": 2.0
 }]
+
+[sub_resource type="Animation" id="Animation_nhh5w"]
+resource_name = "Hide_boss_1_health_bar"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GUI_BAR/boss_health_bar:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-65.2, 210.4), Vector2(-65.2, 234.8)]
+}
 
 [sub_resource type="Animation" id="Animation_65erl"]
 length = 0.001
@@ -360,21 +376,6 @@ tracks/6/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_nhh5w"]
-resource_name = "Hide_boss_1_health_bar"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GUI_BAR/boss_health_bar:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-65.2, 210.4), Vector2(-65.2, 234.8)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mr3jv"]
 _data = {
 &"Hide_boss_1_health_bar": SubResource("Animation_nhh5w"),
@@ -433,7 +434,7 @@ offset_bottom = 220.4
 theme_override_styles/background = SubResource("StyleBoxTexture_rwvgi")
 theme_override_styles/fill = SubResource("StyleBoxTexture_ywnq2")
 max_value = 500.0
-value = 255.0
+value = 500.0
 show_percentage = false
 
 [node name="Label2" type="Label" parent="GUI_BAR/boss_health_bar"]
@@ -446,6 +447,7 @@ scale = Vector2(0.7, 0.7)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_5t6kp")
 text = "Boss Health: 500/500"
+script = ExtResource("4_5sow0")
 
 [node name="BossHealthBar" type="Sprite2D" parent="GUI_BAR/boss_health_bar"]
 position = Vector2(139.2, 4.40001)

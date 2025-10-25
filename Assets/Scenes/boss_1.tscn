@@ -273,6 +273,7 @@ size = Vector3(5.0119, 3.10979, 4.99487)
 size = Vector3(3.15469, 1, 2.54184)
 
 [node name="Boss_1" type="CharacterBody3D" groups=["Enemies"]]
+collision_layer = 5
 floor_stop_on_slope = false
 floor_max_angle = 1.0472
 script = ExtResource("1_tqimg")

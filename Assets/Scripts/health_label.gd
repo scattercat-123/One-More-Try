@@ -1,4 +1,4 @@
 extends Label
 
 func _process(_delta: float) -> void:
-	pass
+	text = str(int($"..".value)) + "/" + str(int($"..".max_value))

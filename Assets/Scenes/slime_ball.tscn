@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=3 uid="uid://cthdppnbic2f7"]
+
+[ext_resource type="Script" uid="uid://dxpwxlhqxcwyw" path="res://Assets/Scripts/slime_ball.gd" id="1_wt8y1"]
+[ext_resource type="Texture2D" uid="uid://dybc75po2eifo" path="res://Assets/Enemies/Slime pack/Slime pack/black_shoot.png" id="2_nljuj"]
+[ext_resource type="Texture2D" uid="uid://djjmpgmtxi8tg" path="res://Assets/Enemies/Slime pack/Slime pack/blue_shoot.png" id="3_do40f"]
+[ext_resource type="Texture2D" uid="uid://bphsyuhjh0vi" path="res://Assets/Enemies/Slime pack/Slime pack/green_shoot.png" id="4_nljuj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bu85f"]
+atlas = ExtResource("2_nljuj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcmmu"]
+atlas = ExtResource("3_do40f")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do40f"]
+atlas = ExtResource("4_nljuj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n36hu"]
+atlas = ExtResource("3_do40f")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n36hu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bu85f")
+}],
+"loop": true,
+"name": &"black",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcmmu")
+}],
+"loop": true,
+"name": &"blue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do40f")
+}],
+"loop": true,
+"name": &"green",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n36hu")
+}],
+"loop": true,
+"name": &"purple",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ls12r"]
+radius = 0.080365
+
+[node name="Slime_ball" type="CharacterBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+script = ExtResource("1_wt8y1")
+
+[node name="ball" type="AnimatedSprite3D" parent="."]
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_n36hu")
+animation = &"purple"
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.1
+target_desired_distance = 0.1
+
+[node name="area" type="Area3D" parent="."]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area"]
+shape = SubResource("SphereShape3D_ls12r")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="area_entered" from="area" to="." method="_on_area_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

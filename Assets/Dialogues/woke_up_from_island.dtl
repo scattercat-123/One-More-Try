@@ -12,7 +12,6 @@ Spirit: “A shadow from the deep… face it, or perish.”
 [wait time="2.0" hide_text="false"]
 Spirit: “You survived... barely.”
 Player_Character: Huh, wait who are you???
-[signal arg="fight_first_enemy"]
 Spirit: “Listen. We don't have time.. That thing ahead — it’s dangerous. You’ll have to fight. You have ended up on this island called The Lost Shore. Rumor says that to escape the final boss must be defeated..”
 Spirit: "Uhh, I almost forgot .. umm yeah Try using WASD or Arrow Keys to move..."
 [wait time="1.0" hide_text="false"]

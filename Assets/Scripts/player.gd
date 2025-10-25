@@ -14,7 +14,7 @@ var flip_right = true
 var running = false
 var facing : String
 var is_rolling:= false
-var can_move = false
+var can_move = true
 var player_dmg : int
 var player_health : int
 @export var rolling_cooldown = 0.7
@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction != Vector3.ZERO:
 		last_dir = direction
@@ -145,8 +145,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func signaling(arg):
-	if arg == "fight_first_enemy":
-		can_move = true
 	if arg == "first_wave_powerups":
 		$GUI/Power_Ups.show_powerups()
 	if arg == "start_attack":
