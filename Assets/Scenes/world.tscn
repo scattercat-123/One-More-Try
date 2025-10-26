@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=4 uid="uid://bqjljjvowjk07"]
+[gd_scene load_steps=107 format=4 uid="uid://bqjljjvowjk07"]
 
 [ext_resource type="Script" uid="uid://5nxmqdooll3y" path="res://Assets/Scripts/world.gd" id="1_dv8ie"]
 [ext_resource type="PackedScene" uid="uid://cwvlty82rb7ta" path="res://Assets/Scenes/player.tscn" id="1_jaky0"]
@@ -13,7 +13,6 @@
 [ext_resource type="ArrayMesh" uid="uid://dpqtawoem4von" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb.obj" id="9_eh6bj"]
 [ext_resource type="Texture2D" uid="uid://du2ucbauodvl0" path="res://Assets/World/minecraft-sign/source/Mineways2Skfb_obj/Mineways2Skfb-RGBA.png" id="10_sol70"]
 [ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="11_5kudc"]
-[ext_resource type="PackedScene" uid="uid://brndo4mbdogr1" path="res://Assets/Scenes/slime.tscn" id="12_2x841"]
 [ext_resource type="Script" uid="uid://daft6vd0sv3xj" path="res://Assets/Scripts/cutscene_camera.gd" id="12_cvvkx"]
 [ext_resource type="Texture2D" uid="uid://c2t2vcthkw3kn" path="res://Assets/World/lightning.png" id="15_c6fuy"]
 [ext_resource type="Script" uid="uid://d2yjpehjo8r4b" path="res://Assets/Scripts/storm_scene_boss.gd" id="15_c8enp"]
@@ -1523,9 +1522,6 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.625907, 2.43799, 2.41611)
 [node name="possessed_enemy" parent="." instance=ExtResource("6_44f6d")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.49283, 0)
 
-[node name="Slime" parent="." instance=ExtResource("12_2x841")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -5.87915, 2.51958, 3.10082)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_dv8ie")
@@ -1745,4 +1741,3 @@ autostart = true
 
 [editable path="player"]
 [editable path="player/GUI"]
-[editable path="Slime"]

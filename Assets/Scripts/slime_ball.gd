@@ -33,7 +33,8 @@ func find_target():
 func _on_area_area_entered(area: Area3D) -> void:
 			$ball.modulate = "#b83e3e"
 			$area/CollisionShape3D.disabled = true
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().create_timer(0.05).timeout
+			visible = false
 			queue_free()
 
 func _on_timer_timeout() -> void:

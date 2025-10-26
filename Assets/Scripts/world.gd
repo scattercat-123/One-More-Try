@@ -15,9 +15,10 @@ extends Node3D
 @export var boss_1_scene: PackedScene = preload("res://Assets/Scenes/boss_1.tscn")
 @export var healer_enemy: PackedScene = preload("res://Assets/Scenes/healer_enemy.tscn")
 @export var lightning_scene: PackedScene = preload("res://Assets/Scenes/lightning.tscn")
-var enemies_per_wave := [0, 10, 20, 5, 25]
-var max_enemies_per_wave := [0, 5, 10, 15, 0]
-var enemies_chance_spawn := [65, 35, 0]
+@export var slime_scene: PackedScene = preload("res://Assets/Scenes/slime.tscn")
+var enemies_per_wave := [0, 10, 20, 5, 25, 30]
+var max_enemies_per_wave := [0, 5, 10, 5, 20, 25]
+var enemies_chance_spawn := [45, 30, 15, 10]
 var enemies_per_wave_chance_to_spawn: int = 10
 var shown_powerups_this_wave = false
 var spawned_this_wave := 0    
@@ -107,6 +108,14 @@ func spawn_fireball_enemy_at(marker: Node3D) -> void:
 	fb.global_transform = marker.global_transform
 	fb.scale = Vector3(2, 2, 2)
 	Global.enemies_left += 1
+func spawn_slime_enemy_at(marker: Node3D) -> void:
+	if marker == null:
+		return
+	var ss = slime_scene.instantiate()
+	get_parent().add_child(ss)
+	ss.global_transform = marker.global_transform
+	ss.scale = Vector3(2.5, 2.5, 2.5)
+	Global.enemies_left += 1
 func spawn_healer_enemy_at(marker: Node3D) -> void:
 	if marker == null:
 		return
@@ -160,6 +169,8 @@ func spawn_batch(count: int, wave_num: int) -> void:
 				spawn_possessed_enemy_at(marker)
 			2:
 				spawn_healer_enemy_at(marker)
+			3:
+				spawn_slime_enemy_at(marker)
 		spawned_this_wave += 1
 
 func _on_spawn_timer_timeout() -> void:

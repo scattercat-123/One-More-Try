@@ -29,6 +29,8 @@ func _ready() -> void:
 	Global.enemies_left += 1
 
 func _process(delta: float) -> void:
+	displayed_health = lerp(displayed_health, health, delta * 10.0)
+	$Health_bar_viewport/health_bar.value = displayed_health
 	if not state_locked:
 		if state == "idle":
 			_update_idle()
@@ -54,7 +56,11 @@ func _process(delta: float) -> void:
 		visible = false
 		get_tree().call_group("Spawner", "on_enemy_died")
 		queue_free()
-
+	if state == "idle":
+		$Health_Bar.position.y = 0.179
+	else:
+		$Health_Bar.position.y = 0.12
+		
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -114,21 +120,21 @@ func pick_next_state() -> void:
 			state = "idle"
 		else:
 			state = "chase"
-			
-	if state == "chase" or state == "idle" and enraged:
-		if randf() < 0.5:
-			state = "attack"
-		else:
+	elif enraged:
+		if (state == "chase" or state == "idle"):
 			if randf() < 0.5:
-				state = "spike"
+				state = "attack"
 			else:
+				if randf() < 0.5:
+					state = "spike"
+				else:
+					state = "idle"
+
+		elif (state == "attack" or state == "spike"):
+			if randf() < 0.5:
 				state = "idle"
-	
-	elif state == "attack" or state == "spike" and enraged:
-		if randf() < 0.5:
-			state = "idle"
-		else:
-			state = "chase"
+			else:
+				state = "chase"
 
 func spike() -> void:
 	if state_locked:
@@ -177,7 +183,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		health -= Global.player_dmg
 		DamageNumbers.display_number(Global.player_dmg, damage_numbers_origin.global_position)
 	elif area.is_in_group("Slam_Box"):
-		health -= max(0, Global.player_dmg - 3)
+		health -= Global.player_dmg - 3
 		DamageNumbers.display_number(Global.player_dmg-3, damage_numbers_origin.global_position)
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
@@ -189,11 +195,11 @@ func _on_area_area_entered(area: Area3D) -> void:
 	$healed.play()
 	var heal_amount = 10
 	var new_health = health + heal_amount
-	if new_health > player.get_child(6).get_child(0).get_child(1).max_value:
-		player.get_child(6).get_child(0).get_child(1).max_value = new_health
+	if new_health > $Health_bar_viewport/health_bar.max_value:
+		$Health_bar_viewport/health_bar.max_value = new_health
 	health = new_health
-	player.get_child(6).get_child(0).get_child(1).value = health
-	DamageNumbers.display_heal_number(30, damage_numbers_origin.global_position)
+	$Health_bar_viewport/health_bar.value = health
+	DamageNumbers.display_heal_number(10, damage_numbers_origin.global_position)
 	sprite.modulate = "78ffaa"
 	await get_tree().create_timer(0.25).timeout
 	sprite.modulate = "ffffff"

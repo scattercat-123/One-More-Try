@@ -13,6 +13,7 @@ Spirit: “A shadow from the deep… face it, or perish.”
 Spirit: “You survived... barely.”
 Player_Character: Huh, wait who are you???
 Spirit: “Listen. We don't have time.. That thing ahead — it’s dangerous. You’ll have to fight. You have ended up on this island called The Lost Shore. Rumor says that to escape the final boss must be defeated..”
+[signal arg="first_fight_enemy"]
 Spirit: "Uhh, I almost forgot .. umm yeah Try using WASD or Arrow Keys to move..."
 [wait time="1.0" hide_text="false"]
 Spirit: "Damn, now if I'm correct use the Left Mouse Button to slash your sword..."
@@ -20,7 +21,7 @@ Spirit: "Damn, now if I'm correct use the Left Mouse Button to slash your sword.
 Spirit: "You can also slam with the Right Mouse Button for damage for bigger area!"
 [wait time="1.0" hide_text="false"]
 Player_Character: "YOOo, It's Working!!"
-Spirit: "Yeah, now you can dodge attacks using the Space button, if timed correctly, you can doge the attack without needing to get out of the attack range..."
+Spirit: "Yeah, now you can dodge attacks using the Left Control button, if timed correctly, you can doge the attack without needing to get out of the attack range..."
 [signal arg="start_attack"]
 Player_Character: "Sure, Let me get them.."
 [end_timeline]

@@ -1,5 +1,5 @@
 extends Node
-var debug_mode = true  ## only for dev, for quickly chekcnig changes instead of playing the entire game..
+var debug_mode = false  ## only for dev, for quickly chekcnig changes instead of playing the entire game..
 var wave = 1
 var total_waves = 10
 var enemies_left = 0

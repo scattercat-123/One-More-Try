@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bncv4x203usd2"]
+[gd_scene load_steps=36 format=3 uid="uid://bncv4x203usd2"]
 
 [ext_resource type="Script" uid="uid://dg4n6c2on8uyk" path="res://Assets/Scripts/intro.gd" id="1_epv24"]
 [ext_resource type="Texture2D" uid="uid://k5iac6hp0jb" path="res://Assets/World/night-sky.png" id="2_677bp"]
@@ -9,8 +9,14 @@
 [ext_resource type="FontFile" uid="uid://c2ljam3m5dgfe" path="res://Assets/Fonts/Sddystopiandemo-GO7xa.otf" id="6_epv24"]
 [ext_resource type="Texture2D" uid="uid://d0p4d6knlmuws" path="res://Assets/World/pfpMeoth.png" id="6_ie13j"]
 [ext_resource type="Texture2D" uid="uid://co8qhmc1sncrf" path="res://icon.svg" id="7_677bp"]
+[ext_resource type="Script" uid="uid://txahkkk7bh2m" path="res://Assets/Scripts/controls_button.gd" id="7_i60fp"]
 [ext_resource type="AudioStream" uid="uid://ctwfxnx5m7kl1" path="res://Assets/Sound/switch.mp3" id="7_sthsd"]
 [ext_resource type="AudioStream" uid="uid://bwsid2dt2v2iy" path="res://Assets/Sound/bg-music.mp3" id="9_0syiu"]
+[ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="9_qec2y"]
+[ext_resource type="FontFile" uid="uid://b75cvu6s1wwj3" path="res://Assets/Fonts/retganon.ttf" id="10_0cln6"]
+[ext_resource type="Texture2D" uid="uid://c8iskopcjp4fq" path="res://Assets/Player/Keyboard Letters and Symbols.png" id="11_70f5c"]
+[ext_resource type="Texture2D" uid="uid://bdqjllq5eb1i" path="res://Assets/Player/Keyboard Extras.png" id="12_m5ss7"]
+[ext_resource type="Texture2D" uid="uid://dwnpnwv5x631p" path="res://Assets/World/close_button.png" id="13_clyie"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r4r1w"]
 atlas = ExtResource("3_sthsd")
@@ -76,6 +82,9 @@ _data = {
 &"RESET": SubResource("Animation_ie13j"),
 &"zooom_start_game": SubResource("Animation_idqtc")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qec2y"]
+size = Vector2(6.23969, 5.48547)
 
 [sub_resource type="Animation" id="Animation_i60fp"]
 length = 0.001
@@ -246,6 +255,54 @@ tracks/13/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(671.429, -287.143)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Menu/ColorRect:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Menu/Start-Button Area:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Menu/Controls-Button-Area:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Menu/controls_menu:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(31.7697, 374.795)]
 }
 
 [sub_resource type="Animation" id="Animation_sthsd"]
@@ -420,9 +477,113 @@ tracks/13/keys = {
 "values": [Vector2(671.429, -287.143)]
 }
 
+[sub_resource type="Animation" id="Animation_bperp"]
+resource_name = "control_open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Menu/ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Menu/Start-Button Area:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Menu/Controls-Button-Area:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Menu/controls_menu:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(31.7697, 374.795), Vector2(279.185, -789.2)]
+}
+
+[sub_resource type="Animation" id="Animation_iyulf"]
+resource_name = "control_close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Menu/controls_menu:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(279.185, -789.2), Vector2(29.4827, 385.555)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Menu/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Menu/Start-Button Area:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Menu/Controls-Button-Area:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_idqtc"]
 _data = {
 &"RESET": SubResource("Animation_i60fp"),
+&"control_close": SubResource("Animation_iyulf"),
+&"control_open": SubResource("Animation_bperp"),
 &"intro": SubResource("Animation_sthsd")
 }
 
@@ -511,11 +672,12 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Menu"]
 layout_mode = 0
-offset_left = 254.286
-offset_top = -367.143
-offset_right = 294.286
-offset_bottom = -327.143
+offset_left = 255.0
+offset_top = 359.0
+offset_right = 295.0
+offset_bottom = 399.0
 scale = Vector2(0.4, 0.748572)
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Start-Button Area" type="Area2D" parent="Menu"]
@@ -538,6 +700,7 @@ position = Vector2(560.312, -192.716)
 rotation = -0.00523599
 scale = Vector2(0.565, 0.698205)
 texture = ExtResource("5_idqtc")
+script = ExtResource("7_i60fp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Menu/Controls-Button-Area"]
 position = Vector2(657.602, -202.127)
@@ -551,6 +714,158 @@ libraries = {
 &"": SubResource("AnimationLibrary_0syiu")
 }
 speed_scale = 2.0
+
+[node name="controls_menu" type="Node2D" parent="Menu"]
+position = Vector2(31.7697, 374.795)
+rotation = 0.20944
+scale = Vector2(23.9341, 27.4669)
+
+[node name="ColorRect" type="ColorRect" parent="Menu/controls_menu"]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.729412)
+
+[node name="Label" type="Label" parent="Menu/controls_menu"]
+offset_left = 8.23092
+offset_right = 66.2309
+offset_bottom = 23.0
+scale = Vector2(0.4, 0.4)
+theme_override_fonts/font = ExtResource("9_qec2y")
+theme_override_font_sizes/font_size = 0
+text = "Controls"
+
+[node name="Label2" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.960971
+offset_top = 5.97082
+offset_right = 40.961
+offset_bottom = 28.9708
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Movement - "
+
+[node name="KeyboardLettersAndSymbols" type="Sprite2D" parent="Menu/controls_menu/Label2"]
+position = Vector2(83.3791, 1.82664)
+scale = Vector2(0.564123, 0.895902)
+texture = ExtResource("11_70f5c")
+region_enabled = true
+region_rect = Rect2(0, 0, 63.6352, 15.0909)
+
+[node name="KeyboardLettersAndSymbols2" type="Sprite2D" parent="Menu/controls_menu/Label2"]
+position = Vector2(69.4729, 13.5689)
+scale = Vector2(0.564123, 0.895902)
+texture = ExtResource("11_70f5c")
+region_enabled = true
+region_rect = Rect2(95.8949, 64.8231, 14.8121, 14.3556)
+
+[node name="KeyboardLettersAndSymbols4" type="Sprite2D" parent="Menu/controls_menu/Label2"]
+position = Vector2(88.0931, 14.2213)
+scale = Vector2(0.564123, 0.895902)
+texture = ExtResource("11_70f5c")
+region_enabled = true
+region_rect = Rect2(32.2036, 63.3757, 15.3211, 17.5422)
+
+[node name="KeyboardLettersAndSymbols3" type="Sprite2D" parent="Menu/controls_menu/Label2"]
+position = Vector2(78.783, 13.8951)
+scale = Vector2(0.564123, 0.895902)
+texture = ExtResource("11_70f5c")
+region_enabled = true
+region_rect = Rect2(0.0572662, 33.0097, 14.7912, 13.7421)
+
+[node name="KeyboardLettersAndSymbols5" type="Sprite2D" parent="Menu/controls_menu/Label2"]
+position = Vector2(96.2247, 13.5689)
+scale = Vector2(0.564123, 0.895902)
+texture = ExtResource("11_70f5c")
+region_enabled = true
+region_rect = Rect2(46.4848, 30.8435, 16.4732, 16.8237)
+
+[node name="Label3" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.960971
+offset_top = 11.5776
+offset_right = 65.961
+offset_bottom = 34.5776
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Slash Sword - LMB"
+
+[node name="Label4" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.960971
+offset_top = 16.0921
+offset_right = 94.961
+offset_bottom = 39.0921
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Slam - RMB"
+
+[node name="Label5" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.877408
+offset_top = 19.9149
+offset_right = 94.8774
+offset_bottom = 42.9149
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Roll(Dash) -"
+
+[node name="Label6" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.877408
+offset_top = 28.0337
+offset_right = 94.8774
+offset_bottom = 51.0337
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Menu or Pause -"
+
+[node name="Label7" type="Label" parent="Menu/controls_menu"]
+offset_left = 0.877408
+offset_top = 23.9532
+offset_right = 94.8774
+offset_bottom = 46.9532
+scale = Vector2(0.354532, 0.223239)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Jump -"
+
+[node name="Label8" type="Label" parent="Menu/controls_menu"]
+offset_left = 26.74
+offset_top = 24.3202
+offset_right = 120.74
+offset_bottom = 55.3202
+scale = Vector2(0.15, 0.095)
+theme_override_fonts/font = ExtResource("10_0cln6")
+text = "Only works in 
+parkour mode!"
+
+[node name="KeyboardExtras" type="Sprite2D" parent="Menu/controls_menu"]
+position = Vector2(30.2079, 21.5168)
+scale = Vector2(0.4, 0.3)
+texture = ExtResource("12_m5ss7")
+region_enabled = true
+region_rect = Rect2(4, 99, 24, 11)
+
+[node name="KeyboardExtras3" type="Sprite2D" parent="Menu/controls_menu"]
+position = Vector2(20.1804, 25.558)
+scale = Vector2(0.4, 0.3)
+texture = ExtResource("12_m5ss7")
+region_enabled = true
+region_rect = Rect2(62.9601, 31.0276, 34.6989, 16.8237)
+
+[node name="KeyboardExtras2" type="Sprite2D" parent="Menu/controls_menu"]
+position = Vector2(34.2189, 29.7085)
+scale = Vector2(0.35, 0.3)
+texture = ExtResource("12_m5ss7")
+region_enabled = true
+region_rect = Rect2(39, 67, 18, 11)
+
+[node name="close" type="Area2D" parent="Menu/controls_menu"]
+
+[node name="CloseButton" type="Sprite2D" parent="Menu/controls_menu/close"]
+position = Vector2(37.3107, 2.25726)
+scale = Vector2(0.33425, 0.29126)
+texture = ExtResource("13_clyie")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Menu/controls_menu/close"]
+position = Vector2(37.2271, 2.00241)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_qec2y")
 
 [node name="Bg_intro" type="ColorRect" parent="."]
 offset_left = -17.0
@@ -660,3 +975,5 @@ speed_scale = 1.5
 [connection signal="mouse_exited" from="Menu/Start-Button Area" to="Menu/Start-Button Area/Start-game" method="_on_start_button_area_mouse_exited"]
 [connection signal="mouse_entered" from="Menu/Controls-Button-Area" to="Menu/Controls-Button-Area/Controls-button" method="_on_controls_button_area_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/Controls-Button-Area" to="Menu/Controls-Button-Area/Controls-button" method="_on_controls_button_area_mouse_exited"]
+[connection signal="mouse_entered" from="Menu/controls_menu/close" to="Menu/Controls-Button-Area/Controls-button" method="_on_close_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/controls_menu/close" to="Menu/Controls-Button-Area/Controls-button" method="_on_close_mouse_exited"]

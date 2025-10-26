@@ -303,6 +303,16 @@ func _on_hurtbox_area_entered(area: Area3D) -> void:
 			Global.damage += 5
 		else:
 			Global.damage += 5 * 1.5
+	if area.is_in_group("Slime_Spike"):
+		if not Global.risk_taker:
+			Global.damage += 5
+		else:
+			Global.damage += 5 * 1.5
+	if area.is_in_group("Slime_Ball"):
+		if not Global.risk_taker:
+			Global.damage += 3
+		else:
+			Global.damage += 3 * 1.5
 	if area.is_in_group("Possessed_Attack"):
 		if not Global.risk_taker:
 			Global.damage += 5

@@ -669,21 +669,21 @@ size = Vector3(0.5, 0.702, 0.5)
 [sub_resource type="Gradient" id="Gradient_52vps"]
 colors = PackedColorArray(1, 1, 1, 0, 0.215902, 0.215902, 0.215902, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_w41h6"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q4eyk"]
 gradient = SubResource("Gradient_52vps")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_irxh5"]
-texture = SubResource("GradientTexture1D_w41h6")
+texture = SubResource("GradientTexture1D_q4eyk")
 
 [sub_resource type="Gradient" id="Gradient_582dt"]
 offsets = PackedFloat32Array(0, 0.513043, 1)
 colors = PackedColorArray(0, 0.403922, 0, 1, 0.249854, 0.847761, 0.252668, 1, 0, 0.404555, 5.77569e-07, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_mr3jv"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_52vps"]
 gradient = SubResource("Gradient_582dt")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3hi3n"]
-texture = SubResource("GradientTexture1D_mr3jv")
+texture = SubResource("GradientTexture1D_52vps")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7q3xe"]
 viewport_path = NodePath("Health_bar_viewport")

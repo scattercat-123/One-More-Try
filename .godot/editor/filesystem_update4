@@ -2,6 +2,7 @@ res://Assets/Scenes/world.tscn
 res://Assets/Dialogues/Dialogue_Box.tres
 res://Assets/World/stormy_environment.tres
 res://Assets/Scripts/ocean.gdshader
+res://Assets/Scripts/slime_ball.gd
 res://Assets/Scenes/player.tscn
 res://Assets/Scenes/gui.tscn
 res://Assets/Scenes/boss_1.tscn
@@ -11,12 +12,10 @@ res://Assets/Scenes/possessed_enemy.tscn
 res://Assets/Scenes/slime.tscn
 res://Assets/Scenes/slime_ball.tscn
 res://Assets/Scenes/healing_orb.tscn
-res://Assets/Scripts/world.gd
-res://Assets/Scripts/slime.gd
 res://Assets/Scenes/intro.tscn
-res://Assets/Scripts/Global.gd
-res://Assets/Scripts/slime_ball.gd
-res://Assets/Scripts/player.gd
-res://Assets/Dialogues/Player_Character.dch
+res://Assets/Scripts/slime.gd
+res://Assets/Scripts/world.gd
 res://Assets/Dialogues/woke_up_from_island.dtl
-res://Assets/Scripts/health_label.gd
+res://Assets/Scripts/labels_gui.gd
+res://Assets/Scripts/controls_button.gd
+res://Assets/Scripts/Global.gd
