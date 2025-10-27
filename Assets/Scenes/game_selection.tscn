@@ -1,0 +1,260 @@
+[gd_scene load_steps=15 format=3 uid="uid://bcrar4omrapej"]
+
+[ext_resource type="Script" uid="uid://bpd6ukofpecev" path="res://Assets/Scripts/game_selection.gd" id="1_h3cry"]
+[ext_resource type="Texture2D" uid="uid://k5iac6hp0jb" path="res://Assets/World/night-sky.png" id="1_u3wpj"]
+[ext_resource type="AudioStream" uid="uid://bwsid2dt2v2iy" path="res://Assets/Sound/bg-music.mp3" id="3_7w1al"]
+[ext_resource type="FontFile" uid="uid://dep1sjw7y40em" path="res://Assets/Fonts/BoldPixels1.4.ttf" id="4_7w1al"]
+[ext_resource type="Texture2D" uid="uid://bio4e4ldy7eoe" path="res://Assets/World/Parkour.png" id="5_pr2np"]
+[ext_resource type="Script" uid="uid://8wm15qnh07ns" path="res://Assets/Scripts/parkour_button.gd" id="6_2e70d"]
+[ext_resource type="Texture2D" uid="uid://iuruvp7l7ebf" path="res://Assets/World/adventure.png" id="7_vr6o6"]
+[ext_resource type="Script" uid="uid://b7gk2lyxqegq" path="res://Assets/Scripts/adventure_button.gd" id="8_qujh3"]
+[ext_resource type="AudioStream" uid="uid://ctwfxnx5m7kl1" path="res://Assets/Sound/switch.mp3" id="9_2e70d"]
+
+[sub_resource type="Animation" id="Animation_h3cry"]
+resource_name = "ready"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Night-sky:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.329158, 0.329158, 0.329158, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Game_Modes:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Adventure:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Parkour:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7w1al"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Night-sky:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Game_Modes:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Adventure:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Parkour:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ColorRect:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Label:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vr6o6"]
+resource_name = "change"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4c22c"]
+_data = {
+&"RESET": SubResource("Animation_7w1al"),
+&"change": SubResource("Animation_vr6o6"),
+&"ready": SubResource("Animation_h3cry")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pr2np"]
+size = Vector2(130.4, 129.4)
+
+[node name="game_selection" type="Node2D"]
+script = ExtResource("1_h3cry")
+
+[node name="Night-sky" type="Sprite2D" parent="."]
+position = Vector2(938, 541)
+scale = Vector2(3.2, 3.2)
+texture = ExtResource("1_u3wpj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7w1al")
+volume_db = -20.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_4c22c")
+}
+autoplay = "ready"
+
+[node name="Game_Modes" type="Label" parent="."]
+offset_left = 10.0
+offset_top = -21.61
+offset_right = 958.0
+offset_bottom = 183.39
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 1, 1, 0)
+theme_override_fonts/font = ExtResource("4_7w1al")
+theme_override_font_sizes/font_size = 150
+text = "Game Modes"
+horizontal_alignment = 1
+
+[node name="Parkour" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(547, 665)
+scale = Vector2(5, 5)
+texture = ExtResource("5_pr2np")
+script = ExtResource("6_2e70d")
+
+[node name="button" type="Area2D" parent="Parkour"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parkour/button"]
+position = Vector2(-0.200012, 0.5)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_pr2np")
+
+[node name="Adventure" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(1372, 665)
+scale = Vector2(5, 5)
+texture = ExtResource("7_vr6o6")
+script = ExtResource("8_qujh3")
+
+[node name="button" type="Area2D" parent="Adventure"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Adventure/button"]
+position = Vector2(-0.200012, 0.5)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_pr2np")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -24.0
+offset_top = -11.0
+offset_right = 16.0
+offset_bottom = 29.0
+scale = Vector2(49.2259, 27.8008)
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = 697.0
+offset_top = 510.0
+offset_right = 1260.0
+offset_bottom = 643.0
+theme_override_fonts/font = ExtResource("4_7w1al")
+theme_override_font_sizes/font_size = 150
+text = "Loading..."
+
+[node name="hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_2e70d")
+
+[connection signal="mouse_entered" from="Parkour/button" to="Parkour" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Parkour/button" to="Parkour" method="_on_button_mouse_exited"]
+[connection signal="mouse_entered" from="Adventure/button" to="Adventure" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Adventure/button" to="Adventure" method="_on_button_mouse_exited"]

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b4fqle5cjkfxh"
+path="res://.godot/imported/diamond_blue.obj-5cf62a73f0d4b06a88f86a4a1d0662d6.mesh"
+
+[deps]
+
+files=["res://.godot/imported/diamond_blue.obj-5cf62a73f0d4b06a88f86a4a1d0662d6.mesh"]
+
+source_file="res://Assets/World/KayKit_Platformer_Pack_1.0_FREE/Assets/obj/blue/diamond_blue.obj"
+dest_files=["res://.godot/imported/diamond_blue.obj-5cf62a73f0d4b06a88f86a4a1d0662d6.mesh", "res://.godot/imported/diamond_blue.obj-5cf62a73f0d4b06a88f86a4a1d0662d6.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

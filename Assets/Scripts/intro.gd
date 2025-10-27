@@ -18,7 +18,6 @@ func _ready():
 		get_tree().change_scene_to_file("res://Assets/Scenes/world.tscn")
 	screen_size = get_viewport().size
 	base_position = night_sky.position
-	
 	bg_music.volume_db = -80
 	await get_tree().create_timer(3.0).timeout
 	bg_music.play()
@@ -26,12 +25,9 @@ func _ready():
 	fading_in = true
 
 func _process(delta: float) -> void:
-	# bg eeffect
 	var mouse_pos = get_viewport().get_mouse_position()
 	var offset = (mouse_pos - screen_size / 2) * parallax_strength
 	night_sky.position = base_position + offset
-	
-	# muic fade in
 	if fading_in:
 		fade_elapsed += delta
 		var t = fade_elapsed / fade_in_time

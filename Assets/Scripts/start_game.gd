@@ -36,5 +36,5 @@ func _continue_transition() -> void:
 	await get_tree().create_timer(0.5).timeout
 	scene_transition.play("change")
 	await scene_transition.animation_finished
-
-	get_tree().change_scene_to_file("res://Assets/Scenes/tutorial_cutscene.tscn")
+	Global.music_bg_intro = $"../../../AudioStreamPlayer".get_playback_position()
+	get_tree().change_scene_to_file("res://Assets/Scenes/game_selection.tscn")

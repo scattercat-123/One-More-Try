@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 	if mouse == true and Input.is_action_just_pressed("click") and controls_menu_opened == false:
 		$"../../../AnimationPlayer".play("control_open")
 		controls_menu_opened = true
+		$"../../controls_menu".visible = true
 	if hover_close_button == true and Input.is_action_just_pressed("click") and controls_menu_opened == true:
 		$"../../../AnimationPlayer".play("control_close")
 		controls_menu_opened = false

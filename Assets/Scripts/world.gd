@@ -169,8 +169,6 @@ func spawn_batch(count: int, wave_num: int) -> void:
 				spawn_possessed_enemy_at(marker)
 			2:
 				spawn_healer_enemy_at(marker)
-			3:
-				spawn_slime_enemy_at(marker)
 		spawned_this_wave += 1
 
 func _on_spawn_timer_timeout() -> void:

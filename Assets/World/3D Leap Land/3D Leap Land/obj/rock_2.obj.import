@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c8r41c6s4kjhg"
+path="res://.godot/imported/rock_2.obj-96a69b15cc18bb7252cda528f14ca2a6.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rock_2.obj-96a69b15cc18bb7252cda528f14ca2a6.mesh"]
+
+source_file="res://Assets/World/3D Leap Land/3D Leap Land/obj/rock_2.obj"
+dest_files=["res://.godot/imported/rock_2.obj-96a69b15cc18bb7252cda528f14ca2a6.mesh", "res://.godot/imported/rock_2.obj-96a69b15cc18bb7252cda528f14ca2a6.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

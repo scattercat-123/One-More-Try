@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 		enraged = true
 	if health <= 0 or global_position.y <= -1:
 		visible = false
+		Global.enemies_left = Global.enemies_left - 1
 		get_tree().call_group("Spawner", "on_enemy_died")
 		queue_free()
 	if state == "idle":

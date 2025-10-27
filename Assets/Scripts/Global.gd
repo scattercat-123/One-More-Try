@@ -4,6 +4,7 @@ var wave = 1
 var total_waves = 10
 var enemies_left = 0
 var stamina_regen = 0.2
+var music_bg_intro :float
 var player_dmg
 var damage = 0
 var extra_dmgee = 0

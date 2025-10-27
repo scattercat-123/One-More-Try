@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bu7ypibm7puy5"
+path="res://.godot/imported/ground_grass_8.obj-89e7be1b3053e73de7b3e23696e87fd5.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ground_grass_8.obj-89e7be1b3053e73de7b3e23696e87fd5.mesh"]
+
+source_file="res://Assets/World/3D Leap Land/3D Leap Land/obj/ground_grass_8.obj"
+dest_files=["res://.godot/imported/ground_grass_8.obj-89e7be1b3053e73de7b3e23696e87fd5.mesh", "res://.godot/imported/ground_grass_8.obj-89e7be1b3053e73de7b3e23696e87fd5.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
