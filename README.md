@@ -1,6 +1,8 @@
 # One More Try
 Rogulike 2.5d for shiba
 
+I also have a really op boss scene and spawning logic which you can see while playing my game on the sbia website!
+
 main code - https://github.com/scattercat-123/One-More-Try/tree/main/Assets
 
 <img width="1919" height="1077" alt="image" src="https://github.com/user-attachments/assets/f36c65a0-dec5-43cc-b4b2-b482de025c62" />
