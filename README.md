@@ -16,5 +16,7 @@ Cutscenes
 LLooks cool!
 
 Power selection after wach wave
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/0174ed82-ce5c-4e69-aa25-7668d1a6bdb3" />
 
 fighting scene
+<img width="1131" height="657" alt="image" src="https://github.com/user-attachments/assets/716de0d7-f2f9-4735-a2e2-761b26a72130" />
